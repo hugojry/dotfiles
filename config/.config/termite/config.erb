@@ -1,0 +1,47 @@
+[options]
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+mouse_autohide = true
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = Tamsyn 16px
+allow_bold = false
+scrollback_lines = 10000
+search_wrap = true
+#icon_name = terminal
+#geometry = 640x480
+
+# "system", "on" or "off"
+cursor_blink = on
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default if set, with xdg-open as a fallback
+browser = chromium
+
+# set size hints for the window
+#size_hints = false
+
+# Hide links that are no longer valid in url select overlay mode
+filter_unmatched_urls = true
+
+# emit escape sequences for extra modified keys
+#modify_other_keys = false
+
+[colors]
+foreground = <%= foreground %>
+foreground_bold = <%= foreground %>
+foreground_dim = <%= foreground %>
+background = <%= background %>
+cursor = <%= cursor %>
+
+# if unset, will reverse foreground and background
+#highlight = #839496
+
+# colors from color0 to color254 can be set
+<% color_scheme.colors.each_index do |i| %>
+  <%= "color#{i} = #{color_scheme.colors[i]}" %>
+<% end %>

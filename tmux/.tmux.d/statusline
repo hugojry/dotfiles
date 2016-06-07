@@ -1,0 +1,8 @@
+#! /bin/bash
+
+clock() {
+  format="%a %d %b %H:%M"
+  echo "#[fg=default]$(date +"$format")"
+}
+
+echo "$(clock)"

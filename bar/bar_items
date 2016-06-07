@@ -1,0 +1,58 @@
+#!/bin/bash
+
+[ -e "$BAR_FIFO" ] && rm "$BAR_FIFO"
+mkfifo "$BAR_FIFO"
+
+init_bar_items() {
+    xtitle -sf 'X%s' > "$BAR_FIFO" &
+    bspc subscribe report > "$BAR_FIFO" &
+    alsa_info > "$BAR_FIFO" &
+    clock -sf 'C%a %b %d %H:%M' > "$BAR_FIFO" &
+    weather > "$BAR_FIFO" &
+    #song_info > "$BAR_FIFO" &
+}
+
+song_info() {
+    echo "M$(mpc current)"
+    while true; do
+        echo "M$(mpc current --wait)"
+        sleep 1
+    done
+}
+
+alsa_info() {
+    while : ; do
+        echo "V$(pamixer --get-volume)"
+        # no need for volume info to be super responsive
+        sleep 3
+    done
+}
+
+weather() {
+    # Powered by forecast.io.
+    # 1000 free api calls ~= 1 request every 90 seconds.
+    while : ; do
+        api_key="7d8456c48be3939924604e9a43ea5b57"
+
+        shef_langitude="53.3811"
+        shef_longitude="-1.4701"
+
+        options="units=si"
+        
+        url="forecast/$api_key/$shef_langitude,$shef_longitude?$options"
+        full_url="https://api.forecast.io/$url"
+
+        current_weather=$(curl -s $full_url | jq .currently)
+
+        temp=$(echo $current_weather | jq .temperature)
+        summary=$(echo $current_weather | jq -r .summary)
+
+        echo "T$temp"
+        echo "U$summary"
+
+        # sleep for 5 minutes
+        sleep 300
+    done
+}
+
+init_bar_items&

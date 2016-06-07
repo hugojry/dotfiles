@@ -1,0 +1,22 @@
+# general
+alias sudo="sudo "
+alias l="ls -Alh"
+unalias rm
+unalias top
+
+# git
+alias gs="git status"
+
+# xorg
+alias xup="xrdb ~/.Xresources"
+
+# ssh
+alias add-identity='eval $(ssh-agent) && ssh-add'
+
+# vim
+alias vim="nvim"
+alias svim="'vim' --servername VIM"
+
+# games
+alias bnet="wine /home/hy/.wine/drive_c/Program\ Files\ \(x86\)/Battle.net/Battle.net.exe"
+alias uwot="echo uwot"

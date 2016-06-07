@@ -1,0 +1,80 @@
+#! /bin/sh
+
+. bar_colors
+
+WM_SELECTED_COLOR=$COLOR1
+WM_USED_COLOR=$COLOR6
+WM_UNUSED_COLOR=$COLOR8
+
+TITLE_COLOR=$FOREGROUND
+
+MUSIC_COLOR=$COLOR1
+VOLUME_COLOR=$COLOR8
+TIME_COLOR=$COLOR6
+
+SEPARATOR_COLOR=$COLOR8
+SEP_STRING="|"
+SEP="%%{F$SEPARATOR_COLOR}$SEP_STRING%%{F-}"
+
+while read -r line ; do
+    case $line in
+        C*)
+            # clock output
+            clock="${line#?}"
+            clock_icon="\ue015"
+            ;;
+        V*)
+            # volume
+            volume="${line#?}"
+            vol_icon="\ue04e"
+            ;;
+        X*)
+            # xtitle
+            line="${line:0:75}"
+            title="${line#?}"
+            ;;
+        M*)
+            # music
+            song="${line#?}"
+            music_icon="\uf001"
+            ;;
+        W*)
+            # bspwm info
+            wm_info=''
+            IFS=':' read -ra report <<< ${line#?}
+            for item in ${report[@]}
+            do
+                case $item in
+                    [OF]*)
+                        wm_info="$wm_info %{F$WM_SELECTED_COLOR}%{F-}"
+                        ;;
+                    o*)
+                        wm_info="$wm_info %{F$WM_USED_COLOR}%{F-}"
+                        ;;
+                    f*)
+                        wm_info="$wm_info %{F$WM_UNUSED_COLOR}%{F-}"
+                esac
+                 
+            done
+            #strip dat leading whitespace
+            wm_info=${wm_info#?}
+            ;;
+        T*)
+            # temperature outside
+            temperature="${line#?} °C"
+            ;;
+        U*)
+            # weather summary
+            weather="${line#?}"
+            weather_icon="\ue231"
+            ;;
+    esac
+
+    printf "%%{l} %s" "$wm_info"
+    if [ -n "$title" ] ; then 
+        printf " $SEP %%{F$TITLE_COLOR}%s%%{F-}" "$title"
+    fi
+    printf "%%{r} %b %s %s $SEP " "$weather_icon" "$weather" "$temperature" 
+    printf "%b %s $SEP " "$vol_icon" "$volume"
+    printf "%b %s %%{F-}\n" "$clock_icon" "$clock"
+done

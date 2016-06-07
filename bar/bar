@@ -1,0 +1,27 @@
+#! /bin/bash
+
+. profile
+
+if xdo id -a "$BAR_WM_NAME" > /dev/null ; then
+	printf "%s\n" "The bar is already running." >&2
+	exit 1
+fi
+
+# I haven't the foggiest but it was in the example so its staying I guess
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+. bar_items 2>/dev/null
+
+formatter < "$BAR_FIFO" | render_bar &
+
+# I have no idea what everything below this does
+wid=$(xdo id -a "$BAR_WM_NAME")
+tries_left=20
+while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+    sleep 0.05
+    wid=$(xdo id -a "$BAR_WM_NAME")
+    tries_left=$((tries_left - 1))
+done
+[ -n "$wid" ] && xdo above -t "$(xdo id -n root | sort | head -n 1)" "$wid"
+
+wait

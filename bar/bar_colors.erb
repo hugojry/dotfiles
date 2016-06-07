@@ -1,0 +1,9 @@
+<% color_scheme.colors.each_index do |i| %>
+<%= "COLOR#{i}=\"#{color_scheme.colors[i]}\"" %>
+<% end %>
+
+BACKGROUND="<%= background %>"
+FOREGROUND="<%= foreground %>"
+
+DEFAULT_BACKGROUND="<%= background %>"
+DEFAULT_FOREGROUND="<%= color_scheme.colors[6] %>"
