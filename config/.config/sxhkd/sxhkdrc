@@ -16,10 +16,10 @@ alt + c
 
 # volume increment
 alt + super + {u,d}
-        amixer sset 'Master' 5%{+,-}>/dev/null
+        amixer sset 'Master' 5%{+,-}>/dev/null && _pa_info
 
 # make sxhkd reload its configuration files:
-alt + Escape
+super + Escape
 	pkill -USR1 -x sxhkd
 
 #

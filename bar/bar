@@ -10,7 +10,7 @@ fi
 # I haven't the foggiest but it was in the example so its staying I guess
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
-. bar_items 2>/dev/null
+. init_bar_items 2>/dev/null
 
 formatter < "$BAR_FIFO" | render_bar &
 

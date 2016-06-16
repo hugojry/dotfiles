@@ -20,4 +20,4 @@ bspc rule -a feh state=floating
 bspc rule -a Transmission-gtk state=floating
 bspc rule -a Wine state=floating
 
-~/.bar/bar&
+bar&
