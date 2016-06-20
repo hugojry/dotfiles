@@ -14,9 +14,6 @@ bspc config top_padding $offset
 
 while read line
 do
-    if (( RANDOM % 2 )); then
-        geometry="${screen_width}x$BAR_HEIGHT+0+0"
-    fi
     echo $line
 done | lemonbar \
     -n "$BAR_WM_NAME" \
