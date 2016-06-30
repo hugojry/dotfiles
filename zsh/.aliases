@@ -9,12 +9,6 @@ alias gs="git status"
 # xorg
 alias xup="xrdb ~/.Xresources"
 
-# ssh
-alias add-identity='eval $(ssh-agent) && ssh-add'
-
 # vim
 alias vim="nvim"
 alias svim="'vim' --servername VIM"
-
-# games
-alias uwot="echo uwot"
