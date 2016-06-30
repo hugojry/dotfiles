@@ -1,5 +1,4 @@
 # general
-alias sudo="sudo "
 alias l="ls -Alh"
 unalias rm
 unalias top
@@ -18,5 +17,4 @@ alias vim="nvim"
 alias svim="'vim' --servername VIM"
 
 # games
-alias bnet="wine /home/hy/.wine/drive_c/Program\ Files\ \(x86\)/Battle.net/Battle.net.exe"
 alias uwot="echo uwot"
