@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+
+require 'erb'
+require 'yaml'
+require 'ostruct'
+
+config = {
+  termite: {
+    template: "/home/hy/.config/termite/config.erb",
+    destination: "/home/hy/.config/termite/config"
+  },
+  bar: {
+    template: "/home/hy/.dotfiles/bar/bar_colors.erb",
+    destination: "/home/hy/.dotfiles/bar/bar_colors",
+  }
+}
+
+colors = YAML.load(File.read(ARGV[1]))
+
+def generate(template_path, colors, destination)
+  color_scheme = OpenStruct.new(colors)
+  template = ERB.new(File.read(template_path))
+  File.open(destination, 'w+') do |file|
+    file.puts(template.result(color_scheme.instance_eval {binding}))
+  end
+end
+
+generate(config[ARGV[0].to_sym][:template], colors,
+         config[ARGV[0].to_sym][:destination])

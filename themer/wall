@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# first arg color template file
+# second arg xbm file
+# third arg background color
+# fourth arg foregorund color
+
+tile=$2
+
+background_color=$(( $3 + 3 ))
+foreground_color=$(( $4 + 3 ))
+
+background=$(cat $1 | head -n $background_color | tail -n 1 | awk '{print $2}')
+background="${background%\"}"
+background="${background#\"}"
+
+foreground=$(cat $1 | head -n $foreground_color | tail -n 1 | awk '{print $2}')
+foreground="${foreground%\"}"
+foreground="${foreground#\"}"
+
+xsetroot="xsetroot -bitmap $tile -bg \"$background\" -fg \"$foreground\""
+echo "$xsetroot"
+
+sed -i 's@^xsetroot.*$@'"$xsetroot"'@g' ~/.xinitrc
+
+eval $xsetroot
