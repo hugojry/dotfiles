@@ -19,6 +19,8 @@ done | lemonbar \
     -n "$BAR_WM_NAME" \
     -g "$geometry" \
     -f "$BAR_FONT" \
-    -f "-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1" \
+    -f "FontAwesome-14" \
     -B "$DEFAULT_BACKGROUND" \
     -F "$DEFAULT_FOREGROUND" | sh
+
+#-f "-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1" \

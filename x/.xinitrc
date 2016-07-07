@@ -16,6 +16,9 @@ xset r rate 330
 # font
 xset +fp /usr/share/fonts/local
 
+# user specific mappings
+xmodmap ~/.xmodmaprc
+
 # bspwm
 sxhkd &
 exec bspwm

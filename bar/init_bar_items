@@ -8,7 +8,7 @@ _init_bar_items() {
     bspc subscribe report > "$BAR_FIFO" &
     clock -sf 'C%a %b %d %H:%M' > "$BAR_FIFO" &
     echo "V$(pamixer --get-volume)" > "$BAR_FIFO" &
-    _weather > "$BAR_FIFO" &
+    #_weather > "$BAR_FIFO" &
 }
 
 _weather() {
