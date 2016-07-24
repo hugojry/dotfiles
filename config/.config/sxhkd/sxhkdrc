@@ -8,13 +8,13 @@ alt + Return
 
 # program launcher
 ctrl + space
-	dmenu_run -lh 24 \
-                  -fn "Roboto Mono-11" \
-                  -p "❯❯❯" \
-                  -nb "#273941" \
+	dmenu_run -fn "Roboto Mono-14" \
+                  -p "#" \
+                  -nb "#6385a6" \
                   -nf "#c0c5ce" \
-                  -sb "#6385a6" \
-                  -sf "#c0c5ce"
+                  -sb "#a66363" \
+                  -sf "#c0c5ce" \
+                  -lh 24
 
 # chromium
 alt + c
