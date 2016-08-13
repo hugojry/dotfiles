@@ -1,3 +1,8 @@
+plugins=(zsh-completions)
+autoload -U compinit && compinit
+
+export PS1="%n %1~ %# "
+
 export EDITOR='vim'
 
 bindkey -v

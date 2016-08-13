@@ -1,7 +1,5 @@
 # general
 alias l="ls -Alh"
-unalias rm
-unalias top
 
 # git
 alias gs="git status"

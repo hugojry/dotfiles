@@ -16,7 +16,7 @@ bspc config pointer_modifier     mod1
 bspc config pointer_action2      resize_side
 bspc config pointer_action3      resize_corner
 
-bspc monitor -d 1 2 3 4 5
+bspc monitor -d 1 2 3 4 5 6
 
 bspc rule -a mpv state=floating
 bspc rule -a feh state=floating

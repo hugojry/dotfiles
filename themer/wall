@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# first arg color template file
-# second arg xbm file
-# third arg background color
-# fourth arg foregorund color
+# $1 color template file
+# $2 xbm file
+# $3 background color
+# $4 foregorund color
 
 tile=$2
 

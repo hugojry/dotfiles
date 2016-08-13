@@ -8,13 +8,13 @@ alt + Return
 
 # program launcher
 ctrl + space
-	dmenu_run -fn "Roboto Mono-14" \
+	dmenu_run -fn "Noto Sans-12" \
                   -p "#" \
                   -nb "#6385a6" \
                   -nf "#c0c5ce" \
                   -sb "#a66363" \
                   -sf "#c0c5ce" \
-                  -lh 24
+                  -lh 28
 
 # chromium
 alt + c
