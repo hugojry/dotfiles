@@ -22,6 +22,6 @@ export PATH="$PATH:$HOME/.cabal/bin"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PATH:$PYENV_ROOT/bin"
 #SLOOWWWWW
-#eval "$(pyenv init -)"
+alias pyinit='eval "$(pyenv init -)"'
 
 export PATH="$PATH:$HOME/.composer/vendor/bin"

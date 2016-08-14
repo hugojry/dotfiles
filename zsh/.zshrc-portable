@@ -1,12 +1,22 @@
 plugins=(zsh-completions)
 autoload -U compinit && compinit
 
+# prompt
 export PS1="%n %1~ %# "
 
 export EDITOR='vim'
 
+# vi line editing
 bindkey -v
 export KEYTIMEOUT=1
+
 bindkey "^R" history-incremental-search-backward
+
+for f in $HOME/.zsh.d/*; do
+    source $f
+done
+
+# ls_colors
+eval "$(dircolors --sh)"
 
 source ~/.aliases
