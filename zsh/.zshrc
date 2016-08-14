@@ -1,5 +1,9 @@
 source $HOME/.zshrc-portable
 
+for f in $HOME/.zsh.d/*; do
+    source $f
+done
+
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/bin/core_perl:$HOME/.local/bin:$HOME/.local/opt"
 
 # theming resources
