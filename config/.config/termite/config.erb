@@ -43,5 +43,7 @@ cursor = <%= cursor %>
 
 # colors from color0 to color254 can be set
 <% color_scheme.colors.each_index do |i| %>
-  <%= "color#{i} = #{color_scheme.colors[i]}" %>
+  <% if color_scheme.colors[i] %>
+    <%= "color#{i} = #{color_scheme.colors[i]}" %>
+  <% end %>
 <% end %>

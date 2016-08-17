@@ -20,6 +20,7 @@ done | lemonbar \
     -g "$geometry" \
     -f "$BAR_FONT" \
     -f "FontAwesome-14" \
+    -o -2 \
     -B "$DEFAULT_BACKGROUND" \
     -F "$DEFAULT_FOREGROUND" | sh
 

@@ -3,7 +3,7 @@
 BAR_FIFO=/tmp/bar-fifo
 BAR_HEIGHT=28
 BAR_HAS_OFFSET=1
-BAR_FONT="Roboto-11"
+BAR_FONT="Noto Sans-11"
 #BAR_FONT='-*-gohufont-medium-*-*-*-11-*-*-*-*-*-*-*'
 BAR_WM_NAME=bspwm_bar
 #FORECAST_KEY="7d8456c48be3939924604e9a43ea5b57"

@@ -1,6 +1,5 @@
 !! Colors
-#include "/home/hy/.Xresources.d/colors/solarized_dark"
-!#include "/home/hy/.Xresources.d/colors/solarized_light"
+#include "/home/hy/.Xresources.d/colors"
 
 ! URxvt*termName:                       string
 ! URxvt*geometry:                       geometry
