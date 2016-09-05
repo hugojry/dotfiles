@@ -2,13 +2,13 @@
 
 # $1 color template file
 # $2 xbm file
-# $3 background color
-# $4 foregorund color
+# $3 foreground color
+# $4 background color
 
 tile=$2
 
-background_color=$(( $3 + 3 ))
-foreground_color=$(( $4 + 3 ))
+background_color=$(( $4 + 3 ))
+foreground_color=$(( $3 + 3 ))
 
 background=$(cat $1 | head -n $background_color | tail -n 1 | awk '{print $2}')
 background="${background%\"}"

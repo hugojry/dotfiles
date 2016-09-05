@@ -19,8 +19,7 @@ done | lemonbar \
     -n "$BAR_WM_NAME" \
     -g "$geometry" \
     -f "$BAR_FONT" \
-    -f "FontAwesome-14" \
-    -o -2 \
+    -o $BAR_FONT_OFFSET \
     -B "$DEFAULT_BACKGROUND" \
     -F "$DEFAULT_FOREGROUND" | sh
 
