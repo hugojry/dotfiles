@@ -1,24 +1,52 @@
-#!/bin/bash
+#!/bin/sh
 
-#feh --bg-fill ~/.wallpapers/husky_jesus.jpg
-#hsetroot -tile ~/.wallpapers/tile-cloudy.png
-xsetroot -bitmap /home/hy/.dotfiles/wallpapers/xbm-tiles/tile.xbm -bg "#273941" -fg "#456472"
+#  ╻ ╻╻┏┓╻╻╺┳╸┏━┓┏━╸
+#  ┏╋┛┃┃┗┫┃ ┃ ┣┳┛┃
+# ╹╹ ╹╹╹ ╹╹ ╹ ╹┗╸┗━╸
+# by tudurom
+# no login manager since forever
 
-# Xresources
-xrdb ~/.Xresources
+# Load X resources
+xrdb $HOME/.Xresources
 
-# no mouse acceleration
-xset m 1/1 0
+# Load .profile (contains settings)
+. $HOME/.profile
 
-# key repeat delay
-xset r rate 330
+# Load fonts
+xset +fp ~/.fonts
+xset fp rehash
 
-# font
-xset +fp /usr/share/fonts/local
+# Start nice programs
 
-# user specific mappings
-xmodmap ~/.xmodmaprc
+xmodmap $HOME/.xmodmaprc
+# URxvt clipboard magic
+autocutsel -selection clipboard -fork
 
-# bspwm
-sxhkd &
-exec bspwm
+# Multi monitor
+screenlayout
+# Github: airblader/unclutter-xfixes
+unclutter -b
+
+# Music!
+if ! pidof mpd; then
+  mpd &
+fi
+# Set cursor from X to pointer
+xsetroot -cursor_name left_ptr &
+# Listen to popup requests
+notifyd &
+# Window compositor
+compton -b
+# Wallpaper
+wall-e &
+
+# Java fix
+wmname LG3D
+
+# Start the thing
+minbar &
+for s in $HOME/bin/notifyd-*; do
+    $s &
+done
+
+exec startwm windowchef
