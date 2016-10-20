@@ -9,5 +9,3 @@ if type "nvim" >/dev/null; then
     alias vim="nvim"
     alias svim="'vim' --servername VIM"
 fi 
-
-alias d="dirs -v"
