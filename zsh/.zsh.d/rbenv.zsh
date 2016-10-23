@@ -1,11 +1,11 @@
 rbenv_prompt() {
     if [[ "$(which ruby)" == "$HOME/.rbenv"* ]]; then
-        rbenv_status="rbenv:$(rbenv version-name)"
+        rbenv_status="%F{1}rbenv:$(rbenv version-name)%f"
     else
         rbenv_status=""
     fi
 
-    RPROMPT="%F{1}$rbenv_status%f"
+    RPROMPT="$rbenv_status"
 }
 
 rbenv_prompt_setup() {

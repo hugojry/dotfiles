@@ -2,7 +2,7 @@ plugins=(zsh-completions)
 autoload -U compinit && compinit
 
 # prompt
-export PS1="%1~ %# "
+export PROMPT="%1~ %# "
 
 export EDITOR='vim'
 
