@@ -1,5 +1,5 @@
 # git
-alias gs="git status"
+alias gs="git status -sb"
 alias gl="git log"
 alias glo="git log --oneline"
 
@@ -9,5 +9,5 @@ alias xup="xrdb ~/.Xresources"
 # vim
 if type "nvim" >/dev/null; then
     alias vim="nvim"
-    alias svim="'vim' --servername VIM"
 fi 
+alias svim="'vim' --servername VIM"
