@@ -1,5 +1,6 @@
 # git
 alias gs="git status -sb"
+alias gsl="git status"
 alias gl="git log"
 alias glo="git log --oneline"
 
