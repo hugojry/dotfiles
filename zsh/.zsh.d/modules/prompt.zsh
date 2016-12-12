@@ -38,7 +38,7 @@ prompt_git() {
         return 1
     fi
 
-    _git_branch=$(git rev-parse --abbrev-ref HEAD)
+    _git_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [ -n "$(git status --porcelain)" ]; then
         _git_dirty="+"
     else
