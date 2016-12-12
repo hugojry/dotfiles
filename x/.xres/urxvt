@@ -1,4 +1,4 @@
-*.font: xft:Source Code Pro-11
+*.font: xft:Source Code Pro:Medium:size=11
 URxvt.letterSpace: -1
 ! No bold font
 URxvt.boldFont:
