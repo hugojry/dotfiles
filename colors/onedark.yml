@@ -1,0 +1,22 @@
+---
+colors:
+    - "#282c34"
+	  - "#e06c75"
+	  - "#98c379"
+	  - "#e5c07b"
+	  - "#61afef"
+	  - "#c678dd"
+	  - "#56bc62"
+	  - "#abb2bf"
+	  - "#3e4452"
+	  - "#be5046"
+	  - "#93c379"
+	  - "#d19a66"
+	  - "#61afef"
+	  - "#c678dd"
+	  - "#56b6c2"
+	  - "#5c6670",
+foreground:     "#abb2c0"
+background:     "#282c34"
+cursor:         "#c7c7c7"
+reverse_cursor: "#ffffff"
