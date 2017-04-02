@@ -8,14 +8,14 @@ prompt_pwd() {
 
 prompt_rbenv() {
     unset _rbenv_info
-    if [[ ! -z $RBENV ]]; then
+    if [[ "$(which ruby)" == "$HOME/.rbenv"* ]]; then
         _rbenv_info=" r:$(rbenv version-name)"
     fi
 }
 
 prompt_pyenv() {
     unset _pyenv_info
-    if [[ ! -z $PYENV ]]; then
+    if [[ "$(which python)" == "$HOME/.pyenv"* ]]; then
         _pyenv_info=" p:$(pyenv version-name)"
     fi
 }
@@ -68,6 +68,6 @@ prompt_wunjo_scm_branch() {
     fi
 }
 
-prompt_setup "$@"
+#prompt_setup "$@"
 
 # vim:set ft=zsh:
