@@ -8,14 +8,14 @@ prompt_pwd() {
 
 prompt_rbenv() {
     unset _rbenv_info
-    if [[ ! -z $RBENV ]]; then
+    if [[ ! -z $RBENV_SHELL ]]; then
         _rbenv_info=" r:$(rbenv version-name)"
     fi
 }
 
 prompt_pyenv() {
     unset _pyenv_info
-    if [[ ! -z $PYENV ]]; then
+    if [[ ! -z $PYENV_SHELL ]]; then
         _pyenv_info=" p:$(pyenv version-name)"
     fi
 }
