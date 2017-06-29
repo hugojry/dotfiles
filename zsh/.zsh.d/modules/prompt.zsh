@@ -13,18 +13,10 @@ prompt_rbenv() {
     fi
 }
 
-prompt_pyenv() {
-    unset _pyenv_info
-    if [[ ! -z $PYENV_SHELL ]]; then
-        _pyenv_info=" p:$(pyenv version-name)"
-    fi
-}
-
 prompt_setup() {
     setopt prompt_subst
     precmd_functions+='prompt_pwd'
     precmd_functions+='prompt_rbenv'
-    precmd_functions+='prompt_pyenv'
 
     local verbose
     if [[ $TERM == screen* ]] && [ -n "$STY" ]; then
@@ -34,7 +26,7 @@ prompt_setup() {
     fi
 
     PROMPT='%F{cyan}${_prompt_pwd}$(prompt_wunjo_scm_branch)${_git_info}%f %F{cyan}$%f '
-    RPROMPT='%F{red}${_rbenv_info}%f%F{green}${_pyenv_info}%f'
+    RPROMPT='%F{red}${_rbenv_info}%f'
 
     export PROMPT RPROMPT
 }
