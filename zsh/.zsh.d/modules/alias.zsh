@@ -15,8 +15,5 @@ alias svim="'vim' --servername VIM"
 # ssh painlessness
 alias add-identity='eval $(ssh-agent) && ssh-add'
 
-#pyenv
-alias py='eval "$(pyenv init -)"'
-
 #rbenv
 alias rb='eval "$(rbenv init -)"'
