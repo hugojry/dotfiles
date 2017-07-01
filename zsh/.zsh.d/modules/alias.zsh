@@ -2,7 +2,7 @@
 alias xup="xrdb ~/.Xresources"
 
 # vim
-if type "nvim" >/dev/null; then
+if type "nvim" 2>/dev/null; then
     alias vim="nvim"
 fi 
 alias svim="'vim' --servername VIM"
