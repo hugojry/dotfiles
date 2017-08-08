@@ -1,6 +1,6 @@
-static char font[] = "Source Code Pro Medium:size=11:antialias=true:autohint=false";
+char font[] = "Source Code Pro Medium:size=12:antialias=true:autohint=false";
 
-static const char *colorname[] = {
+const char *colorname[] = {
 	/* 8 normal colors */
 	"#282c34",
 	"#e06c75",
@@ -8,7 +8,7 @@ static const char *colorname[] = {
 	"#e5c07b",
 	"#61afef",
 	"#c678dd",
-	"#56bc62",
+	"#56b6c2",
 	"#abb2bf",
     "#3e4452",
 	"#be5046",
@@ -30,10 +30,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-static unsigned int defaultfg = 7;
-static unsigned int defaultbg = 0;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 7;
+unsigned int defaultbg = 0;
+unsigned int defaultcs = 256;
+unsigned int defaultrcs = 257;
 
 /*
  * Default shape of cursor
@@ -42,4 +42,4 @@ static unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 2;
+unsigned int cursorshape = 2;
