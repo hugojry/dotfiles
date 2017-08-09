@@ -7,8 +7,5 @@ if type "nvim" 2>&1 >/dev/null; then
 fi 
 alias svim="'vim' --servername VIM"
 
-# ssh painlessness
-alias add-identity='eval $(ssh-agent) && ssh-add'
-
 #rbenv
 alias rb='eval "$(rbenv init -)"'
