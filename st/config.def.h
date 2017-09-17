@@ -1,4 +1,4 @@
-char font[] = "Source Code Pro Medium:size=12:antialias=true:autohint=false";
+char font[] = "Source Code Pro:size=12:antialias=true:autohint=false";
 
 const char *colorname[] = {
 	/* 8 normal colors */
