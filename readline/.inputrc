@@ -1,5 +1,7 @@
 set editing-mode vi
 
+set keyseq-timeout 1000
+
 set keymap vi-command
 # these are for vi-command mode
 Control-l: clear-screen
