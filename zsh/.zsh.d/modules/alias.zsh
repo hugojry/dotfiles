@@ -1,5 +1,2 @@
-# xorg
-alias xup="xrdb ~/.Xresources"
-alias svim="'vim' --servername VIM"
-#rbenv
-alias rb='eval "$(rbenv init -)"'
+alias venv='virtualenv venv'
+alias vactivate='source venv/bin/activate'
