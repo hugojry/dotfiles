@@ -6,17 +6,9 @@ prompt_pwd() {
     _prompt_pwd="%1~"
 }
 
-prompt_rbenv() {
-    unset _rbenv_info
-    if [[ ! -z $RBENV_SHELL ]]; then
-        _rbenv_info=" r:$(rbenv version-name)"
-    fi
-}
-
 prompt_setup() {
     setopt prompt_subst
     precmd_functions+='prompt_pwd'
-    precmd_functions+='prompt_rbenv'
 
     local verbose
     if [[ $TERM == screen* ]] && [ -n "$STY" ]; then
@@ -25,10 +17,7 @@ prompt_setup() {
         verbose=1
     fi
 
-    PROMPT='%F{cyan}${_prompt_pwd}$(prompt_wunjo_scm_branch)${_git_info}%f %F{cyan}$%f '
-    RPROMPT='%F{red}${_rbenv_info}%f'
-
-    export PROMPT RPROMPT
+    export PROMPT='%F{cyan}${_prompt_pwd}$(prompt_wunjo_scm_branch)${_git_info}%f %F{cyan}$%f '
 }
 
 prompt_wunjo_scm_branch() {
