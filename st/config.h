@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Source Code Variable:size=16";
+static char *font = "Source Code Pro:size=16";
 static int borderpx = 2;
 
 /*
@@ -30,9 +30,9 @@ static float chscale = 1.0;
 /*
  * word delimiter string
  *
- * More advanced example: " `'\"()[]{}"
+ * More advanced example: L" `'\"()[]{}"
  */
-extern wchar_t *worddelimiters = L" ";
+wchar_t *worddelimiters = L" ";
 
 /* selection timeouts (in milliseconds) */
 static unsigned int doubleclicktimeout = 300;
@@ -105,29 +105,49 @@ const char *colorname[] = {
 
 	// "#cccccc", // defaultcs
 	// "#555555", // defaultrcs
-        
+
         // quantum
-        "#425762",
-        "#dd7186",
-        "#87bb7c",
-        "#d5b875",
-        "#70ace5",
-        "#a48add",
-        "#69c5ce",
-        "#aebbc5",
-        "#658494",
-        "#ed8499",
-        "#97d589",
-        "#e9cb88",
-        "#87bff5",
-        "#b9a0ef",
-        "#7bdbe4",
-        "#c5ced5",
+        // "#425762",
+        // "#dd7186",
+        // "#87bb7c",
+        // "#d5b875",
+        // "#70ace5",
+        // "#a48add",
+        // "#69c5ce",
+        // "#aebbc5",
+        // "#658494",
+        // "#ed8499",
+        // "#97d589",
+        // "#e9cb88",
+        // "#87bff5",
+        // "#b9a0ef",
+        // "#7bdbe4",
+        // "#c5ced5",
 
-	[255] = 0,
+	// [255] = 0,
 
-        "#263238", // background
-        "#c5ced5", // reverse cursor color
+        // "#263238", // background
+        // "#c5ced5", // reverse cursor color
+
+        // lake
+        "#22333a",
+        "#c27171",
+        "#63a690",
+        "#a6a663",
+        "#719bc2",
+        "#BF9C86",
+        "#63a69b",
+        "#a9b6c1",
+        "#456472",
+        "#c27171",
+        "#6dc2a3",
+        "#bfc271",
+        "#719bc2",
+        "#BF9C86",
+        "#71c2af",
+        "#eff1f5",
+
+	[255] = 0
 };
 
 /*
@@ -135,9 +155,9 @@ const char *colorname[] = {
  * foreground, background, cursor, reverse cursor
  */
 unsigned int defaultfg = 7;
-unsigned int defaultbg = 256;
-unsigned int defaultcs = 15;
-unsigned int defaultrcs = 7;
+unsigned int defaultbg = 0;
+unsigned int defaultcs = 7;
+unsigned int defaultrcs = 0;
 
 /*
  * Default shape of cursor
