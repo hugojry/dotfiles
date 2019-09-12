@@ -2,7 +2,6 @@
 	name = Hugo Young
 	email = hybas3@gmail.com
 [alias]
-        ; thanks gary bernhardt
         st = status
         ci = commit --verbose
         co = checkout
@@ -12,11 +11,8 @@
         aa = add --all
         ff = merge --ff-only
         pullff = pull --ff-only
-        noff = merge --no-ff
         fa = fetch --all
         pom = push origin master
-        b = branch
-        ds = diff --stat=160,120
-        dh1 = diff HEAD~1
+        ll = log --oneline
 [rebase]
 	autosquash = true
