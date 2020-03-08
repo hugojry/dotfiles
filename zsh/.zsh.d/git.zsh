@@ -245,4 +245,12 @@ zgitinit() {
 zgitinit
 zgit_info_update
 
+github_clone_ssh() {
+    git clone git@github.com:$1
+}
+
+github_clone_https() {
+    git clone https://github.com/$1
+}
+
 # vim:set ft=zsh:
