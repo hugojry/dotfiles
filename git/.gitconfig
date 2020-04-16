@@ -16,5 +16,3 @@
 	ll = log --oneline
 [rebase]
 	autosquash = true
-[ghq]
-	root = ~/src
