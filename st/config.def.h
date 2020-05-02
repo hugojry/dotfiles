@@ -1,34 +1,26 @@
-char font[] = "Source Code Pro:size=11:antialias=true:autohint=false";
+char font[] = "Inconsolata\\-dz:size=15";
 
 const char *colorname[] = {
-	/* 8 normal colors */
-	"#282c34",
-	"#e06c75",
-	"#98c379",
-	"#e5c07b",
-	"#61afef",
-	"#c678dd",
-	"#56b6c2",
-	"#abb2bf",
-    "#3e4452",
-	"#be5046",
-	"#93c379",
-	"#d19a66",
-	"#61afef",
-	"#c678dd",
-	"#56b6c2",
-	"#5c6670",
+    // lake
+    "#22333a",
+    "#c27171",
+    "#63a690",
+    "#a6a663",
+    "#6385a6",
+    "#BF9C86",
+    "#63a39e",
+    "#a9b6c1",
+    "#456472",
+    "#c27171",
+    "#6dc2a3",
+    "#bfc271",
+    "#719bc2",
+    "#BF9C86",
+    "#71c2af",
+    "#eff1f5",
 
-	[255] = 0,
-
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
+    [255] = 0
 };
-
-/* Kerning / character bounding-box multipliers */
-float cwscale = 1.0;
-float chscale = 1.0;
 
 /*
  * Default colors (colorname index)
@@ -36,8 +28,8 @@ float chscale = 1.0;
  */
 unsigned int defaultfg = 7;
 unsigned int defaultbg = 0;
-unsigned int defaultcs = 256;
-unsigned int defaultrcs = 257;
+unsigned int defaultcs = 7;
+unsigned int defaultrcs = 0;
 
 /*
  * Default shape of cursor
