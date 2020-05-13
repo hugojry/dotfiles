@@ -17,7 +17,7 @@ prompt_setup() {
         verbose=1
     fi
 
-    export PROMPT='%F{cyan}${_prompt_pwd}$(prompt_wunjo_scm_branch)${_git_info}%f %F{cyan}$%f '
+    export PROMPT='%F{green}${_prompt_pwd}$(prompt_wunjo_scm_branch)${_git_info}%f %F{green}$%f '
 }
 
 prompt_wunjo_scm_branch() {
