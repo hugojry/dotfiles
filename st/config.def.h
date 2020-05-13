@@ -1,35 +1,42 @@
 char font[] = "Inconsolata\\-dz:size=15";
 
 const char *colorname[] = {
-    // lake
-    "#22333a",
-    "#c27171",
-    "#63a690",
-    "#a6a663",
-    "#6385a6",
-    "#BF9C86",
-    "#63a39e",
-    "#a9b6c1",
-    "#456472",
-    "#c27171",
-    "#6dc2a3",
-    "#bfc271",
-    "#719bc2",
-    "#BF9C86",
-    "#71c2af",
-    "#eff1f5",
+    /* 8 normal colors */
+    "#3a3a3a",
+	"#cc9393",
+	"#7f9f7f",
+	"#d0bf8f",
+	"#6ca0a3",
+	"#dc8cc3",
+	"#93e0e3",
+	"#dcdccc",
 
-    [255] = 0
+	/* 8 bright colors */
+	"#7f9f7f",
+	"#d78787",
+	"#bfebbf",
+	"#f0dfaf",
+	"#8cd0d3",
+	"#dc8cc3",
+	"#93e0e3",
+	"#ffffff",
+
+	[255] = 0,
+
+	/* more colors can be added after 255 to use with DefaultXX */
+	"#dcdccc",
+	"#dcdccc",
+	"#3a3a3a",
 };
 
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
-unsigned int defaultbg = 0;
-unsigned int defaultcs = 7;
-unsigned int defaultrcs = 0;
+unsigned int defaultfg = 188;
+unsigned int defaultbg = 237;
+unsigned int defaultcs = 188;
+unsigned int defaultrcs = 257;
 
 /*
  * Default shape of cursor
