@@ -1,5 +1,0 @@
-#!/bin/bash
-
-BAR_FIFO=/tmp/bar-fifo
-
-echo "V$(pamixer --get-volume)" > "$BAR_FIFO"
