@@ -1,6 +1,1 @@
-config/.config/mpv/watch_later
-config/.config/ranger/bookmarks
-config/.config/ranger/history
-config/.config/termite/config
-
-*.swp
+dotfiles/.config/nvim/plugged/
