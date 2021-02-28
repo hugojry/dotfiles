@@ -9,3 +9,4 @@ call plug#end()
 lua require('colorbuddy').colorscheme('modus-operandi')
 
 set expandtab
+tnoremap <Esc> <C-\><C-n>
