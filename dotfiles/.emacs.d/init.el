@@ -155,48 +155,35 @@
               (interactive)
               (magit-run-git "commit" "-m" "Checkpoint"))))
 
-(use-package paredit
-  :general
-  (general-nmap
-    :keymaps 'paredit-mode-map
-    :prefix ","
-    "\S-o" #'paredit-raise-sexp
-    "@" #'paredit-splice-sexp)
-  :ghook '(emacs-lisp-mode-hook
-           clojure-mode-hook
-           cider-repl-mode-hook
-           fennel-mode-hook
-           inferior-lisp-mode-hook
-           eval-expression-minibuffer-setup-hook
-           racket-mode-hook
-           lisp-mode-hook))
+(defconst hy/lisp-mode-hooks
+  '(emacs-lisp-mode-hook
+    clojure-mode-hook
+    cider-repl-mode-hook
+    fennel-mode-hook
+    inferior-lisp-mode-hook
+    eval-expression-minibuffer-setup-hook
+    racket-mode-hook
+    lisp-mode-hook))
 
-(use-package evil-cleverparens
-  :diminish
+(use-package paredit
+  :ghook hy/lisp-mode-hooks
   :general
-  (general-nmap
-    :keymaps 'evil-cleverparens-mode-map
-    :prefix ","
-    "w r" #'evil-cp-wrap-next-round
-    "w s" #'evil-cp-wrap-next-square
-    "w c" #'evil-cp-wrap-next-curly)
-  (general-define-key
-   :states '(normal visual operator)
-   :keymaps 'evil-cleverparens-mode-map
-   "{" nil
-   "}" nil
-   "[" nil
-   "]" nil
-   "[ s" #'evil-cp-previous-opening
-   "] s" #'evil-cp-next-closing
-   "[ d" #'evil-cp-next-opening
-   "] d" #'evil-cp-previous-closing)
-  :init
-  (add-hook 'paredit-mode-hook #'evil-cleverparens-mode)
-  (setq evil-cleverparens-use-regular-insert t)
+  (general-def 'normal paredit-mode-map
+    ", \S-o" #'paredit-raise-sexp
+    ", @" #'paredit-splice-sexp))
+
+(use-package lispyville
+  :diminish
+  :ghook 'paredit-mode-hook
   :config
-  (require 'evil-cleverparens-fixes)
-  (add-to-list 'evil-change-commands #'evil-cp-change))
+  (lispyville-set-key-theme
+   '(operators
+     text-objects
+     slurp/barf-cp
+     c-w))
+  (general-def '(normal visual motion) lispyville-mode-map
+    "H" #'lispyville-backward-sexp
+    "L" #'lispyville-forward-sexp))
 
 (evil-define-operator hy/cider-eval (beg end type)
   :move-point nil
