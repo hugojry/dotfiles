@@ -53,7 +53,8 @@
         evil-want-keybinding nil ; evil-collection takes care of this
         evil-want-C-u-scroll t
         evil-respect-visual-line-mode t
-        evil-undo-system 'undo-tree)
+        evil-undo-system 'undo-tree
+        evil-search-module 'evil-search)
   (setq-default evil-symbol-word-search t)
   :config
   (defalias #'forward-evil-word #'forward-evil-symbol)
