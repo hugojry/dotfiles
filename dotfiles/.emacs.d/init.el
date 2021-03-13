@@ -345,18 +345,5 @@
     "C-p" #'pdabbrev-expand-previous
     "C-e" #'hy/padabbrev-abort-or-C-e))
 
-(evil-define-operator hy/sly-eval (beg end type)
-  :move-point nil
-  (sly-eval-region beg end))
-
-(use-package sly
-  :general
-  (general-def 'sly-mode-map
-    "C-c C-c" #'sly-eval-defun
-    "C-c C-k" #'sly-eval-buffer)
-  (general-mmap
-    :keymaps 'sly-mode-map
-    ", e" #'hy/sly-eval))
-
 (provide 'init)
 ;;; init.el ends here
