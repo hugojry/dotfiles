@@ -185,6 +185,8 @@
      slurp/barf-cp
      c-w))
   (general-def '(normal visual motion) lispyville-mode-map
+    "(" #'lispyville-backward-up-list
+    ")" #'lispyville-up-list
     "H" #'lispyville-backward-sexp
     "L" #'lispyville-forward-sexp))
 
