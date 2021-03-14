@@ -90,7 +90,7 @@
 
 (general-def 'normal "C-;" #'eval-expression)
 
-(general-nmap
+(general-def 'normal override
   "SPC u" #'universal-argument
   "SPC -" #'negative-argument)
 
