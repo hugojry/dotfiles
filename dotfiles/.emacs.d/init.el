@@ -170,6 +170,8 @@
   :ghook hy/lisp-mode-hooks
   :general
   (general-def 'normal paredit-mode-map
+    "M-[" #'paredit-wrap-square
+    "M-{" #'paredit-wrap-curly
     ", \S-o" #'paredit-raise-sexp
     ", @" #'paredit-splice-sexp))
 
