@@ -346,5 +346,12 @@
     "C-p" #'pdabbrev-expand-previous
     "C-e" #'hy/padabbrev-abort-or-C-e))
 
+(use-package eshell
+  :after pdabbrev
+  :init
+  (general-def 'insert eshell-mode-map
+    "C-n" #'evil-complete-next
+    "C-p" #'evil-complete-previous))
+
 (provide 'init)
 ;;; init.el ends here
