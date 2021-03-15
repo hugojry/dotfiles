@@ -184,6 +184,8 @@
      text-objects
      slurp/barf-cp
      c-w))
+  (general-def 'normal lispyville-mode-map
+    "M-t" #'lispyville-drag-backward)
   (general-def '(normal visual motion) lispyville-mode-map
     "(" #'lispyville-backward-up-list
     ")" #'lispyville-up-list
