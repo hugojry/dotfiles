@@ -59,6 +59,12 @@
   (setq-default evil-symbol-word-search t)
   :config
   (defalias #'forward-evil-word #'forward-evil-symbol)
+
+  (defun hy/nohighlight ()
+    (when (memq this-command evil-motions)
+      (evil-ex-nohighlight)))
+
+  (add-hook 'post-command-hook #'hy/no-highlight)
   (evil-mode))
 
 (use-package evil-collection
