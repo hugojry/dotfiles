@@ -64,7 +64,7 @@
     (when (memq this-command evil-motions)
       (evil-ex-nohighlight)))
 
-  (add-hook 'post-command-hook #'hy/no-highlight)
+  (add-hook 'post-command-hook #'hy/nohighlight)
   (evil-mode))
 
 (use-package evil-collection
