@@ -361,10 +361,12 @@
 
 (use-package eshell
   :after pdabbrev
-  :init
-  (general-def 'insert eshell-mode-map
-    "C-n" #'evil-complete-next
-    "C-p" #'evil-complete-previous))
+  :config
+  (add-hook 'eshell-first-time-mode-hook
+            (lambda ()
+              (general-def 'insert eshell-mode-map
+                "C-n" #'evil-complete-next
+                "C-p" #'evil-complete-previous))))
 
 (provide 'init)
 ;;; init.el ends here
