@@ -19,7 +19,6 @@
 (column-number-mode)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
 (save-place-mode)
-(recentf-mode)
 (setq-default case-fold-search nil)
 
 (require 'package)
@@ -83,6 +82,12 @@
   :init
   (setq show-paren-delay 0)
   (show-paren-mode))
+
+(use-package recentf
+  :init
+  (setq recentf-max-saved-items 1000
+        recentf-max-menu-items 1000)
+  (recentf-mode))
 
 (use-package eldoc
   :diminish)
