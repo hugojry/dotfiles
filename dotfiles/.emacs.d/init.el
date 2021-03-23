@@ -138,7 +138,12 @@
   (general-nmap
     :prefix "SPC o"
     "a" #'org-agenda
-    "c" #'counsel-org-capture))
+    "c" #'counsel-org-capture)
+  :init
+  (setq org-src-preserve-indentation t
+        org-babel-load-languages
+        '((emacs-lisp . t)
+          (python . t))))
 
 (evil-define-operator hy/evil-eval (beg end type)
   :move-point nil
