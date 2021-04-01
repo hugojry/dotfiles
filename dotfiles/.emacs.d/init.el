@@ -256,6 +256,15 @@
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
+(use-package clj-refactor
+  :init
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (clj-refactor-mode)
+              (yas-minor-mode)
+              (diminish 'yas-minor-mode)
+              (cljr-add-keybindings-with-prefix "C-c C-f"))))
+
 (use-package ivy
   :diminish
   :config
