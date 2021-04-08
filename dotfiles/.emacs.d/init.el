@@ -263,7 +263,10 @@
               (clj-refactor-mode)
               (yas-minor-mode)
               (diminish 'yas-minor-mode)
-              (cljr-add-keybindings-with-prefix "C-c C-f"))))
+              (dolist (details cljr--all-helpers)
+                (general-nmap
+                  :keymaps 'clj-refactor-map
+                  (concat ",r" (car details)) (cadr details))))))
 
 (use-package ivy
   :diminish
@@ -347,7 +350,7 @@
   (setq company-idle-delay nil)
   :config
   (setq company-active-map (make-sparse-keymap))
-  (general-def 'company-active-map
+  (general-def 'normal company-active-map
     "C-n" #'company-select-next
     "C-p" #'company-select-previous
     "C-e" #'company-abort)
