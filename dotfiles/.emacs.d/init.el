@@ -187,10 +187,11 @@
   :ghook hy/lisp-mode-hooks
   :general
   (general-def 'normal paredit-mode-map
-    "M-[" #'paredit-wrap-square
-    "M-{" #'paredit-wrap-curly
-    ", \S-o" #'paredit-raise-sexp
-    ", @" #'paredit-splice-sexp))
+    ",(" #'paredit-wrap-round
+    ",[" #'paredit-wrap-square
+    ",{" #'paredit-wrap-curly
+    ",\S-o" #'paredit-raise-sexp
+    ",@" #'paredit-splice-sexp))
 
 (use-package lispyville
   :diminish
