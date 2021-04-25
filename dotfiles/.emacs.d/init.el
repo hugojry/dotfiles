@@ -343,66 +343,12 @@
 
 (use-package company
   :diminish
-  :general
-  (general-imap
-    "C-x C-o" #'company-manual-begin)
   :init
-  (global-company-mode)
-  (setq company-idle-delay nil)
-  :config
-  (setq company-active-map (make-sparse-keymap))
-  (general-def 'normal company-active-map
-    "C-n" #'company-select-next
-    "C-p" #'company-select-previous
-    "C-e" #'company-abort)
-  (add-hook 'evil-local-mode-hook
-            (lambda ()
-              (when (memq 'company-emulation-alist emulation-mode-map-alists)
-                (company-ensure-emulation-alist)))))
+  (global-company-mode))
 
 (use-package dabbrev
   :config
   (setq dabbrev-case-fold-search nil))
-
-(use-package popup)
-
-(use-package pdabbrev
-  :ensure nil
-  :init
-  (require 'pdabbrev)
-
-  (defun hy/padabbrev-abort-or-C-e ()
-    (interactive)
-    (call-interactively (if (pdabbrev-expansion-active-p)
-                            #'pdabbrev-abort
-                          #'evil-copy-from-below)))
-
-  (general-imap
-    "C-n" #'pdabbrev-expand-next
-    "C-p" #'pdabbrev-expand-previous
-    "C-e" #'hy/padabbrev-abort-or-C-e))
-
-(defun hy/disable-pdabbrev (mode-map)
-  "Disable pdabbrev for MODE-MAP.
-
-Pdabbrev is clumsily implemented with global keys.  It also
-doesn't work in eshell and comint modes.  This function turns it
-off."
-  (general-imap
-    :keymaps mode-map
-    "C-n" #'evil-complete-next
-    "C-p" #'evil-complete-previous))
-
-(add-hook 'comint-mode-hook
-            (lambda ()
-              (hy/disable-pdabbrev 'comint-mode-map)))
-
-(use-package eshell
-  :after pdabbrev
-  :config
-  (add-hook 'eshell-first-time-mode-hook
-            (lambda ()
-              (hy/disable-pdabbrev 'eshell-mode-map))))
 
 (provide 'init)
 ;;; init.el ends here
