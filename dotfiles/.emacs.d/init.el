@@ -239,7 +239,9 @@
     :prefix ",j"
     "j" #'cider-jack-in
     "c" #'cider-jack-in-cljs
-    "b" #'cider-jack-in-clj&cljs))
+    "b" #'cider-jack-in-clj&cljs)
+  :init
+  (setq clojure-toplevel-inside-comment-form t))
 
 (use-package cider
   :general
