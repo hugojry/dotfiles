@@ -115,7 +115,7 @@
 (general-create-definer general-buffer
   :keymaps 'override
   :states 'normal
-  :prefix ", b")
+  :prefix ",b")
 
 (general-buffer
   "b" #'switch-to-buffer
@@ -154,7 +154,7 @@
   :config
   (general-mmap
     :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
-    ", e" #'hy/evil-eval
+    ",e" #'hy/evil-eval
     "C-c C-c" #'eval-defun
     "C-c C-k" #'eval-buffer)
 
@@ -169,9 +169,9 @@
 (use-package magit
   :config
   (general-def 'magit-mode-map
-    ", c c" (lambda ()
-              (interactive)
-              (magit-run-git "commit" "-m" "Checkpoint"))))
+    ",cc" (lambda ()
+            (interactive)
+            (magit-run-git "commit" "-m" "Checkpoint"))))
 
 (defconst hy/lisp-mode-hooks
   '(emacs-lisp-mode-hook
@@ -236,7 +236,7 @@
   :general
   (general-nmap
     :keymaps 'clojure-mode-map
-    :prefix ", j"
+    :prefix ",j"
     "j" #'cider-jack-in
     "c" #'cider-jack-in-cljs
     "b" #'cider-jack-in-clj&cljs))
@@ -246,13 +246,13 @@
   (general-mmap :keymaps 'cider-mode-map ", e" #'hy/cider-eval)
   (general-mmap
     :keymaps 'cider-mode-map
-    :prefix ", c"
+    :prefix ",c"
     "i" #'cider-inspect-last-result
     "r" #'hy/cider-eval-replace
     "b" #'hy/cider-eval-popup)
   (general-nmap
     :keymaps 'cider-repl-mode-map
-    "g o" #'cider-repl-switch-to-other)
+    "go" #'cider-repl-switch-to-other)
   :init
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
@@ -317,8 +317,8 @@
   :general
   (general-nmap
     :keymaps 'flycheck-mode-map
-    "] q" #'flycheck-next-error
-    "[ q" #'flycheck-previous-error)
+    "]q" #'flycheck-next-error
+    "[q" #'flycheck-previous-error)
   :init
   (global-flycheck-mode))
 
