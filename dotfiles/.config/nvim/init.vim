@@ -11,5 +11,7 @@ call plug#end()
 set termguicolors
 colorscheme tempus_totus
 
+set hidden
+
 set expandtab
 tnoremap <Esc> <C-\><C-n>
