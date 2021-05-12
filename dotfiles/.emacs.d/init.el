@@ -151,6 +151,9 @@
 
 (use-package elisp-mode
   :ensure f
+  :init
+  (general-def normal emacs-lisp-mode-map
+    "K" #'describe-symbol)
   :config
   (general-mmap
     :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
@@ -190,7 +193,7 @@
     ", (" #'paredit-wrap-round
     ", [" #'paredit-wrap-square
     ", {" #'paredit-wrap-curly
-    ", \S-o" #'paredit-raise-sexp
+    ", O" #'paredit-raise-sexp
     ", @" #'paredit-splice-sexp))
 
 (use-package lispyville
