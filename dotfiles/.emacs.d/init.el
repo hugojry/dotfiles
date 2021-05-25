@@ -68,6 +68,7 @@
 
 (use-package evil-collection
   :demand t
+  :diminish evil-collection-unimpaired-mode
   :config
   (evil-collection-init))
 
