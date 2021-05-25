@@ -350,7 +350,10 @@
 (use-package company
   :diminish
   :init
-  (global-company-mode))
+  (global-company-mode)
+  (general-def company-active-map
+    "C-n" nil
+    "C-p" nil))
 
 (use-package dabbrev
   :config
