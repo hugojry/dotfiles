@@ -1,0 +1,28 @@
+syntax on
+filetype plugin indent on
+
+set backspace=indent,eol,start
+set nocompatible
+set history=200
+set showcmd
+set ruler
+set wildmenu
+set hidden
+set display=truncate
+set hlsearch
+set scrolloff=5
+set laststatus=2
+
+set expandtab
+set tabstop=4
+set shiftwidth=4
+
+" Do incremental searching when it's possible to timeout.
+if has('reltime')
+  set incsearch
+endif
+
+set ttimeout
+set ttimeoutlen=100
+
+command! DeleteTrailingWhitespace %s/ \+$//
