@@ -248,18 +248,13 @@
   (setq clojure-toplevel-inside-comment-form t))
 
 (use-package cider
-  :general
-  (general-mmap :keymaps 'cider-mode-map ", e" #'hy/cider-eval)
-  (general-mmap
-    :keymaps 'cider-mode-map
-    :prefix ", c"
-    "i" #'cider-inspect-last-result
-    "r" #'hy/cider-eval-replace
-    "b" #'hy/cider-eval-popup)
-  (general-nmap
-    :keymaps 'cider-repl-mode-map
-    "g o" #'cider-repl-switch-to-other)
   :init
+  (general-def 'motion cider-mode-map
+    ", e" #'hy/cider-eval
+    ", d" #'hy/cider-eval-popup
+    ", x" #'hy/cider-eval-replace)
+  (general-def 'normal cider-repl-mode-map
+    "g o" #'cider-repl-switch-to-other)
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
