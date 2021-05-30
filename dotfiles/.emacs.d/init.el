@@ -141,7 +141,8 @@
     "a" #'org-agenda
     "c" #'counsel-org-capture)
   :init
-  (setq org-src-preserve-indentation t
+  (setq org-adapt-indentation nil
+        org-src-preserve-indentation t
         org-babel-load-languages
         '((emacs-lisp . t)
           (python . t))))
