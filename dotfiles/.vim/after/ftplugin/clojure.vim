@@ -1,1 +1,1 @@
-nnoremap <buffer> <LocalLeader>e cp
+nmap <buffer> <LocalLeader>e cp
