@@ -4,6 +4,11 @@ Plug 'romainl/vim-cool'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-dispatch'
+Plug 'clojure-vim/vim-jack-in'
 
 call plug#end()
 
@@ -27,6 +32,7 @@ set tabstop=4
 set shiftwidth=4
 
 let mapleader = "\<Space>"
+let maplocalleader = ","
 
 " Do incremental searching when it's possible to timeout.
 if has('reltime')
