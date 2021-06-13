@@ -301,11 +301,6 @@
     :keymaps 'projectile-mode-map
     "SPC p" 'projectile-command-map))
 
-(use-package counsel-projectile
-  :config
-  (with-eval-after-load 'projectile
-    (counsel-projectile-mode)))
-
 (use-package evil-org
   :diminish
   :init
