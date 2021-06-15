@@ -336,7 +336,7 @@
 (use-package flycheck-rust
   :init
   (with-eval-after-load 'rust-mode
-   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
 (use-package company
   :diminish
