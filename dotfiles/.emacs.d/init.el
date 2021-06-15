@@ -42,8 +42,7 @@
 
 ;; Core packages - loaded immediately
 
-(use-package diminish
-  :demand t)
+(use-package diminish :demand t)
 
 (use-package evil
   :demand t
@@ -77,41 +76,13 @@
   :config
   (general-evil-setup))
 
-;; All the following packages are deferred
-
-(use-package paren
-  :init
-  (setq show-paren-delay 0)
-  (show-paren-mode))
-
-(use-package recentf
-  :init
-  (setq recentf-max-saved-items 1000
-        recentf-max-menu-items 1000)
-  (recentf-mode))
-
-(use-package eldoc
-  :diminish)
-
-(use-package undo-tree
-  :diminish
-  :init
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist
-        '(("." . "~/.emacs.d/undo-tree-history/")))
-  (global-undo-tree-mode))
-
-(general-def 'normal "C-;" #'eval-expression)
-
-(general-def 'normal override
+(general-def normal override
   "SPC u" #'universal-argument
   "SPC -" #'negative-argument)
 
-(general-nmap "-" #'dired-jump)
+(general-def normal "-" #'dired-jump)
 
-(general-nmap
-  :keymaps 'dired-mode-map
-  "-" #'dired-up-directory)
+(general-def normal dired-mode-map "-" #'dired-up-directory)
 
 (general-create-definer general-buffer
   :keymaps 'override
@@ -127,6 +98,33 @@
   "w" #'widen
   "d" #'narrow-to-defun
   "x" #'sp-narrow-to-sexp)
+
+;; All the following packages are deferred
+
+(use-package paren
+  :init
+  (setq show-paren-delay 0)
+  (show-paren-mode))
+
+(use-package recentf
+  :init
+  (setq recentf-max-saved-items 1000
+        recentf-max-menu-items 1000)
+  (recentf-mode))
+
+(use-package dabbrev
+  :config
+  (setq dabbrev-case-fold-search nil))
+
+(use-package eldoc :diminish)
+
+(use-package undo-tree
+  :diminish
+  :init
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        '(("." . "~/.emacs.d/undo-tree-history/")))
+  (global-undo-tree-mode))
 
 (use-package org
   :general
@@ -168,15 +166,9 @@
    :keymaps 'lisp-interaction-mode-map
    "C-j" #'eval-print-last-sexp))
 
-(use-package autorevert
-  :diminish auto-revert-mode)
+(use-package autorevert :diminish auto-revert-mode)
 
-(use-package magit
-  :config
-  (general-def 'magit-mode-map
-    ", c c" (lambda ()
-              (interactive)
-              (magit-run-git "commit" "-m" "Checkpoint"))))
+(use-package magit)
 
 (defconst hy/lisp-mode-hooks
   '(emacs-lisp-mode-hook
@@ -289,9 +281,7 @@
   (counsel-mode)
   (general-file "r" #'counsel-recentf))
 
-(use-package swiper
-  :general
-  ("C-s" #'swiper))
+(use-package swiper :general ("C-s" #'swiper))
 
 (use-package projectile
   :diminish
@@ -331,13 +321,6 @@
   :init
   (exec-path-from-shell-initialize))
 
-(use-package rust-mode)
-
-(use-package flycheck-rust
-  :init
-  (with-eval-after-load 'rust-mode
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
-
 (use-package company
   :diminish
   :init
@@ -345,10 +328,6 @@
   (general-def company-active-map
     "C-n" nil
     "C-p" nil))
-
-(use-package dabbrev
-  :config
-  (setq dabbrev-case-fold-search nil))
 
 (provide 'init)
 ;;; init.el ends here
