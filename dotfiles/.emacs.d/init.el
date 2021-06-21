@@ -251,18 +251,6 @@
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
-(use-package clj-refactor
-  :init
-  (add-hook 'clojure-mode-hook
-            (lambda ()
-              (clj-refactor-mode)
-              (yas-minor-mode)
-              (diminish 'yas-minor-mode)
-              (dolist (details cljr--all-helpers)
-                (general-nmap
-                  :keymaps 'clj-refactor-map
-                  (concat ",r" (car details)) (cadr details))))))
-
 (use-package ivy
   :diminish
   :config
