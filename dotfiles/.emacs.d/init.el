@@ -255,6 +255,8 @@
 
 (use-package ivy
   :diminish
+  :init
+  (setq ivy-extra-directories nil)
   :config
   (ivy-mode))
 
