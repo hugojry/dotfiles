@@ -32,6 +32,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(require 'help-fns+)
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
