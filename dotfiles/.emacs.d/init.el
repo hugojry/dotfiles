@@ -170,7 +170,9 @@
 
 (use-package autorevert :diminish auto-revert-mode)
 
-(use-package magit)
+(use-package magit
+  :init
+  (setq magit-bury-buffer-function 'magit-mode-quit-window))
 
 (defconst hy/lisp-mode-hooks
   '(emacs-lisp-mode-hook
