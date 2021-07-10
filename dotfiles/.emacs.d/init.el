@@ -295,11 +295,6 @@
 
 (use-package flycheck
   :diminish
-  :general
-  (general-nmap
-    :keymaps 'flycheck-mode-map
-    "] q" #'flycheck-next-error
-    "[ q" #'flycheck-previous-error)
   :init
   (global-flycheck-mode))
 
