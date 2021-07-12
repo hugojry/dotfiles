@@ -318,5 +318,10 @@
     "C-n" nil
     "C-p" nil))
 
+(use-package eshell
+  :init
+  (general-def normal
+    "SPC e" #'eshell))
+
 (provide 'init)
 ;;; init.el ends here
