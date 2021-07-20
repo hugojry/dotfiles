@@ -313,6 +313,9 @@
 (use-package company
   :diminish
   :init
+  (general-def company-active-map
+    "C-n" nil
+    "C-p" nil)
   (global-company-mode)
   :config
   ;; https://github.com/hlissner/doom-emacs/issues/1335#issuecomment-709691151
