@@ -5,22 +5,6 @@
 
 ;;; Code:
 
-(add-to-list 'load-path "~/.emacs.d/lisp")
-
-(setq-default indent-tabs-mode nil)
-(setq ring-bell-function 'ignore)
-(setq inhibit-startup-message t)
-(menu-bar-mode 0)
-(toggle-scroll-bar 0)
-(tool-bar-mode 0)
-(blink-cursor-mode 0)
-(savehist-mode)
-(setq column-number-indicator-zero-based nil)
-(column-number-mode)
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
-(save-place-mode)
-(setq-default case-fold-search nil)
-
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -28,11 +12,6 @@
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (setq package-enable-at-startup nil)
 (package-initialize)
-
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
-(require 'help-fns+)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -42,9 +21,46 @@
 (setq use-package-always-ensure t
       use-package-always-defer t)
 
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
+(setq-default indent-tabs-mode nil)
+(setq ring-bell-function 'ignore)
+(setq inhibit-startup-message t)
+(menu-bar-mode 0)
+(toggle-scroll-bar 0)
+(tool-bar-mode 0)
+(blink-cursor-mode 0)
+(savehist-mode)
+
+(setq column-number-indicator-zero-based nil)
+(column-number-mode)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
+(save-place-mode)
+(setq-default case-fold-search nil)
+
+(require 'paren)
+(setq show-paren-delay 0)
+(show-paren-mode)
+
+(require 'recentf)
+(setq recentf-max-saved-items 1000
+      recentf-max-menu-items 1000)
+(recentf-mode)
+
+(require 'dabbrev)
+(setq dabbrev-case-fold-search nil)
+
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(require 'help-fns+)
+
 ;; Core packages - loaded immediately
 
 (use-package diminish :demand t)
+
+(diminish 'eldoc-mode)
+(with-eval-after-load 'autorevert
+  (diminish 'auto-revert-mode))
 
 (use-package evil
   :demand t
@@ -101,24 +117,28 @@
   "d" #'narrow-to-defun
   "x" #'sp-narrow-to-sexp)
 
+(general-def normal
+    "SPC e" #'eshell)
+
+(general-def normal emacs-lisp-mode-map
+  "K" #'describe-symbol)
+
+(evil-define-operator hy/evil-eval (beg end type)
+  :move-point nil
+  (eval-region beg end t))
+
+(general-mmap
+  :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
+  ", e" #'hy/evil-eval
+  "C-c C-c" #'eval-defun
+  "C-c C-k" #'eval-buffer)
+
+(general-define-key
+ :states '(normal insert)
+ :keymaps 'lisp-interaction-mode-map
+ "C-j" #'eval-print-last-sexp)
+
 ;; All the following packages are deferred
-
-(use-package paren
-  :init
-  (setq show-paren-delay 0)
-  (show-paren-mode))
-
-(use-package recentf
-  :init
-  (setq recentf-max-saved-items 1000
-        recentf-max-menu-items 1000)
-  (recentf-mode))
-
-(use-package dabbrev
-  :config
-  (setq dabbrev-case-fold-search nil))
-
-(use-package eldoc :diminish)
 
 (use-package undo-tree
   :diminish
@@ -146,29 +166,6 @@
         org-babel-load-languages
         '((emacs-lisp . t)
           (python . t))))
-
-(evil-define-operator hy/evil-eval (beg end type)
-  :move-point nil
-  (eval-region beg end t))
-
-(use-package elisp-mode
-  :ensure f
-  :init
-  (general-def normal emacs-lisp-mode-map
-    "K" #'describe-symbol)
-  :config
-  (general-mmap
-    :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
-    ", e" #'hy/evil-eval
-    "C-c C-c" #'eval-defun
-    "C-c C-k" #'eval-buffer)
-
-  (general-define-key
-   :states '(normal insert)
-   :keymaps 'lisp-interaction-mode-map
-   "C-j" #'eval-print-last-sexp))
-
-(use-package autorevert :diminish auto-revert-mode)
 
 (use-package magit
   :init
@@ -336,11 +333,6 @@
               ;; when completion is not activated, the value is ((t . nil)).
               (when (memq 'company-emulation-alist emulation-mode-map-alists)
                 (company-ensure-emulation-alist)))))
-
-(use-package eshell
-  :init
-  (general-def normal
-    "SPC e" #'eshell))
 
 (provide 'init)
 ;;; init.el ends here
