@@ -138,6 +138,9 @@
  :keymaps 'lisp-interaction-mode-map
  "C-j" #'eval-print-last-sexp)
 
+(general-def normal Info-mode-map
+  "RET" #'Info-follow-nearest-node)
+
 ;; All the following packages are deferred
 
 (use-package undo-tree
