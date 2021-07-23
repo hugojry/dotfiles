@@ -51,6 +51,11 @@
 (require 'dabbrev)
 (setq dabbrev-case-fold-search nil)
 
+(require 'em-tramp)
+(setq eshell-prefer-lisp-functions t)
+(setq password-cache t)
+(setq password-cache-expiry 3600)
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'help-fns+)
 

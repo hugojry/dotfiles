@@ -15,8 +15,7 @@ tramp
 *_flymake.*
 
 # eshell files
-/eshell/history
-/eshell/lastdir
+/eshell/
 
 # elpa packages
 /elpa/
