@@ -106,7 +106,9 @@
   "SPC u" #'universal-argument
   "SPC -" #'negative-argument)
 
-(general-def normal "-" #'dired-jump)
+(general-def normal
+  "-" #'dired-jump
+  "_" #'dired-jump-other-window)
 
 (general-def normal dired-mode-map "-" #'dired-up-directory)
 
