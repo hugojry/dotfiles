@@ -56,6 +56,9 @@
 (setq password-cache t)
 (setq password-cache-expiry 3600)
 
+(require 'dired)
+(setq dired-dwim-target t)
+
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'help-fns+)
 
