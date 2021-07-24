@@ -47,6 +47,9 @@
 
 (require 'help-fns+)
 
+(require 'lisp-indent-function)
+(setq lisp-indent-function #'Fuco1/lisp-indent-function)
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -114,23 +117,26 @@
 
 (general-def normal dired-mode-map "-" #'dired-up-directory)
 
-(general-create-definer general-buffer
+(general-create-definer general-spc
+  :states 'normal
+  :keymaps 'override
+  :prefix "SPC")
+
+(general-create-definer general-comma
   :keymaps 'override
   :states 'normal
-  :prefix ", b")
+  :prefix ",")
 
-(general-buffer
-  "b" #'switch-to-buffer
-  "k" #'kill-buffer)
+(general-comma
+  "b b" #'switch-to-buffer
+  "b k" #'kill-buffer)
 
-(general-nmap
-  :prefix "SPC n"
-  "w" #'widen
-  "d" #'narrow-to-defun
-  "x" #'sp-narrow-to-sexp)
+(general-spc
+  "n w" #'widen
+  "n d" #'narrow-to-defun
+  "n x" #'sp-narrow-to-sexp)
 
-(general-def normal
-    "SPC e" #'eshell)
+(general-spc "e" #'eshell)
 
 (general-def normal emacs-lisp-mode-map
   "K" #'describe-symbol)
@@ -139,15 +145,14 @@
   :move-point nil
   (eval-region beg end t))
 
-(general-mmap
-  :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
-  ", e" #'hy/evil-eval
+(general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
+  ", e" #'hy/evil-eval)
+
+(general-def (emacs-lisp-mode-map lisp-interaction-mode-map)
   "C-c C-c" #'eval-defun
   "C-c C-k" #'eval-buffer)
 
-(general-define-key
- :states '(normal insert)
- :keymaps 'lisp-interaction-mode-map
+(general-def (normal insert) lisp-interaction-mode-map
  "C-j" #'eval-print-last-sexp)
 
 (general-def normal Info-mode-map
@@ -164,17 +169,6 @@
   (global-undo-tree-mode))
 
 (use-package org
-  :general
-  (general-nmap
-    :keymaps 'org-mode-map
-    :prefix "SPC n"
-    "s" #'org-narrow-to-subtree
-    "b" #'org-narrow-to-block
-    "e" #'org-narrow-to-element)
-  (general-nmap
-    :prefix "SPC o"
-    "a" #'org-agenda
-    "c" #'counsel-org-capture)
   :init
   (setq org-adapt-indentation nil
         org-src-preserve-indentation t
@@ -199,7 +193,7 @@
 (use-package paredit
   :ghook hy/lisp-mode-hooks
   :general
-  (general-def 'normal paredit-mode-map
+  (general-def normal paredit-mode-map
     ", (" #'paredit-wrap-round
     ", [" #'paredit-wrap-square
     ", {" #'paredit-wrap-curly
@@ -209,19 +203,20 @@
 (use-package lispyville
   :diminish
   :ghook 'paredit-mode-hook
+  :general
+  (general-def normal lispyville-mode-map
+    "M-t" #'lispyville-drag-backward)
+  (general-def (normal visual motion) lispyville-mode-map
+    "(" #'lispyville-backward-up-list
+    ")" #'lispyville-up-list
+    "H" #'lispyville-backward-sexp
+    "L" #'lispyville-forward-sexp)
   :config
   (lispyville-set-key-theme
    '(operators
      text-objects
      slurp/barf-cp
-     c-w))
-  (general-def 'normal lispyville-mode-map
-    "M-t" #'lispyville-drag-backward)
-  (general-def '(normal visual motion) lispyville-mode-map
-    "(" #'lispyville-backward-up-list
-    ")" #'lispyville-up-list
-    "H" #'lispyville-backward-sexp
-    "L" #'lispyville-forward-sexp))
+     c-w)))
 
 (evil-define-operator hy/cider-eval (beg end type)
   :move-point nil
@@ -247,22 +242,20 @@
 
 (use-package clojure-mode
   :general
-  (general-nmap
-    :keymaps 'clojure-mode-map
-    :prefix ", j"
-    "j" #'cider-jack-in
-    "c" #'cider-jack-in-cljs
-    "b" #'cider-jack-in-clj&cljs)
+  (general-def normal clojure-mode-map
+    ", j j" #'cider-jack-in
+    ", j c" #'cider-jack-in-cljs
+    ", j b" #'cider-jack-in-clj&cljs)
   :init
   (setq clojure-toplevel-inside-comment-form t))
 
 (use-package cider
   :init
-  (general-def 'motion cider-mode-map
+  (general-def normal cider-mode-map
     ", e" #'hy/cider-eval
     ", d" #'hy/cider-eval-popup
     ", x" #'hy/cider-eval-replace)
-  (general-def 'normal cider-repl-mode-map
+  (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
@@ -274,28 +267,24 @@
   :config
   (ivy-mode))
 
-(general-create-definer general-file
-  :keymaps 'override
-  :states 'normal
-  :prefix "SPC f")
-
-(general-file "f" #'find-file)
+(general-spc "f f" #'find-file)
 
 (use-package counsel
   :diminish
   :init
   (counsel-mode)
-  (general-file "r" #'counsel-recentf))
+  (general-spc "f r" #'counsel-recentf))
 
 (use-package swiper :general ("C-s" #'swiper))
 
 (use-package projectile
   :diminish
+  :general
+  (general-def normal projectile-mode-map
+    "SPC p" 'projectile-command-map)
   :init
-  (projectile-mode)
-  (general-nmap
-    :keymaps 'projectile-mode-map
-    "SPC p" 'projectile-command-map))
+  (setq projectile-use-git-grep t)
+  (projectile-mode))
 
 (use-package evil-org
   :diminish
@@ -324,10 +313,11 @@
 
 (use-package company
   :diminish
+  :general
+  (company-active-map
+   "C-n" nil
+   "C-p" nil)
   :init
-  (general-def company-active-map
-    "C-n" nil
-    "C-p" nil)
   (global-company-mode)
   (company-tng-mode))
 
