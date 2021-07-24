@@ -5,22 +5,6 @@
 
 ;;; Code:
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(setq package-enable-at-startup nil)
-(package-initialize)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t
-      use-package-always-defer t)
-
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
@@ -60,7 +44,25 @@
 (setq dired-dwim-target t)
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
+
 (require 'help-fns+)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(setq package-enable-at-startup nil)
+(require 'gnutls)
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t
+      use-package-always-defer t)
 
 ;; Core packages - loaded immediately
 
