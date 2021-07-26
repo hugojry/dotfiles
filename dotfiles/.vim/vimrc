@@ -1,14 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'romainl/vim-cool'
-Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'dense-analysis/ale'
-Plug 'guns/vim-sexp'
-Plug 'tpope/vim-sexp-mappings-for-regular-people'
-Plug 'tpope/vim-fireplace'
-Plug 'tpope/vim-dispatch'
-Plug 'clojure-vim/vim-jack-in'
 
 call plug#end()
 
