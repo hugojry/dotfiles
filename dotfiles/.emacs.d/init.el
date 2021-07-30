@@ -323,6 +323,7 @@
 
 (use-package eglot
   :config
+  (add-hook 'eglot-mode (lambda () (flycheck-mode 0)))
   (dolist (l '((clojure-mode "clojure-lsp")
                (clojurec-mode clojure-mode)
                (clojurescript-mode clojure-mode)))
