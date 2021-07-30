@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'romainl/vim-cool'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'hynek/vim-python-pep8-indent'
 
 call plug#end()
 
