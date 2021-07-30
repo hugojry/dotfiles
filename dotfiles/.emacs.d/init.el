@@ -321,5 +321,12 @@
   (global-company-mode)
   (company-tng-mode))
 
+(use-package eglot
+  :config
+  (dolist (l '((clojure-mode "clojure-lsp")
+               (clojurec-mode clojure-mode)
+               (clojurescript-mode clojure-mode)))
+    (add-to-list 'eglot-server-programs l)))
+
 (provide 'init)
 ;;; init.el ends here
