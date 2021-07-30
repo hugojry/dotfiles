@@ -321,5 +321,18 @@
   (global-company-mode)
   (company-tng-mode))
 
+(use-package lsp-mode
+  :hook ((clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp))
+  :init
+  (setq lsp-headerline-breadcrumb-enable nil)
+  :config
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+
 (provide 'init)
 ;;; init.el ends here
