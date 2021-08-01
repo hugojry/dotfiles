@@ -321,18 +321,5 @@
   (global-company-mode)
   (company-tng-mode))
 
-(use-package eglot
-  :config
-  (defun hy/toggle-checkers ()
-    (if (eglot-managed-p)
-        (progn (flymake-mode) (flycheck-mode 0))
-      (progn (flymake-mode 0) (flycheck-mode))))
-
-  (add-hook 'eglot-managed-mode-hook #'hy/toggle-checkers)
-  (dolist (l '((clojure-mode "clojure-lsp")
-               (clojurec-mode clojure-mode)
-               (clojurescript-mode clojure-mode)))
-    (add-to-list 'eglot-server-programs l)))
-
 (provide 'init)
 ;;; init.el ends here
