@@ -1,3 +1,4 @@
 after/plugin/custom.vim
 .netrwhist
 plugged/
+colors/

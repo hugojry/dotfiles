@@ -3,6 +3,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'romainl/vim-cool'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'hynek/vim-python-pep8-indent'
+Plug 'guns/vim-sexp'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'tpope/vim-dispatch'
+Plug 'clojure-vim/vim-jack-in'
+Plug 'tpope/vim-fireplace'
 
 call plug#end()
 
@@ -27,6 +32,8 @@ set shiftwidth=4
 
 let mapleader = "\<Space>"
 let maplocalleader = ","
+
+nnoremap <Leader>fr :browse oldfiles<CR>
 
 " Do incremental searching when it's possible to timeout.
 if has('reltime')
