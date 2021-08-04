@@ -75,52 +75,25 @@
 (with-eval-after-load 'autorevert
   (diminish 'auto-revert-mode))
 
-(use-package evil
-  :demand t
-  :init
-  (setq evil-want-integration t
-        evil-want-keybinding nil ; evil-collection takes care of this
-        evil-want-C-u-scroll t
-        evil-respect-visual-line-mode t
-        evil-undo-system 'undo-tree
-        evil-search-module 'evil-search
-        evil-ex-search-case 'sensitive)
-  (setq-default evil-symbol-word-search t)
-  :config
-  (defalias #'forward-evil-word #'forward-evil-symbol)
-
-  (defun hy/nohighlight ()
-    (when (memq this-command evil-motions)
-      (evil-ex-nohighlight)))
-
-  (add-hook 'post-command-hook #'hy/nohighlight)
-  (evil-mode))
-
-(use-package evil-collection
-  :demand t
-  :diminish evil-collection-unimpaired-mode
-  :config
-  (evil-collection-init))
-
 (use-package general
   :demand t
   :config
   (general-evil-setup))
 
-(general-def normal override
-  "SPC u" #'universal-argument
-  "SPC -" #'negative-argument)
+(general-create-definer general-spc
+  :states 'normal
+  :keymaps 'override
+  :prefix "SPC")
+
+(general-spc
+  "u" #'universal-argument
+  "-" #'negative-argument)
 
 (general-def normal
   "-" #'dired-jump
   "_" #'dired-jump-other-window)
 
 (general-def normal dired-mode-map "-" #'dired-up-directory)
-
-(general-create-definer general-spc
-  :states 'normal
-  :keymaps 'override
-  :prefix "SPC")
 
 (general-create-definer general-comma
   :keymaps 'override
@@ -141,13 +114,6 @@
 (general-def normal emacs-lisp-mode-map
   "K" #'describe-symbol)
 
-(evil-define-operator hy/evil-eval (beg end type)
-  :move-point nil
-  (eval-region beg end t))
-
-(general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
-  ", e" #'hy/evil-eval)
-
 (general-def (emacs-lisp-mode-map lisp-interaction-mode-map)
   "C-c C-c" #'eval-defun
   "C-c C-k" #'eval-buffer)
@@ -157,6 +123,49 @@
 
 (general-def normal Info-mode-map
   "RET" #'Info-follow-nearest-node)
+
+(use-package evil
+  :demand t
+  :general (general-spc "C" #'hy/bind-command)
+  :init
+  (setq evil-want-integration t
+        evil-want-keybinding nil ; evil-collection takes care of this
+        evil-want-C-u-scroll t
+        evil-respect-visual-line-mode t
+        evil-undo-system 'undo-tree
+        evil-search-module 'evil-search
+        evil-ex-search-case 'sensitive)
+  (setq-default evil-symbol-word-search t)
+  :config
+  (defalias #'forward-evil-word #'forward-evil-symbol)
+
+  (defun hy/nohighlight ()
+    (when (memq this-command evil-motions)
+      (evil-ex-nohighlight)))
+
+  (add-hook 'post-command-hook #'hy/nohighlight)
+
+  (defun hy/bind-command (command key)
+    (interactive "sShell command: \nsKey: ")
+    (let ((f (lambda ()
+               (interactive)
+               (shell-command command))))
+      (define-key evil-normal-state-map (kbd key) f)))
+
+  (evil-mode))
+
+(evil-define-operator hy/evil-eval (beg end type)
+  :move-point nil
+  (eval-region beg end t))
+
+(general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
+  ", e" #'hy/evil-eval)
+
+(use-package evil-collection
+  :demand t
+  :diminish evil-collection-unimpaired-mode
+  :config
+  (evil-collection-init))
 
 ;; All the following packages are deferred
 
