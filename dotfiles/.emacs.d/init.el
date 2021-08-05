@@ -259,13 +259,15 @@
   (setq clojure-toplevel-inside-comment-form t))
 
 (use-package cider
-  :init
+  :general
   (general-def normal cider-mode-map
     ", e" #'hy/cider-eval
     ", d" #'hy/cider-eval-popup
     ", x" #'hy/cider-eval-replace)
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
+  :init
+  (setq cider-font-lock-dynamically nil)
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
