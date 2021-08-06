@@ -125,7 +125,7 @@
 
 (use-package evil
   :demand t
-  :general (general-spc "C" #'hy/bind-command)
+  :general (general-comma "C" #'hy/bind-command)
   :init
   (setq evil-want-integration t
         evil-want-keybinding nil ; evil-collection takes care of this
