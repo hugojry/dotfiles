@@ -213,7 +213,8 @@
   :ghook 'paredit-mode-hook
   :general
   (general-def normal lispyville-mode-map
-    "M-t" #'lispyville-drag-backward)
+    ", r" #'lispyville-drag-backward
+    ", t" #'lispyville-drag-forward)
   (general-def (normal visual motion) lispyville-mode-map
     "(" #'lispyville-backward-up-list
     ")" #'lispyville-up-list
