@@ -43,8 +43,11 @@
 (require 'dabbrev)
 (setq dabbrev-case-fold-search nil)
 
-(require 'em-tramp)
+(require 'eshell)
 (setq eshell-prefer-lisp-functions t)
+
+(require 'em-tramp)
+
 (setq password-cache t)
 (setq password-cache-expiry 3600)
 
