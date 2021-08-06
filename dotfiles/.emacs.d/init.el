@@ -5,16 +5,24 @@
 
 ;;; Code:
 
+(menu-bar-mode 0)
+(toggle-scroll-bar 0)
+(tool-bar-mode 0)
+(blink-cursor-mode 0)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(package-initialize)
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 (setq-default indent-tabs-mode nil)
 (setq ring-bell-function 'ignore)
 (setq inhibit-startup-message t)
-(menu-bar-mode 0)
-(toggle-scroll-bar 0)
-(tool-bar-mode 0)
-(blink-cursor-mode 0)
 (savehist-mode)
 
 (setq column-number-indicator-zero-based nil)
@@ -49,15 +57,6 @@
 
 (require 'lisp-indent-function)
 (setq lisp-indent-function #'Fuco1/lisp-indent-function)
-
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(setq package-enable-at-startup nil)
-(require 'gnutls)
-(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
