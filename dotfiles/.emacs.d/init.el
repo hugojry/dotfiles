@@ -10,12 +10,13 @@
 (tool-bar-mode 0)
 (blink-cursor-mode 0)
 
-(require 'package)
+(when (< emacs-major-version 27)
+  (package-initialize))
+
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(package-initialize)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
