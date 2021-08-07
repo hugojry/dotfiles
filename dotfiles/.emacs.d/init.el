@@ -312,6 +312,7 @@
 (use-package flycheck
   :diminish
   :init
+  (setq flycheck-emacs-lisp-load-path 'inherit)
   (global-flycheck-mode))
 
 (use-package flycheck-clj-kondo
