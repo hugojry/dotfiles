@@ -200,7 +200,8 @@
     inferior-lisp-mode-hook
     eval-expression-minibuffer-setup-hook
     racket-mode-hook
-    lisp-mode-hook))
+    lisp-mode-hook
+    sly-mrepl-mode-hook))
 
 (use-package paredit
   :ghook hy/lisp-mode-hooks
@@ -336,6 +337,15 @@
   :init
   (global-company-mode)
   (company-tng-mode))
+
+(evil-define-operator hy/sly-eval (beg end type)
+  :move-point nil
+  (sly-eval-region beg end))
+
+(use-package sly
+  :general
+  (general-def normal sly-mode-map
+    ", e" #'hy/sly-eval))
 
 (provide 'init)
 ;;; init.el ends here
