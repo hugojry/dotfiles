@@ -333,7 +333,9 @@
   :general
   (company-active-map
    "C-n" nil
-   "C-p" nil)
+   "C-p" nil
+   "M-n" nil
+   "M-p" nil)
   :init
   (global-company-mode)
   (company-tng-mode))
