@@ -62,6 +62,8 @@
 (require 'lisp-indent-function)
 (setq lisp-indent-function #'Fuco1/lisp-indent-function)
 
+(setq eldoc-echo-area-use-multiline-p nil)
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
