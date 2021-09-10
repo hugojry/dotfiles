@@ -64,6 +64,11 @@
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
+(setq org-adapt-indentation nil
+      org-src-preserve-indentation t
+      org-babel-load-languages '((emacs-lisp . t)
+                                 (python . t)))
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -181,14 +186,6 @@
         undo-tree-history-directory-alist
         '(("." . "~/.emacs.d/undo-tree-history/")))
   (global-undo-tree-mode))
-
-(use-package org
-  :init
-  (setq org-adapt-indentation nil
-        org-src-preserve-indentation t
-        org-babel-load-languages
-        '((emacs-lisp . t)
-          (python . t))))
 
 (use-package magit
   :init
