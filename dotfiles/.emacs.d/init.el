@@ -10,8 +10,9 @@
 (tool-bar-mode 0)
 (blink-cursor-mode 0)
 
-(when (< emacs-major-version 27)
-  (package-initialize))
+(if (< emacs-major-version 27)
+    (package-initialize)
+  (require 'package))
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
