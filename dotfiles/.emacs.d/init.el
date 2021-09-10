@@ -20,7 +20,8 @@
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
 (setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 (setq-default indent-tabs-mode nil)
 (setq ring-bell-function 'ignore)
