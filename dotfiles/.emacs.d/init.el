@@ -321,11 +321,7 @@
   :init
   (require 'flycheck-clj-kondo))
 
-;; On macOS Emacs can't find many user installed programs because GUI
-;; apps are launched with a minimal set of environment variables.
 (use-package exec-path-from-shell
-  :ensure f
-  :if (eq window-system 'ns)
   :init
   (exec-path-from-shell-initialize))
 
