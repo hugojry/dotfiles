@@ -318,7 +318,9 @@
   :diminish
   :init
   (setq flycheck-emacs-lisp-load-path 'inherit)
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  :config
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 (use-package flycheck-clj-kondo
   :init
