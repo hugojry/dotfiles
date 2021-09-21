@@ -66,6 +66,18 @@
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
+(defun hy-set-default-face-height (height)
+  (set-face-attribute 'default nil :height height))
+
+(defun hy-4k ()
+  (interactive)
+  (hy-set-default-face-height 190)
+  (set-frame-parameter (selected-frame) 'fullscreen 'maximized))
+
+(defun hy-1080p ()
+  (interactive)
+  (hy-set-default-face-height 120))
+
 (setq org-adapt-indentation nil
       org-src-preserve-indentation t
       org-babel-load-languages '((emacs-lisp . t)
