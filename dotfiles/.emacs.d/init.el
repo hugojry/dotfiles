@@ -202,6 +202,8 @@
   (global-undo-tree-mode))
 
 (use-package magit
+  :general
+  (general-spc "g g" #'magit-status)
   :init
   (setq magit-bury-buffer-function 'magit-mode-quit-window))
 
