@@ -285,8 +285,8 @@
     ", d" #'hy/cider-eval-popup
     ", x" #'hy/cider-eval-replace
     ", c c" #'cider-load-buffer
-    ", c s q" #'sesman-quit
-    ", c s r" #'sesman-restart)
+    ", s q" #'sesman-quit
+    ", s r" #'sesman-restart)
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
   :init
