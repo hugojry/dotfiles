@@ -285,11 +285,12 @@
     ", d" #'hy/cider-eval-popup
     ", x" #'hy/cider-eval-replace
     ", f" #'cider-eval-defun-at-point
-    ", k" #'cider-load-buffer
-    ", s q" #'sesman-quit
-    ", s r" #'sesman-restart)
+    ", k" #'cider-load-buffer)
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
+  (general-def normal (cider-mode-map cider-repl-mode-map)
+    ", s q" #'sesman-quit
+    ", s r" #'sesman-restart)
   :init
   (setq cider-font-lock-dynamically nil)
   ;; Shouldn't be necessary, but it is.
