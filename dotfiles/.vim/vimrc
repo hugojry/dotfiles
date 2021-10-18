@@ -1,13 +1,17 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'romainl/vim-cool'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'guns/vim-sexp'
 Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'tpope/vim-dispatch'
 Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-fireplace'
+
+if has('nvim')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+endif
 
 call plug#end()
 
@@ -44,3 +48,8 @@ set ttimeout
 set ttimeoutlen=100
 
 command! DeleteTrailingWhitespace %s/ \+$//
+
+if has('nvim')
+  nnoremap <Leader>pf :Telescope find_files<CR>
+  nnoremap <Leader>fr :Telescope oldfiles<CR>
+endif
