@@ -158,11 +158,11 @@
   (add-hook 'post-command-hook #'hy/nohighlight)
 
   (defun hy/bind-command (command key)
-    (interactive "sShell command: \nsKey: ")
+    (interactive "sShell command: \nKKey: ")
     (let ((f (lambda ()
                (interactive)
                (shell-command command))))
-      (define-key evil-normal-state-map (kbd key) f)))
+      (define-key evil-normal-state-map key f)))
 
   (evil-mode))
 
