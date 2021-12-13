@@ -260,6 +260,7 @@
 (use-package clojure-mode
   :general
   (general-def normal clojure-mode-map
+    ", j n s" #'clojure-sort-ns
     ", j j" #'cider-jack-in
     ", j c" #'cider-jack-in-cljs
     ", j b" #'cider-jack-in-clj&cljs)
