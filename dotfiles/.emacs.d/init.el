@@ -274,7 +274,10 @@
     ", d" #'hy/cider-eval-popup
     ", x" #'hy/cider-eval-replace
     ", f" #'cider-eval-defun-at-point
-    ", k" #'cider-load-buffer)
+    ", k" #'cider-load-buffer
+    ", t t" #'cider-test-run-test
+    ", t a" #'cider-test-rerun-test
+    ", t n" #'cider-test-run-ns-tests)
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
   (general-def normal (cider-mode-map cider-repl-mode-map)
