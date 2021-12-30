@@ -137,7 +137,7 @@
   ", k" #'eval-buffer)
 
 (general-def (normal insert) lisp-interaction-mode-map
- "C-j" #'eval-print-last-sexp)
+  "C-j" #'eval-print-last-sexp)
 
 (general-def normal Info-mode-map
   "RET" #'Info-follow-nearest-node)
