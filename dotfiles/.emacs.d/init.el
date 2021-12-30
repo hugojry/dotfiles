@@ -4,6 +4,8 @@
 ;;; Emacs configuration
 
 ;;; Code:
+(package-initialize)
+
 (setq custom-file "~/.emacs.d/custom.el")
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -66,10 +68,6 @@
       org-src-preserve-indentation t
       org-babel-load-languages '((emacs-lisp . t)
                                  (python . t)))
-
-(if (< emacs-major-version 27)
-    (package-initialize)
-  (require 'package))
 
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
