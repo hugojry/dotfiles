@@ -5,33 +5,36 @@
 
 ;;; Code:
 
+(setq custom-file "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+(add-to-list 'load-path "~/.emacs.d/lisp")
+
+;; Declutter
 (menu-bar-mode 0)
 (toggle-scroll-bar 0)
 (tool-bar-mode 0)
 (blink-cursor-mode 0)
 
-(if (< emacs-major-version 27)
-    (package-initialize)
-  (require 'package))
-
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
-
-(setq custom-file "~/.emacs.d/custom.el")
-(when (file-exists-p custom-file)
-  (load custom-file))
-
-(setq-default indent-tabs-mode nil)
 (setq ring-bell-function 'ignore)
+
 (setq inhibit-startup-message t)
+
+;; Indentation
+(setq-default indent-tabs-mode nil)
+(require 'lisp-indent-function)
+(setq lisp-indent-function #'Fuco1/lisp-indent-function)
+
 (savehist-mode)
 
 (setq column-number-indicator-zero-based nil)
 (column-number-mode)
+
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
+
 (save-place-mode)
+
 (setq-default case-fold-search nil)
 
 (require 'paren)
@@ -49,6 +52,7 @@
 (require 'eshell)
 (setq eshell-prefer-lisp-functions t)
 
+;; Required for sudo-ing in eshell
 (require 'em-tramp)
 
 (setq password-cache t)
@@ -57,12 +61,8 @@
 (require 'dired)
 (setq dired-dwim-target t)
 
-(add-to-list 'load-path "~/.emacs.d/lisp")
-
+;; Provides describe-keymap
 (require 'help-fns+)
-
-(require 'lisp-indent-function)
-(setq lisp-indent-function #'Fuco1/lisp-indent-function)
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
@@ -70,6 +70,18 @@
       org-src-preserve-indentation t
       org-babel-load-languages '((emacs-lisp . t)
                                  (python . t)))
+
+(if (< emacs-major-version 27)
+    (package-initialize)
+  (require 'package))
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+
+(when (equal emacs-version "27.2")
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
