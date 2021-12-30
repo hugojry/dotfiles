@@ -4,7 +4,6 @@
 ;;; Emacs configuration
 
 ;;; Code:
-
 (setq custom-file "~/.emacs.d/custom.el")
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -39,19 +38,15 @@
 
 (setq-default case-fold-search nil)
 
-(require 'paren)
 (setq show-paren-delay 0)
 (show-paren-mode)
 
-(require 'recentf)
 (setq recentf-max-saved-items 1000
       recentf-max-menu-items 1000)
 (recentf-mode)
 
-(require 'dabbrev)
 (setq dabbrev-case-fold-search nil)
 
-(require 'eshell)
 (setq eshell-prefer-lisp-functions t)
 
 ;; Required for sudo-ing in eshell
@@ -60,7 +55,6 @@
 (setq password-cache t)
 (setq password-cache-expiry 3600)
 
-(require 'dired)
 (setq dired-dwim-target t)
 
 ;; Provides describe-keymap
