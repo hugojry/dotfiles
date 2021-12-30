@@ -26,6 +26,8 @@
 (require 'lisp-indent-function)
 (setq lisp-indent-function #'Fuco1/lisp-indent-function)
 
+(setq-default show-trailing-whitespace t)
+
 (savehist-mode)
 
 (setq column-number-indicator-zero-based nil)
