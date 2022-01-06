@@ -287,7 +287,8 @@
     ", s q" #'sesman-quit
     ", s r" #'sesman-restart)
   :init
-  (setq cider-font-lock-dynamically nil)
+  (setq cider-font-lock-dynamically nil
+        cider-repl-display-help-banner nil)
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
