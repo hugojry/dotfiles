@@ -65,6 +65,9 @@
       org-babel-load-languages '((emacs-lisp . t)
                                  (python . t)))
 
+(c-add-style "hjy" '("k&r" (c-basic-offset . 4)))
+(add-to-list 'c-default-style '(c-mode . "hjy"))
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
