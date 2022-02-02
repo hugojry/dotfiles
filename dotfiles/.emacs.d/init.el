@@ -346,15 +346,8 @@
 
 (use-package company
   :diminish
-  :general
-  (company-active-map
-   "C-n" nil
-   "C-p" nil
-   "M-n" nil
-   "M-p" nil)
   :init
-  (global-company-mode)
-  (company-tng-mode))
+  (global-company-mode))
 
 (evil-define-operator hy/sly-eval (beg end type)
   :move-point nil
