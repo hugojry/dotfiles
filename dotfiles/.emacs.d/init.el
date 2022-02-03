@@ -347,7 +347,8 @@
 (use-package company
   :diminish
   :init
-  (global-company-mode))
+  (global-company-mode)
+  (company-tng-mode))
 
 (evil-define-operator hy/sly-eval (beg end type)
   :move-point nil
