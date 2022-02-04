@@ -55,3 +55,6 @@ if has('nvim')
 endif
 
 nnoremap - :e %:h<CR>
+
+nnoremap ]q :cn<CR>
+nnoremap [q :cp<CR>
