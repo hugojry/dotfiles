@@ -8,6 +8,12 @@ Plug 'tpope/vim-dispatch'
 Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-fireplace'
 
+" Don't let fzf offer to install the binary
+if executable('fzf')
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+endif
+
 if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
@@ -58,3 +64,7 @@ nnoremap - :e %:h<CR>
 
 nnoremap ]q :cn<CR>
 nnoremap [q :cp<CR>
+
+if executable('fzf')
+  nnoremap <C-p> :Files<CR>
+endif
