@@ -14,11 +14,6 @@ if executable('fzf')
   Plug 'junegunn/fzf.vim'
 endif
 
-if has('nvim')
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim'
-endif
-
 call plug#end()
 
 syntax on
@@ -57,11 +52,6 @@ set ttimeout
 set ttimeoutlen=100
 
 command! DeleteTrailingWhitespace %s/ \+$//
-
-if has('nvim')
-  nnoremap <Leader>pf :Telescope find_files<CR>
-  nnoremap <Leader>fr :Telescope oldfiles<CR>
-endif
 
 nnoremap - :e %:h<CR>
 
