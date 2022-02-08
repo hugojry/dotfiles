@@ -60,4 +60,5 @@ nnoremap [q :cp<CR>
 
 if executable('fzf')
   nnoremap <C-p> :Files<CR>
+  nnoremap <Leader>fr :History<CR>
 endif
