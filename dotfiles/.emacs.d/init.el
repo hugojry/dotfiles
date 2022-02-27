@@ -346,6 +346,9 @@
 
 (use-package company
   :diminish
+  (general-def company-active-map
+    "C-n" nil
+    "C-p" nil)
   :init
   (global-company-mode)
   (company-tng-mode))
