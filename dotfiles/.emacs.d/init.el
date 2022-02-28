@@ -346,6 +346,7 @@
 
 (use-package company
   :diminish
+  :general
   (general-def company-active-map
     "C-n" nil
     "C-p" nil)
