@@ -170,6 +170,8 @@
                (shell-command command))))
       (define-key evil-normal-state-map key f)))
 
+  (advice-add 'evil-visual-update-x-selection :override #'ignore)
+
   (evil-mode))
 
 (evil-define-operator hy/evil-eval (beg end type)
