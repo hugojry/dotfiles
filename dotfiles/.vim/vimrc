@@ -7,6 +7,7 @@ Plug 'tpope/vim-sexp-mappings-for-regular-people'
 Plug 'tpope/vim-dispatch'
 Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-fugitive'
 
 " Don't let fzf offer to install the binary
 if executable('fzf')
