@@ -41,7 +41,7 @@ set shiftwidth=4
 let mapleader = "\<Space>"
 let maplocalleader = ","
 
-nnoremap <Leader>fr :browse oldfiles<CR>
+nnoremap <Leader>ff :e %:h/<C-D>
 
 " Do incremental searching when it's possible to timeout.
 if has('reltime')
@@ -59,6 +59,8 @@ nnoremap ]q :cn<CR>
 nnoremap [q :cp<CR>
 
 if executable('fzf')
-  nnoremap <C-p> :Files<CR>
+  nnoremap <Leader>pf :Files<CR>
   nnoremap <Leader>fr :History<CR>
+else
+  nnoremap <Leader>fr :browse oldfiles<CR>
 endif
