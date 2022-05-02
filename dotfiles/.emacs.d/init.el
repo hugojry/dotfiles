@@ -374,5 +374,31 @@
   (setq mweb-filename-extensions '("htm" "html" "phtml"))
   (multi-web-global-mode 1))
 
+(use-package xref)
+
+;; :ensure nil stops the package from being refetched every time - not
+;; sure why
+(use-package project :ensure nil)
+
+(use-package flymake
+  :ensure nil
+  :init
+  (setq elisp-flymake-byte-compile-load-path load-path)
+  (add-hook 'flymake-mode-hook (lambda () (flycheck-mode -1))))
+
+(defun toggle-fly ()
+  (interactive)
+  (if flymake-mode
+      (progn
+        (flymake-mode -1)
+        (flycheck-mode 1))
+    (flymake-mode 1)
+    (flycheck-mode -1)))
+
+(use-package flymake-kondor
+  :hook (clojure-mode . flymake-kondor-setup))
+
+(use-package eglot)
+
 (provide 'init)
 ;;; init.el ends here
