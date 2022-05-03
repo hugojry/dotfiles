@@ -400,5 +400,7 @@
 
 (use-package eglot)
 
+(require 'merlin-setup)
+
 (provide 'init)
 ;;; init.el ends here
