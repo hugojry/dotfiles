@@ -391,7 +391,9 @@
 
 (use-package eglot)
 
-(require 'merlin-setup)
+(use-package tuareg
+  :init
+  (require 'merlin-setup))
 
 (provide 'init)
 ;;; init.el ends here
