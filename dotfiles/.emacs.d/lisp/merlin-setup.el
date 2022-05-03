@@ -5,4 +5,9 @@
     (add-hook 'tuareg-mode-hook 'merlin-mode t)
     (add-hook 'caml-mode-hook 'merlin-mode t)))
 
+;; Automatically load utop.el
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+
+(setq utop-command "opam config exec -- utop -emacs")
+
 (provide 'merlin-setup)
