@@ -365,15 +365,6 @@
   (general-def normal sly-mode-map
     ", e" #'hy/sly-eval))
 
-(use-package multi-web-mode
-  :init
-  (setq mweb-default-major-mode 'html-mode)
-  (setq mweb-tags
-        '((js-mode  "<script[^>]*>" "</script>")
-          (css-mode "<style[^>]*>" "</style>")))
-  (setq mweb-filename-extensions '("htm" "html" "phtml"))
-  (multi-web-global-mode 1))
-
 (use-package xref)
 
 ;; :ensure nil stops the package from being refetched every time - not
