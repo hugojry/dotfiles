@@ -365,10 +365,10 @@
   (general-def normal sly-mode-map
     ", e" #'hy/sly-eval))
 
-(use-package xref)
-
 ;; :ensure nil stops the package from being refetched every time - not
 ;; sure why
+(use-package xref :ensure nil)
+
 (use-package project :ensure nil)
 
 (use-package flymake
