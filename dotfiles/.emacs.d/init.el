@@ -212,7 +212,8 @@
     eval-expression-minibuffer-setup-hook
     racket-mode-hook
     lisp-mode-hook
-    sly-mrepl-mode-hook))
+    sly-mrepl-mode-hook
+    scheme-mode-hook))
 
 (use-package paredit
   :ghook hy/lisp-mode-hooks
@@ -364,6 +365,15 @@
   :general
   (general-def normal sly-mode-map
     ", e" #'hy/sly-eval))
+
+(evil-define-operator hy/geiser-eval (beg end type)
+  :move-point nil
+  (geiser-eval-region beg end))
+
+(use-package geiser
+  :general
+  (general-def normal geiser-mode-map
+    ", e" #'hy/geiser-eval))
 
 (provide 'init)
 ;;; init.el ends here
