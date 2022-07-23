@@ -365,35 +365,5 @@
   (general-def normal sly-mode-map
     ", e" #'hy/sly-eval))
 
-;; :ensure nil stops the package from being refetched every time - not
-;; sure why
-(use-package xref :ensure nil)
-
-(use-package project :ensure nil)
-
-(use-package flymake
-  :ensure nil
-  :init
-  (setq elisp-flymake-byte-compile-load-path load-path)
-  (add-hook 'flymake-mode-hook (lambda () (flycheck-mode -1))))
-
-(defun toggle-fly ()
-  (interactive)
-  (if flymake-mode
-      (progn
-        (flymake-mode -1)
-        (flycheck-mode 1))
-    (flymake-mode 1)
-    (flycheck-mode -1)))
-
-(use-package flymake-kondor
-  :hook (clojure-mode . flymake-kondor-setup))
-
-(use-package eglot)
-
-(use-package tuareg
-  :init
-  (require 'merlin-setup))
-
 (provide 'init)
 ;;; init.el ends here
