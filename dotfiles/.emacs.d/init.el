@@ -294,7 +294,8 @@
     ", s r" #'sesman-restart)
   :init
   (setq cider-font-lock-dynamically nil
-        cider-repl-display-help-banner nil)
+        cider-repl-display-help-banner nil
+        cider-connection-message-fn (lambda () ""))
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
