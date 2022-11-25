@@ -12,7 +12,7 @@
 
 ;; Declutter
 (menu-bar-mode 0)
-(toggle-scroll-bar 0)
+(scroll-bar-mode 0)
 (tool-bar-mode 0)
 (blink-cursor-mode 0)
 
