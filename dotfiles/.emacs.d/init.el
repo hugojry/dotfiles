@@ -150,7 +150,6 @@
         evil-want-keybinding nil ; evil-collection takes care of this
         evil-want-C-u-scroll t
         evil-respect-visual-line-mode t
-        evil-undo-system 'undo-tree
         evil-search-module 'evil-search
         evil-ex-search-case 'sensitive)
   (setq-default evil-symbol-word-search t)
@@ -188,14 +187,6 @@
   (evil-collection-init))
 
 ;; All the following packages are deferred
-
-(use-package undo-tree
-  :diminish
-  :init
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist
-        '(("." . "~/.emacs.d/undo-tree-history/")))
-  (global-undo-tree-mode))
 
 (use-package magit
   :general
