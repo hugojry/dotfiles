@@ -214,7 +214,19 @@
     ", [" #'paredit-wrap-square
     ", {" #'paredit-wrap-curly
     ", O" #'paredit-raise-sexp
-    ", @" #'paredit-splice-sexp))
+    ", @" #'paredit-splice-sexp
+    "C-j" #'newline-and-indent))
+
+(define-minor-mode paredit-eval-expression-mode
+  "Fixes RET in minibuffer with paredit"
+  :keymap (make-sparse-keymap)
+  (define-key paredit-eval-expression-mode-map
+    (kbd "RET")
+    #'read--expression-try-read))
+
+(add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook
+          #'paredit-eval-expression-mode)
 
 (use-package lispyville
   :diminish
