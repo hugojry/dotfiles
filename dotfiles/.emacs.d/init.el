@@ -214,19 +214,21 @@
     ", [" #'paredit-wrap-square
     ", {" #'paredit-wrap-curly
     ", O" #'paredit-raise-sexp
-    ", @" #'paredit-splice-sexp
-    "C-j" #'newline-and-indent))
+    ", @" #'paredit-splice-sexp)
+  (general-def paredit-mode-map
+    "RET" #'paredit-newline)
+  :init
+  (add-hook 'paredit-mode-hook (lambda () (electric-indent-mode 0)))
+  :config
+  (define-minor-mode paredit-eval-expression-mode
+    "Fixes RET in minibuffer with paredit"
+    :keymap (make-sparse-keymap)
+    (define-key paredit-eval-expression-mode-map
+      (kbd "RET")
+      #'read--expression-try-read))
 
-(define-minor-mode paredit-eval-expression-mode
-  "Fixes RET in minibuffer with paredit"
-  :keymap (make-sparse-keymap)
-  (define-key paredit-eval-expression-mode-map
-    (kbd "RET")
-    #'read--expression-try-read))
-
-(add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook
-          #'paredit-eval-expression-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook
+            #'paredit-eval-expression-mode))
 
 (use-package lispyville
   :diminish
@@ -295,6 +297,8 @@
   (general-def normal (cider-mode-map cider-repl-mode-map)
     ", s q" #'sesman-quit
     ", s r" #'sesman-restart)
+  (general-def insert cider-repl-mode-map
+    "RET" #'cider-repl-return)
   :init
   (setq cider-font-lock-dynamically nil
         cider-repl-display-help-banner nil
