@@ -144,7 +144,9 @@
 
 (use-package evil
   :demand t
-  :general (general-comma "C" #'hy/bind-command)
+  :general
+  (general-comma "C" #'hy/bind-command)
+  (general-def (evil-normal-state-map evil-visual-state-map) "u" #'undo)
   :init
   (setq evil-want-integration t
         evil-want-keybinding nil ; evil-collection takes care of this
