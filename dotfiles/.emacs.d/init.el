@@ -218,14 +218,14 @@
   (general-def paredit-mode-map
     "RET" #'paredit-newline)
   :init
-  (add-hook 'paredit-mode-hook (lambda () (electric-indent-mode 0)))
+  (add-hook 'paredit-mode-hook (lambda () (electric-indent-local-mode 0)))
   :config
   (define-minor-mode paredit-eval-expression-mode
     "Fixes RET in minibuffer with paredit"
     :keymap (make-sparse-keymap)
     (define-key paredit-eval-expression-mode-map
       (kbd "RET")
-      #'read--expression-try-read))
+      #'exit-minibuffer))
 
   (add-hook 'eval-expression-minibuffer-setup-hook
             #'paredit-eval-expression-mode))
