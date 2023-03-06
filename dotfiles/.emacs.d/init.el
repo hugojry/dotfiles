@@ -74,9 +74,6 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
-(when (equal emacs-version "27.2")
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -142,6 +139,9 @@
 (general-def normal Info-mode-map
   "RET" #'Info-follow-nearest-node)
 
+(general-def normal c-mode-map
+  "K" #'man)
+
 (use-package evil
   :demand t
   :general
@@ -149,7 +149,7 @@
   (general-def (evil-normal-state-map evil-visual-state-map) "u" #'undo)
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil ; evil-collection takes care of this
+        evil-want-keybinding nil  ; evil-collection takes care of this
         evil-want-C-u-scroll t
         evil-respect-visual-line-mode t
         evil-search-module 'evil-search
