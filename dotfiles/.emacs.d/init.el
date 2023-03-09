@@ -326,8 +326,7 @@
 (use-package swiper :general ("C-s" #'swiper))
 
 (use-package project
-  :init
-  (evil-define-key 'normal 'global (kbd "SPC p") project-prefix-map)
+  :general (general-spc "p" project-prefix-map)
   :config
   (define-key project-prefix-map "m" #'magit-project-status)
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
