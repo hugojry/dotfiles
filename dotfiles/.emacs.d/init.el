@@ -325,14 +325,9 @@
 
 (use-package swiper :general ("C-s" #'swiper))
 
-(use-package projectile
-  :diminish
-  :general
-  (general-def normal projectile-mode-map
-    "SPC p" 'projectile-command-map)
+(use-package project
   :init
-  (setq projectile-use-git-grep t)
-  (projectile-mode))
+  (evil-define-key 'normal 'global (kbd "SPC p") project-prefix-map))
 
 (use-package evil-org
   :diminish
