@@ -142,6 +142,8 @@
 (general-def normal c-mode-map
   "K" #'man)
 
+(general-spc "p" project-prefix-map)
+
 (use-package evil
   :demand t
   :general
@@ -194,7 +196,10 @@
   :general
   (general-spc "g g" #'magit-status)
   :init
-  (setq magit-bury-buffer-function 'magit-mode-quit-window))
+  (setq magit-bury-buffer-function 'magit-mode-quit-window)
+  (with-eval-after-load 'project
+    (define-key project-prefix-map "m" #'magit-project-status)
+    (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)))
 
 (defconst hy/lisp-mode-hooks
   '(emacs-lisp-mode-hook
@@ -324,12 +329,6 @@
   (general-spc "f r" #'counsel-recentf))
 
 (use-package swiper :general ("C-s" #'swiper))
-
-(use-package project
-  :general (general-spc "p" project-prefix-map)
-  :config
-  (define-key project-prefix-map "m" #'magit-project-status)
-  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 
 (use-package evil-org
   :diminish
