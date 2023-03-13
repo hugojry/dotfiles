@@ -363,20 +363,22 @@
   (global-company-mode)
   (company-tng-mode))
 
-(evil-define-operator hy/sly-eval (beg end type)
-  :move-point nil
-  (sly-eval-region beg end))
-
 (use-package sly
+  :ensure nil
   :general
   (general-def normal sly-mode-map
-    ", e" #'hy/sly-eval))
+    ", e" #'hy/sly-eval)
+  :config
+  (evil-define-operator hy/sly-eval (beg end type)
+    :move-point nil
+    (sly-eval-region beg end)))
 
 (evil-define-operator hy/geiser-eval (beg end type)
   :move-point nil
   (geiser-eval-region beg end))
 
 (use-package geiser
+  :ensure nil
   :general
   (general-def normal geiser-mode-map
     ", e" #'hy/geiser-eval))
