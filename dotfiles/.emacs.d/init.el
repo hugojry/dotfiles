@@ -317,6 +317,15 @@
   :diminish
   :init
   (setq ivy-extra-directories nil)
+
+  ;; find-file with ivy can be annoying
+  (defun find-file-no-ivy ()
+    (interactive)
+    (let ((ivy-state ivy-mode))
+      (ivy-mode -1)
+      (unwind-protect
+          (call-interactively 'find-file)
+        (ivy-mode ivy-state))))
   :config
   (ivy-mode))
 
