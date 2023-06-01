@@ -311,7 +311,10 @@
         cider-repl-display-help-banner nil
         cider-connection-message-fn (lambda () ""))
   ;; Shouldn't be necessary, but it is.
-  (add-hook 'cider-mode-hook #'eldoc-mode))
+  (add-hook 'cider-mode-hook #'eldoc-mode)
+
+  (with-eval-after-load 'nrepl-client
+    (require 'nrepl-server-sentinel-fix)))
 
 (use-package ivy
   :diminish
