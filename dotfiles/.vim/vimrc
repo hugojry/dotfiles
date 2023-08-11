@@ -8,6 +8,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'clojure-vim/vim-jack-in'
 Plug 'tpope/vim-fireplace'
 Plug 'tpope/vim-fugitive'
+Plug 'simnalamburt/vim-mundo'
 
 " Don't let fzf offer to install the binary
 if executable('fzf')
