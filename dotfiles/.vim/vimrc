@@ -33,7 +33,6 @@ set wildmenu
 set hidden
 set display=truncate
 set hlsearch
-set scrolloff=5
 set laststatus=2
 
 set expandtab
@@ -66,3 +65,6 @@ if executable('fzf')
 else
   nnoremap <Leader>fr :browse oldfiles<CR>
 endif
+
+let g:netrw_banner = 0
+let g:netrw_list_hide = '\./,\.\./'
