@@ -20,6 +20,8 @@
 
 (setq inhibit-startup-message t)
 
+(setq gc-cons-threshold 100000000)
+
 ;; Indentation
 (setq-default indent-tabs-mode nil)
 (require 'lisp-indent-function)
