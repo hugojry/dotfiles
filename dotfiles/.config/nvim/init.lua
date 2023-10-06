@@ -34,8 +34,6 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  'projekt0n/github-nvim-theme',
-
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -77,15 +75,6 @@ require('lazy').setup({
         end,
       },
     },
-  },
-
-  {
-    -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate',
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -135,9 +124,6 @@ vim.wo.signcolumn = 'no'
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
--- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
-
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -176,92 +162,23 @@ require('telescope').setup {
 pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
+vim.keymap.set('n', '<leader>fr', require('telescope.builtin').oldfiles, { desc = '[fr] Find recently opened files' })
+vim.keymap.set('n', '<localleader>bb', require('telescope.builtin').buffers, { desc = '[,bb] Find existing buffers' })
+vim.keymap.set('n', '<C-s>', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
     previewer = false,
   })
-end, { desc = '[/] Fuzzily search in current buffer' })
+end, { desc = '[<C-s>] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
-  require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
-
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
-
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.outer',
-        },
-        goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.outer',
-        },
-        goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
-  }
-end, 0)
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -323,7 +240,7 @@ end
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  -- clangd = {},
+  clangd = {},
   -- gopls = {},
   -- pyright = {},
   -- rust_analyzer = {},
@@ -348,12 +265,10 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
 mason_lspconfig.setup_handlers {
   function(server_name)
     require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
+      capabilities = vim.lsp.protocol.make_client_capabilities(),
       on_attach = on_attach,
       settings = servers[server_name],
       filetypes = (servers[server_name] or {}).filetypes,
@@ -364,7 +279,9 @@ mason_lspconfig.setup_handlers {
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-D>')
 vim.keymap.set('n', '-', ':e %:h<CR>')
 
-vim.cmd("colorscheme github_light_high_contrast")
+vim.o.termguicolors = false
+vim.cmd("colorscheme default")
+vim.o.background = 'light'
 
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
