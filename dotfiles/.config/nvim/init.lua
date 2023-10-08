@@ -124,7 +124,7 @@ vim.wo.signcolumn = 'no'
 
 -- Decrease update time
 vim.o.updatetime = 250
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 750
 
 -- [[ Basic Keymaps ]]
 
