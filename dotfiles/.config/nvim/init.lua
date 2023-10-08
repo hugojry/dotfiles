@@ -34,6 +34,8 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  'mofiqul/vscode.nvim',
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -279,11 +281,15 @@ mason_lspconfig.setup_handlers {
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-D>')
 vim.keymap.set('n', '-', ':e %:h<CR>')
 
-vim.o.termguicolors = false
-vim.cmd("colorscheme default")
-vim.o.background = 'light'
-
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
+
+vim.o.termguicolors = true
+
+vim.o.background = 'light'
+require('vscode').setup {
+  style = 'light'
+}
+require('vscode').load()
 
 -- vim: ts=2 sts=2 sw=2 et
