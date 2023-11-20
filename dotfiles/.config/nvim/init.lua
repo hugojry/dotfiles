@@ -92,6 +92,8 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
+
+  'romainl/vim-cool'
 }, {})
 
 -- [[ Setting options ]]
@@ -99,7 +101,7 @@ require('lazy').setup({
 -- NOTE: You can change these options as you wish!
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -119,7 +121,6 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
 vim.wo.signcolumn = 'no'
 
 -- Decrease update time
@@ -287,6 +288,9 @@ vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
 
 vim.o.termguicolors = true
+
+vim.o.expandtab = true
+vim.o.shiftwidth = 4
 
 vim.o.background = 'light'
 require('vscode').setup {
