@@ -34,6 +34,9 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  -- Useful pairs of mappings using [ and ]
+  'tpope/vim-unimpaired',
+
   'miikanissi/modus-themes.nvim',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -187,7 +190,8 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -281,8 +285,6 @@ mason_lspconfig.setup_handlers {
 
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-D>')
 vim.keymap.set('n', '-', ':e %:h<CR>')
-vim.keymap.set('n', ']q', ':cn<CR>')
-vim.keymap.set('n', '[q', ':cp<CR>')
 
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
