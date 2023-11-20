@@ -34,7 +34,7 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  'mofiqul/vscode.nvim',
+  'miikanissi/modus-themes.nvim',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -293,9 +293,5 @@ vim.o.expandtab = true
 vim.o.shiftwidth = 4
 
 vim.o.background = 'light'
-require('vscode').setup {
-  style = 'light'
-}
-require('vscode').load()
-
+vim.cmd([[colorscheme modus]])
 -- vim: ts=2 sts=2 sw=2 et
