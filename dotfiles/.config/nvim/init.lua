@@ -37,7 +37,21 @@ require('lazy').setup({
   -- Useful pairs of mappings using [ and ]
   'tpope/vim-unimpaired',
 
-  'miikanissi/modus-themes.nvim',
+  {
+    'miikanissi/modus-themes.nvim',
+    opts = {
+      on_colors = function(colors)
+        colors["fg_inactive"] = colors["fg_main"]
+        colors["bg_inactive"] = colors["bg_main"]
+      end,
+      on_highlights = function(highlights, colors)
+        highlights["StatusLineNC"] = {
+          fg = colors["fg_status_line_inactive"],
+          bg = colors["bg_status_line_inactive"]
+        }
+      end
+    }
+  },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
