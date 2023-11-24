@@ -40,6 +40,10 @@ require('lazy').setup({
   {
     'miikanissi/modus-themes.nvim',
     opts = {
+      styles = {
+        comments = { italic = false },
+        keywords = { italic = false }
+      },
       on_colors = function(colors)
         colors["fg_inactive"] = colors["fg_main"]
         colors["bg_inactive"] = colors["bg_main"]
