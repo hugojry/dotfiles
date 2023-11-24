@@ -297,6 +297,8 @@ mason_lspconfig.setup_handlers {
   end
 }
 
+vim.cmd([[packadd! matchit]])
+
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-D>')
 vim.keymap.set('n', '-', ':e %:h<CR>')
 
