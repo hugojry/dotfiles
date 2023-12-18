@@ -37,26 +37,6 @@ require('lazy').setup({
   -- Useful pairs of mappings using [ and ]
   'tpope/vim-unimpaired',
 
-  {
-    'miikanissi/modus-themes.nvim',
-    opts = {
-      styles = {
-        comments = { italic = false },
-        keywords = { italic = false }
-      },
-      on_colors = function(colors)
-        colors["fg_inactive"] = colors["fg_main"]
-        colors["bg_inactive"] = colors["bg_main"]
-      end,
-      on_highlights = function(highlights, colors)
-        highlights["StatusLineNC"] = {
-          fg = colors["fg_status_line_inactive"],
-          bg = colors["bg_status_line_inactive"]
-        }
-      end
-    }
-  },
-
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -298,6 +278,6 @@ vim.g.netrw_list_hide = '\\./,\\.\\./'
 vim.o.termguicolors = true
 
 vim.o.background = 'light'
-vim.cmd([[colorscheme modus]])
+vim.cmd([[colorscheme default]])
 
 -- vim: ts=2 sts=2 sw=2 et
