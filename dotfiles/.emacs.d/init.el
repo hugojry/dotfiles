@@ -394,5 +394,15 @@
   (general-def normal geiser-mode-map
     ", e" #'hy/geiser-eval))
 
+(use-package lsp-mode)
+
+(use-package lsp-ui
+  :init
+  (setq lsp-headerline-breadcrumb-enable nil
+        lsp-enable-symbol-highlighting nil
+        lsp-ui-doc-enable nil
+        lsp-modeline-diagnostics-enable nil
+        lsp-modeline-code-actions-enable nil))
+
 (provide 'init)
 ;;; init.el ends here
