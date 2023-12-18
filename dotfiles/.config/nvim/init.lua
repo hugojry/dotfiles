@@ -80,7 +80,15 @@ require('lazy').setup({
     },
   },
 
-  'romainl/vim-cool'
+  'romainl/vim-cool',
+
+  {
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ':TSUpdate'
+  }
 }, {})
 
 -- [[ Setting options ]]
