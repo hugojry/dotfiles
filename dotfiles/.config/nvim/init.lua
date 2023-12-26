@@ -279,11 +279,16 @@ vim.cmd([[packadd! matchit]])
 
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-D>')
 vim.keymap.set('n', '-', ':e %:h<CR>')
+vim.keymap.set('n', '<C-J>', 'i<CR><Esc>k:s/ \\+$//e<CR>j')
 
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
 
 vim.o.termguicolors = true
+
+vim.o.expandtab = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 
 vim.o.background = 'light'
 vim.cmd([[colorscheme default]])
