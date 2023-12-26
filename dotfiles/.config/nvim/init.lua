@@ -277,9 +277,9 @@ mason_lspconfig.setup_handlers {
 
 vim.cmd([[packadd! matchit]])
 
-vim.keymap.set('n', '<leader>ff', ':e %:h/<C-D>')
-vim.keymap.set('n', '-', ':e %:h<CR>')
-vim.keymap.set('n', '<C-J>', 'i<CR><Esc>k:s/ \\+$//e<CR>j')
+vim.keymap.set('n', '<leader>ff', ':e %:h/<C-d>')
+vim.keymap.set('n', '-', ':e %:h<cr>')
+vim.keymap.set('n', '<C-j>', 'i<cr><esc>k:s/ \\+$//e<cr>j')
 
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
