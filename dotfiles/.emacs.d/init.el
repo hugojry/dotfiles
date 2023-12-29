@@ -126,7 +126,7 @@
   "n d" #'narrow-to-defun
   "n x" #'sp-narrow-to-sexp)
 
-(general-spc "e" #'eshell)
+(general-spc "s" #'eshell)
 
 (general-def normal emacs-lisp-mode-map
   "K" #'describe-symbol)
@@ -350,6 +350,9 @@
   (evil-org-agenda-set-keys))
 
 (use-package flycheck
+  :general
+  (general-def normal flycheck-mode-map
+    "SPC e" #'flycheck-explain-error-at-point)
   :init
   (setq flycheck-emacs-lisp-load-path 'inherit)
   (global-flycheck-mode)
@@ -394,7 +397,10 @@
   (general-def normal geiser-mode-map
     ", e" #'hy/geiser-eval))
 
-(use-package lsp-mode)
+(use-package lsp-mode
+  :general
+  (general-def normal lsp-mode-map
+    "K" #'lsp-describe-thing-at-point))
 
 (use-package lsp-ui
   :init
