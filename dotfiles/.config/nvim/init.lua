@@ -339,7 +339,4 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
-vim.o.background = 'light'
-vim.cmd([[colorscheme default]])
-
 -- vim: ts=2 sts=2 sw=2 et
