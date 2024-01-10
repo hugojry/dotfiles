@@ -88,7 +88,9 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate'
-  }
+  },
+
+  'nvim-treesitter/playground'
 }, {})
 
 -- [[ Setting options ]]
