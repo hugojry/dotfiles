@@ -194,7 +194,7 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
-      'c', 'lua', 'python', 'rust', 'vimdoc', 'vim', 'bash', 'clojure'
+      'c', 'lua', 'python', 'rust', 'vimdoc', 'vim', 'bash', 'clojure', 'dart', 'java'
     },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -292,6 +292,12 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+
+  dartls = {
+    ensure_installed = false
+  },
+
+  jdtls = {}
 }
 
 -- Setup neovim lua configuration
@@ -301,7 +307,10 @@ require('neodev').setup()
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+  ensure_installed = vim.iter(servers)
+    :filter(function(_, v) return v.ensure_installed ~= false end)
+    :map(function(k, _) return k end)
+    :totable()
 }
 
 mason_lspconfig.setup_handlers {
