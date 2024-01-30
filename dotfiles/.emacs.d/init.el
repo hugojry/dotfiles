@@ -415,5 +415,11 @@
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil))
 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))
+
 (provide 'init)
 ;;; init.el ends here
