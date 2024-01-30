@@ -188,6 +188,11 @@
 
 (use-package evil-collection
   :demand t
+  :general
+  (general-def normal evil-collection-unimpaired-mode-map
+    "[d" #'evil-collection-unimpaired-previous-error
+    "]d" #'evil-collection-unimpaired-next-error
+    "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
   :config
   (evil-collection-init))
