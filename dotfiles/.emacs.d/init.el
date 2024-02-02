@@ -206,7 +206,8 @@
   (setq magit-bury-buffer-function 'magit-mode-quit-window)
   (with-eval-after-load 'project
     (define-key project-prefix-map "m" #'magit-project-status)
-    (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)))
+    (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
+  (evil-ex-define-cmd "G" #'magit-status))
 
 (defconst hy/lisp-mode-hooks
   '(emacs-lisp-mode-hook
