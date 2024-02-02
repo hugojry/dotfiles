@@ -403,9 +403,16 @@
     ", e" #'hy/geiser-eval))
 
 (use-package lsp-mode
+  :commands lsp
   :general
   (general-def normal lsp-mode-map
-    "K" #'lsp-describe-thing-at-point))
+    "K" #'lsp-describe-thing-at-point)
+  :hook
+  ((python-mode . lsp)
+   (c-mode . lsp)
+   (clojure-mode . lsp))
+  :init
+  (setq lsp-keymap-prefix "SPC l"))
 
 (use-package lsp-ui
   :init
@@ -414,6 +421,9 @@
         lsp-ui-doc-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil))
+
+(use-package lsp-ivy
+  :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-pyright
   :ensure t
