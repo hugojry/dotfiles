@@ -360,7 +360,16 @@
   (general-def normal flycheck-mode-map
     "SPC e" #'flycheck-display-error-at-point)
   :init
-  (setq flycheck-emacs-lisp-load-path 'inherit)
+  (setq flycheck-mode-map
+        (let ((map (make-sparse-keymap)))
+          (define-key map (kbd "SPC !") flycheck-command-map)
+          ;; We place the menu under a custom menu key.  Since this menu key is not
+          ;; present in the menu of the global map, no top-level menu entry is added
+          ;; to the global menu bar.  However, it still appears on the mode line
+          ;; lighter.
+          (define-key map [menu-bar flycheck] flycheck-mode-menu-map)
+          map))
+
   (global-flycheck-mode)
   :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
