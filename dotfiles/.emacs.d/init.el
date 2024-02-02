@@ -357,7 +357,7 @@
 (use-package flycheck
   :general
   (general-def normal flycheck-mode-map
-    "SPC e" #'flycheck-explain-error-at-point)
+    "SPC e" #'flycheck-display-error-at-point)
   :init
   (setq flycheck-emacs-lisp-load-path 'inherit)
   (global-flycheck-mode)
