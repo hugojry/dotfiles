@@ -340,6 +340,7 @@ end
 
 vim.keymap.set('n', '<localleader>c', ':make<cr>')
 vim.keymap.set('n', '<localleader>C', set_makeprg)
+vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
 
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
