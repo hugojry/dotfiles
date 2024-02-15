@@ -412,7 +412,7 @@
    (c-mode . lsp)
    (clojure-mode . lsp))
   :init
-  (setq lsp-keymap-prefix "SPC l"))
+  (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
 
 (use-package lsp-ui
   :init
