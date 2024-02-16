@@ -89,7 +89,6 @@ require('lazy').setup({
     },
     build = ':TSUpdate'
   },
-  'nvim-treesitter/playground',
 
   {
     -- Autocompletion
