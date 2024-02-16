@@ -58,3 +58,6 @@ projectile-bookmarks.eld
 /eln-cache/
 /projectile.cache
 /projects
+
+.cache
+.lsp*
