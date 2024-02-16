@@ -70,6 +70,14 @@
 (c-add-style "hjy" '("k&r" (c-basic-offset . 4)))
 (add-to-list 'c-default-style '(c-mode . "hjy"))
 
+;; Flymake
+(add-to-list 'elisp-flymake-byte-compile-load-path "~/.emacs.d/lisp")
+(dolist (mode '(emacs-lisp-mode-hook
+                python-mode-hook
+                java-mode-hook
+                c-mode-hook))
+  (add-hook mode #'flymake-mode))
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -146,6 +154,8 @@
 
 (general-spc "p" project-prefix-map)
 
+(general-spc "e" #'display-local-help)
+
 (use-package evil
   :demand t
   :general
@@ -194,7 +204,8 @@
     "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (evil-define-key 'normal eglot-mode-map "K" nil))
 
 ;; All the following packages are deferred
 
@@ -320,6 +331,9 @@
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
+(use-package flymake-kondor
+  :hook (clojure-mode . flymake-kondor-setup))
+
 (use-package ivy
   :diminish
   :init
@@ -354,20 +368,6 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
-(use-package flycheck
-  :general
-  (general-def normal flycheck-mode-map
-    "SPC e" #'flycheck-display-error-at-point)
-  :init
-  (global-flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
-
-(use-package flycheck-clj-kondo
-  :init
-  (require 'flycheck-clj-kondo))
-
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize))
@@ -401,35 +401,6 @@
   :general
   (general-def normal geiser-mode-map
     ", e" #'hy/geiser-eval))
-
-(use-package lsp-mode
-  :commands lsp
-  :general
-  (general-def normal lsp-mode-map
-    "K" #'lsp-describe-thing-at-point)
-  :hook
-  ((python-mode . lsp)
-   (c-mode . lsp)
-   (clojure-mode . lsp))
-  :init
-  (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
-
-(use-package lsp-ui
-  :init
-  (setq lsp-headerline-breadcrumb-enable nil
-        lsp-enable-symbol-highlighting nil
-        lsp-ui-doc-enable nil
-        lsp-modeline-diagnostics-enable nil
-        lsp-modeline-code-actions-enable nil))
-
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
-
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp))))
 
 (provide 'init)
 ;;; init.el ends here
