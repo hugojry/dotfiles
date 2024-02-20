@@ -386,7 +386,11 @@
   :ensure nil
   :general
   (general-def normal sly-mode-map
-    ", e" #'hy/sly-eval)
+    ", e" #'hy/sly-eval
+    ", k" #'sly-eval-buffer
+    ", f" #'sly-eval-defun)
+  (general-def insert sly-mrepl-mode-map
+    "RET" #'sly-mrepl-return)
   :config
   (evil-define-operator hy/sly-eval (beg end type)
     :move-point nil
