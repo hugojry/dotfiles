@@ -88,6 +88,20 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate'
+  },
+
+  -- Lisp
+  'guns/vim-sexp',
+  'tpope/vim-sexp-mappings-for-regular-people',
+
+  -- Clojure
+  'tpope/vim-fireplace',
+  {
+    'clojure-vim/vim-jack-in',
+    dependencies = {
+      'tpope/vim-dispatch',
+      'radenling/vim-dispatch-neovim'
+    }
   }
 }, {})
 
