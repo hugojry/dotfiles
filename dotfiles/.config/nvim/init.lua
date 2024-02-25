@@ -90,6 +90,20 @@ require('lazy').setup({
     build = ':TSUpdate'
   },
 
+  {
+    'mfussenegger/nvim-lint',
+    config = function()
+      require('lint').linters_by_ft = {
+        clojure = {'clj-kondo'}
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          require("lint").try_lint()
+        end
+      })
+    end
+  },
+
   -- Lisp
   'guns/vim-sexp',
   'tpope/vim-sexp-mappings-for-regular-people',
