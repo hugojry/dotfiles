@@ -304,39 +304,19 @@ end
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  rust_analyzer = {},
-  -- tsserver = {},
-  -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
-  },
-
-  dartls = {
-    ensure_installed = false
-  },
-
-  jdtls = {}
+  }
 }
 
 -- Setup neovim lua configuration
 require('neodev').setup()
 
 -- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
-
-mason_lspconfig.setup {
-  ensure_installed = vim.iter(servers)
-    :filter(function(_, v) return v.ensure_installed ~= false end)
-    :map(function(k, _) return k end)
-    :totable()
-}
+local mason_lspconfig = require('mason-lspconfig')
 
 mason_lspconfig.setup_handlers {
   function(server_name)
