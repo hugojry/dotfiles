@@ -318,6 +318,9 @@ require('neodev').setup()
 -- Ensure the servers above are installed
 local mason_lspconfig = require('mason-lspconfig')
 
+-- As far as I can tell all this does is make sure servers installed via Mason are setup properly
+-- if they are installed while neovim is running.
+-- TODO: Consider removing this plugin.
 mason_lspconfig.setup_handlers {
   function(server_name)
     require('lspconfig')[server_name].setup {
