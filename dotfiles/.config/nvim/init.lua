@@ -335,7 +335,7 @@ vim.cmd([[packadd! matchit]])
 
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-d>')
 vim.keymap.set('n', '-', ':e %:h<cr>')
-vim.keymap.set('n', '<C-j>', 'i<cr><esc>k:s/ \\+$//e<cr>j')
+vim.keymap.set('n', '<C-j>', 'i<cr><esc>k:s/ \\+$//e<cr>j^')
 
 local set_makeprg = function()
   vim.ui.input({ prompt = 'Compile command: '}, function(input)
