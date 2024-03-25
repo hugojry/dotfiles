@@ -314,7 +314,6 @@ local servers = {
 -- Setup neovim lua configuration
 require('neodev').setup()
 
--- Ensure the servers above are installed
 local mason_lspconfig = require('mason-lspconfig')
 
 -- As far as I can tell all this does is make sure servers installed via Mason are setup properly
