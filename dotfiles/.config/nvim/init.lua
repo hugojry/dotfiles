@@ -197,7 +197,15 @@ vim.keymap.set('n', '<C-s>', function()
 end, { desc = '[<C-s>] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>pf', function()
+  if 1 == vim.fn.executable "rg" then
+    require('telescope.builtin').find_files {
+      find_command = { "rg", "--files", "--no-ignore", "--color", "never" }
+    }
+  else
+    require('telescope.builtin').find_files {}
+  end
+end, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>pg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
