@@ -14,7 +14,12 @@
 	fa = fetch --all
 	pom = push origin master
 	ll = log --oneline
+	sblame = blame -w -C -C -C
 [rebase]
 	autosquash = true
 [init]
 	defaultBranch = master
+[rerere]
+	enabled = true
+[branch]
+	sort = -committerdate
