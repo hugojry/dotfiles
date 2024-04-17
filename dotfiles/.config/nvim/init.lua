@@ -356,6 +356,16 @@ vim.keymap.set('n', '<localleader>c', ':make<cr>')
 vim.keymap.set('n', '<localleader>C', set_makeprg)
 vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
 
+local toggle_diagnostics = function()
+  if vim.diagnostic.is_disabled(0) then
+    vim.diagnostic.enable(0)
+  else
+    vim.diagnostic.disable(0)
+  end
+end
+
+vim.keymap.set('n', '<localleader>dt', toggle_diagnostics)
+
 local buffer_map = function(modes, lhs, rhs)
   vim.keymap.set(modes, lhs, rhs, { buffer = true })
 end
