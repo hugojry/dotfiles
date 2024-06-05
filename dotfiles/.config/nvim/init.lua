@@ -3,29 +3,30 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
--- Install package manager
---    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  }
+local function clone_paq()
+  local path = vim.fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
+  local is_installed = vim.fn.empty(vim.fn.glob(path)) == 0
+  if not is_installed then
+    vim.fn.system { "git", "clone", "--depth=1", "https://github.com/savq/paq-nvim.git", path }
+    return true
+  end
 end
-vim.opt.rtp:prepend(lazypath)
 
--- NOTE: Here is where you install your plugins.
---  You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
-require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
+local function bootstrap_paq(packages)
+  local first_install = clone_paq()
+  vim.cmd.packadd("paq-nvim")
+  local paq = require("paq")
+  if first_install then
+    vim.notify("Installing plugins... If prompted, hit Enter to continue.")
+  end
+
+  -- Read and install packages
+  paq(packages)
+  paq.install()
+end
+
+bootstrap_paq {
+  "savq/paq-nvim",
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -37,95 +38,37 @@ require('lazy').setup({
   -- Useful pairs of mappings using [ and ]
   'tpope/vim-unimpaired',
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
-  {
-    -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
-    },
-  },
-
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
-
-  -- Fuzzy Finder (files, lsp, etc)
-  {
-    'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-      -- Only load if `make` is available. Make sure you have the system
-      -- requirements installed.
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        -- NOTE: If you are having trouble with this installation,
-        --       refer to the README for telescope-fzf-native for more instructions.
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
-    },
-  },
-
   'romainl/vim-cool',
 
-  {
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate'
-  },
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
+  'j-hui/fidget.nvim',
 
-  {
-    'mfussenegger/nvim-lint',
-    config = function()
-      require('lint').linters_by_ft = {
-        clojure = {'clj-kondo'}
-      }
-      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-        callback = function()
-          require("lint").try_lint()
-        end
-      })
-    end
-  },
+  'folke/neodev.nvim',
 
-  -- Lisp
+  'neovim/nvim-lspconfig',
+
+  'numToStr/Comment.nvim',
+
+  'nvim-lua/plenary.nvim',
+  'nvim-telescope/telescope.nvim',
+
+  'nvim-treesitter/nvim-treesitter-textobjects',
+  'nvim-treesitter/nvim-treesitter',
+
+  'mfussenegger/nvim-lint',
+
   'guns/vim-sexp',
 
   -- Clojure
   'tpope/vim-fireplace',
-  {
-    'clojure-vim/vim-jack-in',
-    dependencies = {
-      'tpope/vim-dispatch',
-      'radenling/vim-dispatch-neovim'
-    }
-  }
-}, {})
+  'tpope/vim-dispatch',
+  'radenling/vim-dispatch-neovim',
+  'clojure-vim/vim-jack-in'
+}
 
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
--- Set highlight on search
 vim.o.hlsearch = true
 
--- Enable mouse mode
 vim.o.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
@@ -133,7 +76,6 @@ vim.o.mouse = 'a'
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
 
--- Enable break indent
 vim.o.breakindent = true
 
 -- Save undo history
@@ -151,7 +93,6 @@ vim.o.timeoutlen = 750
 
 -- [[ Basic Keymaps ]]
 
--- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
@@ -182,6 +123,19 @@ require('telescope').setup {
     },
   },
 }
+
+require('fidget').setup({})
+require('mason').setup()
+
+-- nvim-lint setup
+require('lint').linters_by_ft = {
+  clojure = {'clj-kondo'}
+}
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  callback = function()
+    require("lint").try_lint()
+  end
+})
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
