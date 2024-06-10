@@ -163,9 +163,17 @@ vim.keymap.set('n', '<leader>pg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
+local goto_prev_diagnostic = function()
+  vim.diagnostic.jump({ count = -1 })
+end
+
+local goto_next_diagnostic = function()
+  vim.diagnostic.jump({ count = 1 })
+end
+
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '[d', goto_prev_diagnostic, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', goto_next_diagnostic, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = 'Open diagnostics list' })
 vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
@@ -182,6 +190,9 @@ vim.defer_fn(function()
     sync_install = false,
     highlight = { enable = false },
     indent = { enable = true },
+    modules = {},
+    ignore_install = {},
+    auto_install = false
   }
 end, 0)
 
@@ -285,10 +296,10 @@ vim.keymap.set('n', '<localleader>C', set_makeprg)
 vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
 
 local toggle_diagnostics = function()
-  if vim.diagnostic.is_disabled(0) then
-    vim.diagnostic.enable(0)
+  if vim.diagnostic.is_enabled() then
+    vim.diagnostic.enable(false)
   else
-    vim.diagnostic.disable(0)
+    vim.diagnostic.enable(true)
   end
 end
 
