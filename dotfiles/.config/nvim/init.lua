@@ -53,7 +53,6 @@ bootstrap_paq {
   'nvim-lua/plenary.nvim',
   'nvim-telescope/telescope.nvim',
 
-  'nvim-treesitter/nvim-treesitter-textobjects',
   'nvim-treesitter/nvim-treesitter',
 
   'mfussenegger/nvim-lint',
@@ -90,8 +89,6 @@ vim.wo.signcolumn = 'no'
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 750
-
--- [[ Basic Keymaps ]]
 
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -173,9 +170,6 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = 'Open diagnostics list' })
 vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
@@ -184,31 +178,10 @@ vim.defer_fn(function()
       'json', 'xml'
     },
 
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
     -- Install languages synchronously (only applied to `ensure_installed`)
     sync_install = false,
-    -- List of parsers to ignore installing
-    ignore_install = {},
-    -- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
-    modules = {},
-    highlight = { enable = true },
+    highlight = { enable = false },
     indent = { enable = true },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      }
-    }
   }
 end, 0)
 
