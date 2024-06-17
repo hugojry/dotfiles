@@ -75,8 +75,6 @@ vim.o.mouse = 'a'
 --  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
 
-vim.o.breakindent = true
-
 -- Save undo history
 vim.o.undofile = true
 
