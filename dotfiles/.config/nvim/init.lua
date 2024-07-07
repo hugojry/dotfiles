@@ -161,17 +161,11 @@ vim.keymap.set('n', '<leader>pg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
-local goto_prev_diagnostic = function()
-  vim.diagnostic.jump({ count = -1 })
-end
-
-local goto_next_diagnostic = function()
-  vim.diagnostic.jump({ count = 1 })
-end
+local util = require('util')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', goto_prev_diagnostic, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', goto_next_diagnostic, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '[d', util.goto_prev_diagnostic, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', util.goto_next_diagnostic, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = 'Open diagnostics list' })
 vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
@@ -186,7 +180,7 @@ vim.defer_fn(function()
 
     -- Install languages synchronously (only applied to `ensure_installed`)
     sync_install = false,
-    highlight = { enable = false },
+    highlight = { enable = true },
     indent = { enable = true },
     modules = {},
     ignore_install = {},
@@ -213,8 +207,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('<C-h>', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
