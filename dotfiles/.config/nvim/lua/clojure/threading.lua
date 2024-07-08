@@ -89,22 +89,24 @@ function M.unwind()
   local source = node:child(2)
   local target = node:child(3)
 
-  if not source or not target then return end
+  if not source or not target or target:type() == ')' then return end
 
   local new_text
   if target:type() ~= 'list_lit' then
     new_text = '(' .. ts.get_node_text(target, 0) .. ' ' .. ts.get_node_text(source, 0) .. ')'
   else
-    local components = { assert_text(target:child(1)) }
     local texts = inner_list_texts(target)
+    local components
     if thread_sym == '->' then
-      table.insert(components, ts.get_node_text(source, 0))
       table.remove(texts, 1)
-      table.insert(components, table.concat(texts, ' '))
+      components = {
+        assert_text(target:child(1)),
+        ts.get_node_text(source, 0),
+        table.concat(texts, ' ')
+      }
     else
-      table.remove(texts)
-      table.insert(components, table.concat(texts, ' '))
-      table.insert(components, ts.get_node_text(source, 0))
+      table.insert(texts, ts.get_node_text(source, 0))
+      components = texts
     end
     new_text = '(' .. table.concat(components, ' ') .. ')'
   end
