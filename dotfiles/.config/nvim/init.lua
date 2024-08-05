@@ -40,8 +40,6 @@ bootstrap_paq {
 
   'romainl/vim-cool',
 
-  'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
   'j-hui/fidget.nvim',
 
   'folke/lazydev.nvim',
@@ -120,7 +118,6 @@ require('telescope').setup {
 }
 
 require('fidget').setup({})
-require('mason').setup()
 
 -- nvim-lint setup
 require('lint').linters_by_ft = {
@@ -224,41 +221,28 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---
---  If you want to override the default filetypes that your language server will attach to you can
---  define the property 'filetypes' to the map in question.
 local servers = {
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
-  }
+  },
+  pyright = {},
+  clojure_lsp = {}
 }
+
+for server_name, config in pairs(servers) do
+  require('lspconfig')[server_name].setup {
+    on_attach = on_attach,
+    settings = config,
+    filetypes = (servers[server_name] or {}).filetypes,
+  }
+end
 
 -- Setup neovim lua configuration
 require('lazydev').setup()
 
-local mason_lspconfig = require('mason-lspconfig')
-
--- As far as I can tell all this does is make sure servers installed via Mason are setup properly
--- if they are installed while neovim is running.
--- TODO: Consider removing this plugin.
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = vim.lsp.protocol.make_client_capabilities(),
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
-  end
-}
 
 vim.cmd([[packadd! matchit]])
 
