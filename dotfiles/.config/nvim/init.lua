@@ -158,11 +158,7 @@ vim.keymap.set('n', '<leader>pg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
-local util = require('util')
-
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', util.goto_prev_diagnostic, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', util.goto_next_diagnostic, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setqflist, { desc = 'Open diagnostics list' })
 vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
