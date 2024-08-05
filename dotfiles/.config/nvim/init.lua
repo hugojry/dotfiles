@@ -257,6 +257,18 @@ vim.keymap.set('n', '<localleader>c', ':make!<cr>')
 vim.keymap.set('n', '<localleader>C', set_makeprg)
 vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
 
+vim.api.nvim_create_user_command(
+  'UnixLE',
+  function() pcall(function() vim.cmd('%s/\r//') end) end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'DeleteTrailingWhitespace',
+  function() pcall(function() vim.cmd('%s/ \\+$//') end) end,
+  {}
+)
+
 local toggle_diagnostics = function()
   if vim.diagnostic.is_enabled() then
     vim.diagnostic.enable(false)
