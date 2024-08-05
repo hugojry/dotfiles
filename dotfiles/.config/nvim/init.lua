@@ -44,7 +44,7 @@ bootstrap_paq {
   'williamboman/mason-lspconfig.nvim',
   'j-hui/fidget.nvim',
 
-  'folke/neodev.nvim',
+  'folke/lazydev.nvim',
 
   'neovim/nvim-lspconfig',
 
@@ -242,7 +242,7 @@ local servers = {
 }
 
 -- Setup neovim lua configuration
-require('neodev').setup()
+require('lazydev').setup()
 
 local mason_lspconfig = require('mason-lspconfig')
 
