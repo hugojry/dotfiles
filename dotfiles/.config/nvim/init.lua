@@ -46,8 +46,6 @@ bootstrap_paq {
 
   'neovim/nvim-lspconfig',
 
-  'numToStr/Comment.nvim',
-
   'nvim-lua/plenary.nvim',
   'nvim-telescope/telescope.nvim',
 
@@ -225,7 +223,8 @@ local servers = {
     },
   },
   pyright = {},
-  clojure_lsp = {}
+  clojure_lsp = {},
+  vtsls = {}
 }
 
 for server_name, config in pairs(servers) do
