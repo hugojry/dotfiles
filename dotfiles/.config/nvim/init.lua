@@ -297,6 +297,11 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = setup_sexp_mappings
 })
 
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+  pattern = '*.bb',
+  callback = function() vim.o.filetype = 'clojure' end
+})
+
 vim.g.netrw_banner = 0
 vim.g.netrw_list_hide = '\\./,\\.\\./'
 
