@@ -253,7 +253,7 @@ local set_makeprg = function()
   end)
 end
 
-vim.keymap.set('n', '<localleader>c', ':make<cr>')
+vim.keymap.set('n', '<localleader>c', ':make!<cr>')
 vim.keymap.set('n', '<localleader>C', set_makeprg)
 vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
 
