@@ -247,7 +247,7 @@ vim.keymap.set('n', '<C-j>', 'i<cr><esc>k:s/ \\+$//e<cr>j^')
 
 local set_makeprg = function()
   vim.ui.input({ prompt = 'Compile command: '}, function(input)
-    if input ~= "" then
+    if input and input ~= "" then
       vim.o.makeprg = input
     end
   end)
@@ -255,6 +255,16 @@ end
 
 vim.keymap.set('n', '<localleader>c', ':make!<cr>')
 vim.keymap.set('n', '<localleader>C', set_makeprg)
+
+local bind_ex_command = function()
+  vim.ui.input({ prompt = 'EX command: :'}, function(input)
+    if input and input ~= "" then
+      vim.keymap.set('n', '<leader>re', ':' .. input .. '<cr>')
+    end
+  end)
+end
+
+vim.keymap.set('n', '<leader>rE', bind_ex_command)
 vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
 
 vim.api.nvim_create_user_command(
