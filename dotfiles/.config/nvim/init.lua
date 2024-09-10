@@ -298,11 +298,11 @@ local setup_sexp_mappings = function()
     return
   end
 
+  local sexp = require('sexp')
+
   vim.g.sexp_insert_after_wrap = false
   buffer_map('n', '<localleader>r', '<Plug>(sexp_swap_element_forward)')
   buffer_map('n', '<localleader>R', '<Plug>(sexp_swap_element_backward)')
-  buffer_map({ 'n', 'o', 'x' }, 'L', '<Plug>(sexp_move_to_next_element_head)')
-  buffer_map({ 'n', 'o', 'x' }, 'H', '<Plug>(sexp_move_to_prev_element_head)')
   buffer_map('n', '<c', '<Plug>(sexp_capture_prev_element)')
   buffer_map('n', '>c', '<Plug>(sexp_capture_next_element)')
   buffer_map('n', '<e', '<Plug>(sexp_emit_tail_element)')
@@ -310,6 +310,8 @@ local setup_sexp_mappings = function()
   buffer_map({ 'n', 'v' }, '<localleader>(', '<Plug>(sexp_round_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>[', '<Plug>(sexp_square_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>{', '<Plug>(sexp_curly_head_wrap_element)')
+  buffer_map({ 'n', 'o', 'x' }, 'L', sexp.forward_sexp)
+  buffer_map({ 'n', 'o', 'x' }, 'H', sexp.backward_sexp)
 end
 
 local sexp_mappings_group = vim.api.nvim_create_augroup("sexp_mappings_for_hy", {})
