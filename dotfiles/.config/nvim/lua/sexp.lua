@@ -100,7 +100,13 @@ function M.adjacent_sexp(is_forward)
   a.nvim_win_set_cursor(0, { dest_row + 1, dest_col })
 end
 
-M.forward_sexp = function() for _ = 1, vim.v.count do M.adjacent_sexp(true) end end
-M.backward_sexp = function() for _ = 1, vim.v.count do M.adjacent_sexp(false) end end
+M.forward_sexp = function()
+  local count = vim.v.count == 0 and 1 or vim.v.count
+  for _ = 1, count do M.adjacent_sexp(true) end
+end
+M.backward_sexp = function()
+  local count = vim.v.count == 0 and 1 or vim.v.count
+  for _ = 1, count do M.adjacent_sexp(false) end
+end
 
 return M
