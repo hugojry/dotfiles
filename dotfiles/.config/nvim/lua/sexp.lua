@@ -30,7 +30,6 @@ local closers = {
   ["}"] = true
 }
 
-
 ---@param node TSNode
 ---@return TSNode?
 local function find_node_types(types, node)
@@ -45,6 +44,7 @@ local function find_node_types(types, node)
   return node
 end
 
+---@return integer
 local function cur_order(row_a, col_a, row_b, col_b)
   return (row_a == row_b and col_b - col_a) or row_b - row_a
 end
@@ -70,9 +70,21 @@ local function is_between(node, row, col)
   end
 end
 
-function M.adjacent_sexp(is_forward)
+---@return integer, integer
+local function get_cur()
   local row, col = unpack(a.nvim_win_get_cursor(0))
   row = row - 1
+  return row, col
+end
+
+---@param row integer 0-indexed row
+---@param col integer 0-indexed col
+local function set_cur(row, col)
+  a.nvim_win_set_cursor(0, { row + 1, col })
+end
+
+function M.adjacent_sexp(is_forward)
+  local row, col = get_cur()
 
   local node = ts.get_node()
   if not node then return end
@@ -85,8 +97,7 @@ function M.adjacent_sexp(is_forward)
   -- to the start of the adjacent sibling
   local nodes = is_between(node, row, col)
   if nodes then
-    local before, after = unpack(nodes)
-    local dest_row, dest_col = (is_forward and after or before):range()
+    local dest_row, dest_col = nodes[is_forward and 2 or 1]:range()
     a.nvim_win_set_cursor(0, { dest_row + 1, dest_col })
     return
   end
@@ -115,111 +126,142 @@ function M.adjacent_sexp(is_forward)
     dest_row, dest_col = sib:range()
   end
 
-  a.nvim_win_set_cursor(0, { dest_row + 1, dest_col })
-end
-
-local function vim_count()
-  return vim.v.count == 0 and 1 or vim.v.count
+  set_cur(dest_row, dest_col)
 end
 
 M.forward_sexp = function()
-  for _ = 1, vim_count() do M.adjacent_sexp(true) end
+  for _ = 1, vim.v.count1 do M.adjacent_sexp(true) end
 end
 
 M.backward_sexp = function()
-  for _ = 1, vim_count() do M.adjacent_sexp(false) end
+  for _ = 1, vim.v.count1 do M.adjacent_sexp(false) end
 end
 
----@param node TSNode
----@return string
-local function left_paren(node) return ts.get_node_text(node, 0):sub(1, 1) end
----@param node TSNode
----@return string
-local function right_paren(node) return ts.get_node_text(node, 0):sub(-1, -1) end
-
----@param is_left boolean
----@param node TSNode the node the paren is currently attached to
-local function slurp(is_left, node)
-  local f = is_left and 'prev_named_sibling' or 'next_named_sibling'
-  local sib = node[f](node)
-  if not sib then return end
-
-  local paren
-  if is_left then paren = left_paren(node) else paren = right_paren(node) end
-
-  if is_left then
-    local row, col = node:range()
-    local start_row, start_col = sib:range()
-    a.nvim_buf_set_text(0, row, col, row, col + 1, {})
-    a.nvim_buf_set_text(0, start_row, start_col, start_row, start_col, { paren })
-    a.nvim_win_set_cursor(0, { start_row + 1, start_col })
+---@param start_row integer
+---@param start_col integer
+---@param end_row integer
+---@param end_col integer
+---@param dest_row integer
+---@param dest_col integer
+local function move_range(
+  start_row, start_col, end_row, end_col, dest_row, dest_col
+)
+  local text = a.nvim_buf_get_text(0, start_row, start_col, end_row, end_col, {})
+  -- dest starts after range starts
+  if cur_order(start_row, start_col, dest_row, dest_col) > 0 then
+    a.nvim_buf_set_text(0, dest_row, dest_col, dest_row, dest_col, text)
+    if cur_order(end_row, end_col, dest_row, dest_col) > 0 then
+      a.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, {})
+    else
+      a.nvim_buf_set_text(0, start_row, start_col, dest_row, dest_col, {})
+    end
   else
-    local _, _, row, col = node:range()
-    local _, _, end_row, end_col = sib:range()
-    a.nvim_buf_set_text(0, end_row, end_col, end_row, end_col, { paren })
-    a.nvim_buf_set_text(0, row, col - 1, row, col, {})
-    a.nvim_win_set_cursor(0, { end_row + 1, end_col - 1 })
+    a.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, {})
+    a.nvim_buf_set_text(0, dest_row, dest_col, dest_row, dest_col, text)
   end
 end
 
--- This puts the paren 1 char too far to the left in scratch when right barfing
----@param is_left boolean
----@param node TSNode the node the paren is currently attached to
-local function barf(is_left, node)
+---@param node TSNode
+---@param count integer
+local function slurp_left(node, count)
+  local sib = node:prev_named_sibling()
+  if not sib then return end
+  for _ = 1, count - 1 do
+    local sib_next = sib:prev_named_sibling()
+    if not sib_next then
+      break
+    else
+      sib = sib_next
+    end
+  end
+
+  local row, col = node:range()
+  local start_row, start_col = sib:range()
+  move_range(row, col, row, col + 1, start_row, start_col)
+  set_cur(start_row, start_col)
+end
+
+---@param node TSNode
+---@param count integer
+local function slurp_right(node, count)
+  local sib = node:next_named_sibling()
+  if not sib then return end
+  for _ = 1, count - 1 do
+    local sib_next = sib:next_named_sibling()
+    if not sib_next then
+      break
+    else
+      sib = sib_next
+    end
+  end
+
+  local _, _, row, col = node:range()
+  local _, _, end_row, end_col = sib:range()
+  move_range(row, col - 1, row, col, end_row, end_col)
+  set_cur(end_row, end_col - (row == end_row and 1 or 0))
+end
+
+---@param node TSNode
+---@param count integer
+local function barf_left(node, count)
   local named_child_count = node:named_child_count()
   if named_child_count < 2 then return end
 
-  local paren
-  if is_left then paren = right_paren(node) else paren = left_paren(node) end
+  local retained_child = node:named_child(
+    math.max(0, named_child_count - 1 - count)
+  )
+  if not retained_child then return end
 
-  if is_left then
-    local second_last_child = node:named_child(named_child_count - 2)
-    if not second_last_child then return end
+  local _, _, row, col = node:range()
+  local _, _, end_row, end_col = retained_child:range()
+  move_range(row, col - 1, row, col, end_row, end_col)
+  set_cur(end_row, end_col)
+end
 
-    local _, _, row, col = node:range()
-    local _, _, end_row, end_col = second_last_child:range()
-    a.nvim_buf_set_text(0, end_row, end_col, end_row, end_col, { paren })
-    a.nvim_buf_set_text(0, row, col - 1, row, col, {})
-    a.nvim_win_set_cursor(0, { end_row + 1, end_col })
-  else
-    local second_child = node:named_child(1)
-    if not second_child then return end
+---@param node TSNode
+---@param count integer
+local function barf_right(node, count)
+  local named_child_count = node:named_child_count()
+  if named_child_count < 2 then return end
 
-    local row, col = node:range()
-    local start_row, start_col = second_child:range()
-    a.nvim_buf_set_text(0, row, col, row, col + 1, {})
-    a.nvim_buf_set_text(0, start_row, start_col - 1, start_row, start_col - 1, { paren })
-    a.nvim_win_set_cursor(0, { start_row + 1, start_col - 1})
-  end
+  local retained_child = node:named_child(
+    math.min(count, named_child_count - 1)
+  )
+  if not retained_child then return end
+
+  local row, col = node:range()
+  local start_row, start_col = retained_child:range()
+  move_range(row, col, row, col + 1, start_row, start_col)
+  set_cur(start_row, start_col - (row == start_row and 1 or 0))
 end
 
 ---@param is_left boolean
-local function slurp_barf(is_left)
+---@param count integer
+local function slurp_barf(is_left, count)
   local node = ts.get_node()
   if not node then return end
 
   node = find_node_types(list_node_types, node)
   if not node then return end
 
-  local row, col = unpack(a.nvim_win_get_cursor(0))
-  row = row - 1
+  local row, col = get_cur()
 
   local cur_text = a.nvim_buf_get_text(0, row, col, row, col + 1, {})[1]
   if openers[cur_text] then
-    (is_left and slurp or barf)(is_left, node)
+    (is_left and slurp_left or barf_right)(node, count)
   elseif closers[cur_text] then
-    (is_left and barf or slurp)(is_left, node)
+    (is_left and barf_left or slurp_right)(node, count)
+  else
+    (is_left and slurp_left or slurp_right)(node, count)
   end
 end
 
--- when count is not 1 then does not work
 function M.slurp_barf_left_repeat()
-  for _ = 1, vim_count() do slurp_barf(true) end
+  slurp_barf(true, vim.v.count1)
 end
 
--- when count is not 1 then does not work
 function M.slurp_barf_right_repeat()
-  for _ = 1, vim_count() do slurp_barf(false) end
+  slurp_barf(false, vim.v.count1)
 end
 
 function M.slurp_barf_left()
