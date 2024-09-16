@@ -45,7 +45,7 @@ local function find_node_types(types, node)
 end
 
 ---@return integer
-local function cur_order(row_a, col_a, row_b, col_b)
+local function pos_order(row_a, col_a, row_b, col_b)
   return (row_a == row_b and col_b - col_a) or row_b - row_a
 end
 
@@ -59,10 +59,10 @@ local function is_between(node, row, col)
     local start_row, start_col, end_row, end_col = child:range()
 
     -- Then the cursor is between children of the current node
-    if cur_order(row, col, start_row, start_col) > 0 then
+    if pos_order(row, col, start_row, start_col) > 0 then
       return { prev, child }
     -- Then the cursor falls inside one of the children of the current node
-    elseif cur_order(row, col, end_row, end_col) > 0 then
+    elseif pos_order(row, col, end_row, end_col) > 0 then
       return
     end
 
@@ -105,7 +105,7 @@ function M.adjacent_sexp(is_forward)
   if not is_forward then
     local node_start_row, node_start_col = node:range()
     if row ~= node_start_row or col ~= node_start_col then
-      a.nvim_win_set_cursor(0, { node_start_row + 1, node_start_col })
+      set_cur(node_start_row, node_start_col)
       return
     end
   end
@@ -148,9 +148,9 @@ local function move_range(
 )
   local text = a.nvim_buf_get_text(0, start_row, start_col, end_row, end_col, {})
   -- dest starts after range starts
-  if cur_order(start_row, start_col, dest_row, dest_col) > 0 then
+  if pos_order(start_row, start_col, dest_row, dest_col) > 0 then
     a.nvim_buf_set_text(0, dest_row, dest_col, dest_row, dest_col, text)
-    if cur_order(end_row, end_col, dest_row, dest_col) > 0 then
+    if pos_order(end_row, end_col, dest_row, dest_col) > 0 then
       a.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, {})
     else
       a.nvim_buf_set_text(0, start_row, start_col, dest_row, dest_col, {})
@@ -256,22 +256,130 @@ local function slurp_barf(is_left, count)
   end
 end
 
-function M.slurp_barf_left_repeat()
+function M.slurp_barf_left_op()
   slurp_barf(true, vim.v.count1)
 end
 
-function M.slurp_barf_right_repeat()
+function M.slurp_barf_right_op()
   slurp_barf(false, vim.v.count1)
 end
 
+---@return integer, integer, integer, integer
+local function operator_range()
+  local start_row, start_col = unpack(a.nvim_buf_get_mark(0, "["))
+  local end_row, end_col = unpack(a.nvim_buf_get_mark(0, "]"))
+  return start_row - 1, start_col, end_row - 1, end_col
+end
+
+---@generic T
+---@param is_branch fun(t: T): boolean
+---@param children fun(t: T): fun(): T
+---@param root T
+---@return fun(): T
+local function iter_tree(is_branch, children, root)
+  return coroutine.wrap(function()
+    local function dfs(n)
+      coroutine.yield(n)
+
+      if is_branch(n) then
+        for c in children(n) do
+          dfs(c)
+        end
+      end
+    end
+
+    dfs(root)
+  end)
+end
+
+---@param node TSNode
+---@param range integer[]
+local function overlaps_range(node, range)
+  local start_row, start_col, end_row, end_col = unpack(range)
+  local node_start_row, node_start_col, node_end_row, node_end_col = node:range()
+  return
+    pos_order(end_row, end_col, node_start_row, node_start_col) < 0 and
+    pos_order(start_row, start_col, node_end_row, node_end_col) > 0
+end
+
+---@param node TSNode
+---@param range integer[]
+local function range_contains_node(node, range)
+  local start_row, start_col, end_row, end_col = unpack(range)
+  local node_start_row, node_start_col, node_end_row, node_end_col = node:range()
+  return pos_order(start_row, start_col, node_start_row, node_start_col) >= 0 and
+    pos_order(end_row, end_col, node_end_row, node_end_col) <= 0
+end
+
+---@param root TSNode
+---@param range integer[]
+local function nodes_in_range(root, range)
+  local function is_branch(node)
+    return not range_contains_node(node, range)
+  end
+
+  local function children(node)
+    return vim.iter(node:iter_children()):filter(function(n)
+      return n:named() and overlaps_range(n, range)
+    end)
+  end
+
+  return vim.iter(iter_tree(is_branch, children, root)):filter(function(n)
+    return range_contains_node(n, range)
+  end)
+end
+
+---@param range integer[]
+---@param lines string[]
+local function set_text(range, lines)
+  local start_row, start_col, end_row, end_col = unpack(range)
+  a.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, lines)
+end
+
+function M.delete_op(type)
+  local start_row, start_col, end_row, end_col = operator_range()
+  local cur_row, cur_col = end_row, end_col
+
+  if pos_order(start_row, start_col, end_row, end_col) < 0 then
+    end_row, end_col = start_row, start_col
+    start_row, start_col = cur_row, cur_col
+  end
+
+  if type == "line" then
+    start_col = 0
+    end_col = 0
+    end_row = end_row + 1
+  end
+
+  -- We're looking for the deepest node that contains the entire range.
+  -- This nodes serves as the root for tree traversal.
+  local root = ts.get_node()
+  if not root then return end
+
+  local range = { start_row, start_col, end_row, end_col }
+  while not ts.node_contains(root, range) do
+    root = root:parent()
+    if not root then return end
+  end
+
+  for n in vim.iter(vim.iter(nodes_in_range(root, range)):totable()):rev() do
+    set_text({ n:range() }, {})
+  end
+end
+
 function M.slurp_barf_left()
-  vim.go.operatorfunc = "v:lua.require'sexp'.slurp_barf_left_repeat"
+  vim.go.operatorfunc = "v:lua.require'sexp'.slurp_barf_left_op"
   return "g@l"
 end
 
 function M.slurp_barf_right()
-  vim.go.operatorfunc = "v:lua.require'sexp'.slurp_barf_right_repeat"
+  vim.go.operatorfunc = "v:lua.require'sexp'.slurp_barf_right_op"
   return "g@l"
+end
+
+function M.delete()
+  vim.go.operatorfunc = "v:lua.require'sexp'.delete_op"
+  return "g@"
 end
 
 return M

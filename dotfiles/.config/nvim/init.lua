@@ -310,6 +310,7 @@ local setup_sexp_mappings = function()
   buffer_map({ 'n', 'v' }, '<localleader>{', '<Plug>(sexp_curly_head_wrap_element)')
   buffer_map({ 'n', 'o', 'x' }, 'L', sexp.forward_sexp)
   buffer_map({ 'n', 'o', 'x' }, 'H', sexp.backward_sexp)
+  buffer_map({ 'n', 'x', 'o' }, 'd', sexp.delete, { expr = true })
 end
 
 local sexp_mappings_group = vim.api.nvim_create_augroup("sexp_mappings_for_hy", {})
