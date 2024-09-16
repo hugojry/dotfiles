@@ -289,8 +289,8 @@ end
 
 vim.keymap.set('n', '<localleader>dt', toggle_diagnostics)
 
-local buffer_map = function(modes, lhs, rhs)
-  vim.keymap.set(modes, lhs, rhs, { buffer = true })
+local buffer_map = function(modes, lhs, rhs, opts)
+  vim.keymap.set(modes, lhs, rhs, { buffer = true , expr = opts and opts.expr})
 end
 
 local setup_sexp_mappings = function()
@@ -303,10 +303,8 @@ local setup_sexp_mappings = function()
   vim.g.sexp_insert_after_wrap = false
   buffer_map('n', '<localleader>r', '<Plug>(sexp_swap_element_forward)')
   buffer_map('n', '<localleader>R', '<Plug>(sexp_swap_element_backward)')
-  buffer_map('n', '<c', '<Plug>(sexp_capture_prev_element)')
-  buffer_map('n', '>c', '<Plug>(sexp_capture_next_element)')
-  buffer_map('n', '<e', '<Plug>(sexp_emit_tail_element)')
-  buffer_map('n', '>e', '<Plug>(sexp_emit_head_element)')
+  buffer_map('n', '[s', sexp.slurp_barf_left, { expr = true })
+  buffer_map('n', ']s', sexp.slurp_barf_right, { expr = true })
   buffer_map({ 'n', 'v' }, '<localleader>(', '<Plug>(sexp_round_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>[', '<Plug>(sexp_square_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>{', '<Plug>(sexp_curly_head_wrap_element)')
