@@ -396,4 +396,14 @@ function M.delete()
   return "g@"
 end
 
+function M.change_op(type)
+  M.delete_op(type)
+  a.nvim_feedkeys('A', 'n', false)
+end
+
+function M.change()
+  vim.go.operatorfunc = "v:lua.require'sexp'.change_op"
+  return "g@"
+end
+
 return M
