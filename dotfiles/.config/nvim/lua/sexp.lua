@@ -343,8 +343,8 @@ end
 local function cleanup_whitespace(start_row, end_row)
   local range_string = tostring(start_row + 1) .. "," .. tostring(end_row + 1)
   vim.cmd(template([[
-    silent ${range} s/\v(^\s*)@<!\s//g
-    silent ${range} g/^\s*$/d
+    silent! ${range} s/\v(^\s*)@<!\s//g
+    silent! ${range} g/^\s*$/d
   ]], { range = range_string } ))
 end
 
