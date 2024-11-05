@@ -51,8 +51,6 @@ bootstrap_paq {
 
   'nvim-treesitter/nvim-treesitter',
 
-  'mfussenegger/nvim-lint',
-
   'guns/vim-sexp',
 
   -- Clojure
@@ -116,16 +114,6 @@ require('telescope').setup {
 }
 
 require('fidget').setup({})
-
--- nvim-lint setup
-require('lint').linters_by_ft = {
-  clojure = {'clj-kondo'}
-}
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  callback = function()
-    require("lint").try_lint()
-  end
-})
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -192,6 +180,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gt', vim.lsp.buf.references)
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
@@ -224,7 +213,8 @@ local servers = {
   },
   pyright = {},
   clojure_lsp = {},
-  vtsls = {}
+  vtsls = {},
+  clangd = {}
 }
 
 for server_name, config in pairs(servers) do
