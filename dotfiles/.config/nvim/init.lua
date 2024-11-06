@@ -256,6 +256,7 @@ end
 
 vim.keymap.set('n', '<leader>rE', bind_ex_command)
 vim.keymap.set('n', '<localleader>bk', ':b# | bd#<cr>')
+vim.keymap.set('n', '<localleader>qq', ":echo getqflist({'title': 1}).title<cr>")
 
 vim.api.nvim_create_user_command(
   'UnixLE',
@@ -300,8 +301,8 @@ local setup_sexp_mappings = function()
   buffer_map({ 'n', 'v' }, '<localleader>{', '<Plug>(sexp_curly_head_wrap_element)')
   buffer_map({ 'n', 'o', 'x' }, 'L', sexp.forward_sexp)
   buffer_map({ 'n', 'o', 'x' }, 'H', sexp.backward_sexp)
-  buffer_map({ 'n', 'x', 'o' }, 'd', sexp.delete, { expr = true })
-  buffer_map({ 'n', 'x', 'o' }, 'c', sexp.change, { expr = true })
+  -- buffer_map({ 'n', 'x', 'o' }, 'd', sexp.delete, { expr = true })
+  -- buffer_map({ 'n', 'x', 'o' }, 'c', sexp.change, { expr = true })
 end
 
 local sexp_mappings_group = vim.api.nvim_create_augroup("sexp_mappings_for_hy", {})
