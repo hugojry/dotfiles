@@ -51,6 +51,7 @@ bootstrap_paq {
 
   'nvim-treesitter/nvim-treesitter',
 
+  'tpope/vim-repeat',
   'guns/vim-sexp',
 
   -- Clojure
