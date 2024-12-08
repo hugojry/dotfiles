@@ -291,8 +291,8 @@ local setup_sexp_mappings = function()
   local sexp = require('sexp')
 
   vim.g.sexp_insert_after_wrap = false
-  buffer_map('n', '<localleader>r', '<Plug>(sexp_swap_element_forward)')
-  buffer_map('n', '<localleader>R', '<Plug>(sexp_swap_element_backward)')
+  buffer_map('n', '[r', '<Plug>(sexp_swap_element_backward)')
+  buffer_map('n', ']r', '<Plug>(sexp_swap_element_forward)')
   buffer_map('n', '[s', sexp.slurp_barf_left, { expr = true })
   buffer_map('n', ']s', sexp.slurp_barf_right, { expr = true })
   buffer_map({ 'n', 'v' }, '<localleader>(', '<Plug>(sexp_round_head_wrap_element)')
