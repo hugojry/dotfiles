@@ -213,7 +213,8 @@ local servers = {
   pyright = {},
   clojure_lsp = {},
   vtsls = {},
-  clangd = {}
+  clangd = {},
+  rust_analyzer = {},
 }
 
 for server_name, config in pairs(servers) do
