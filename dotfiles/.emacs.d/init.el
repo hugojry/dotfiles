@@ -47,14 +47,6 @@
 
 (setq dabbrev-case-fold-search nil)
 
-(setq eshell-prefer-lisp-functions t)
-
-;; Required for sudo-ing in eshell
-(require 'em-tramp)
-
-(setq password-cache t)
-(setq password-cache-expiry 3600)
-
 (setq dired-dwim-target t)
 
 ;; Provides describe-keymap
@@ -62,21 +54,9 @@
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
-(setq org-adapt-indentation nil
-      org-src-preserve-indentation t
-      org-babel-load-languages '((emacs-lisp . t)
-                                 (python . t)))
-
-(c-add-style "hjy" '("k&r" (c-basic-offset . 4)))
-(add-to-list 'c-default-style '(c-mode . "hjy"))
-
 ;; Flymake
 (add-to-list 'elisp-flymake-byte-compile-load-path "~/.emacs.d/lisp")
-(dolist (mode '(emacs-lisp-mode-hook
-                python-mode-hook
-                java-mode-hook
-                c-mode-hook))
-  (add-hook mode #'flymake-mode))
+(add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
 (require 'package)
 (add-to-list 'package-archives
@@ -129,13 +109,6 @@
   "b b" #'switch-to-buffer
   "b k" #'kill-buffer)
 
-(general-spc
-  "n w" #'widen
-  "n d" #'narrow-to-defun
-  "n x" #'sp-narrow-to-sexp)
-
-(general-spc "s" #'eshell)
-
 (general-def normal emacs-lisp-mode-map
   "K" #'describe-symbol)
 
@@ -148,9 +121,6 @@
 
 (general-def normal Info-mode-map
   "RET" #'Info-follow-nearest-node)
-
-(general-def normal c-mode-map
-  "K" #'man)
 
 (general-spc "p" project-prefix-map)
 
@@ -223,13 +193,10 @@
   '(emacs-lisp-mode-hook
     clojure-mode-hook
     cider-repl-mode-hook
-    fennel-mode-hook
     inferior-lisp-mode-hook
     eval-expression-minibuffer-setup-hook
-    racket-mode-hook
     lisp-mode-hook
-    sly-mrepl-mode-hook
-    scheme-mode-hook))
+    sly-mrepl-mode-hook))
 
 (use-package paredit
   :ghook hy/lisp-mode-hooks
@@ -331,9 +298,6 @@
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
-(use-package flymake-kondor
-  :hook (clojure-mode . flymake-kondor-setup))
-
 (use-package ivy
   :diminish
   :init
@@ -359,14 +323,6 @@
   (general-spc "f r" #'counsel-recentf))
 
 (use-package swiper :general ("C-s" #'swiper))
-
-(use-package evil-org
-  :diminish
-  :init
-  (add-hook 'org-mode-hook #'evil-org-mode)
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
 
 (use-package exec-path-from-shell
   :init
@@ -395,16 +351,6 @@
   (evil-define-operator hy/sly-eval (beg end type)
     :move-point nil
     (sly-eval-region beg end)))
-
-(evil-define-operator hy/geiser-eval (beg end type)
-  :move-point nil
-  (geiser-eval-region beg end))
-
-(use-package geiser
-  :ensure nil
-  :general
-  (general-def normal geiser-mode-map
-    ", e" #'hy/geiser-eval))
 
 (provide 'init)
 ;;; init.el ends here
