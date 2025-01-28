@@ -1,8 +1,5 @@
-;;; init.el --- Strong message here  -*- lexical-binding: t; -*-
-
+;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
 ;;; Commentary:
-;;; Emacs configuration
-
 ;;; Code:
 (setq custom-file "~/.emacs.d/custom.el")
 (when (file-exists-p custom-file)
@@ -10,59 +7,39 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
-;; Declutter
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(blink-cursor-mode 0)
+(dolist (mode '(menu-bar-mode scroll-bar-mode tool-bar-mode blink-cursor-mode))
+  (when (fboundp mode) (funcall mode -1)))
 
-(setq ring-bell-function 'ignore)
+(setq ring-bell-function 'ignore
+      inhibit-startup-message t
+      gc-cons-threshold 100000000
+      indent-tabs-mode nil
+      case-fold-search nil
+      show-paren-delay 0
+      dabbrev-case-fold-search nil
+      dired-dwim-target t
+      eldoc-echo-area-use-multiline-p nil)
 
-(setq inhibit-startup-message t)
+(dolist (mode '(savehist-mode
+                column-number-mode
+                save-place-mode
+                show-paren-mode
+                recentf-mode))
+  (funcall mode 1))
 
-(setq gc-cons-threshold 100000000)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
+(setq recentf-max-saved-items 1000
+      recentf-max-menu-items 1000)
 
-;; Indentation
-(setq-default indent-tabs-mode nil)
 (require 'lisp-indent-function)
 (setq lisp-indent-function #'Fuco1/lisp-indent-function)
 
-(savehist-mode)
-
-(setq column-number-indicator-zero-based nil)
-(column-number-mode)
-
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
-
-(save-place-mode)
-
-(setq-default case-fold-search nil)
-
-(setq show-paren-delay 0)
-(show-paren-mode)
-
-(setq recentf-max-saved-items 1000
-      recentf-max-menu-items 1000)
-(recentf-mode)
-
-(setq dabbrev-case-fold-search nil)
-
-(setq dired-dwim-target t)
-
-;; Provides describe-keymap
-(require 'help-fns+)
-
-(setq eldoc-echo-area-use-multiline-p nil)
-
-;; Flymake
 (add-to-list 'elisp-flymake-byte-compile-load-path "~/.emacs.d/lisp")
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -72,74 +49,73 @@
 (setq use-package-always-ensure t
       use-package-always-defer t)
 
-;; Core packages - loaded immediately
-
-(use-package diminish :demand t)
-
-(diminish 'eldoc-mode)
-(with-eval-after-load 'autorevert
-  (diminish 'auto-revert-mode))
+(use-package diminish
+  :demand t
+  :config
+  (diminish 'eldoc-mode)
+  (with-eval-after-load 'autorevert
+    (diminish 'auto-revert-mode)))
 
 (use-package general
   :demand t
   :config
-  (general-evil-setup))
+  (general-evil-setup)
 
-(general-create-definer general-spc
-  :states 'normal
-  :keymaps 'override
-  :prefix "SPC")
+  (general-create-definer general-spc
+    :states 'normal
+    :keymaps 'override
+    :prefix "SPC")
 
-(general-spc
-  "u" #'universal-argument
-  "-" #'negative-argument)
+  (general-create-definer general-comma
+    :keymaps 'override
+    :states 'normal
+    :prefix ",")
 
-(general-def normal
-  "-" #'dired-jump
-  "_" #'dired-jump-other-window)
+  (general-spc
+    "u" #'universal-argument
+    "-" #'negative-argument
+    "p" project-prefix-map
+    "e" #'display-local-help
+	"f f" #'find-file)
 
-(general-def normal dired-mode-map "-" #'dired-up-directory)
+  (general-def normal
+    "-" #'dired-jump
+    "_" #'dired-jump-other-window)
 
-(general-create-definer general-comma
-  :keymaps 'override
-  :states 'normal
-  :prefix ",")
+  (general-comma
+    "b b" #'switch-to-buffer
+    "b k" #'kill-buffer)
 
-(general-comma
-  "b b" #'switch-to-buffer
-  "b k" #'kill-buffer)
+  (general-def normal emacs-lisp-mode-map
+    "K" #'describe-symbol)
 
-(general-def normal emacs-lisp-mode-map
-  "K" #'describe-symbol)
+  (general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
+    ", f" #'eval-defun
+    ", k" #'eval-buffer)
 
-(general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
-  ", f" #'eval-defun
-  ", k" #'eval-buffer)
-
-(general-def (normal insert) lisp-interaction-mode-map
-  "C-j" #'eval-print-last-sexp)
-
-(general-def normal Info-mode-map
-  "RET" #'Info-follow-nearest-node)
-
-(general-spc "p" project-prefix-map)
-
-(general-spc "e" #'display-local-help)
+  (general-def (normal insert) lisp-interaction-mode-map
+    "C-j" #'eval-print-last-sexp))
 
 (use-package evil
   :demand t
   :general
   (general-comma "C" #'hy/bind-command)
   (general-def (evil-normal-state-map evil-visual-state-map) "u" #'undo)
+  (general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
+    ", e" #'hy/evil-eval)
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil  ; evil-collection takes care of this
+        evil-want-keybinding nil
         evil-want-C-u-scroll t
         evil-respect-visual-line-mode t
-        evil-search-module 'evil-search)
-  (setq-default evil-symbol-word-search t)
+        evil-search-module 'evil-search
+        evil-symbol-word-search t)
   :config
   (defalias #'forward-evil-word #'forward-evil-symbol)
+
+  (evil-define-operator hy/evil-eval (beg end type)
+    :move-point nil
+    (eval-region beg end t))
 
   (defun hy/nohighlight ()
     (when (memq this-command evil-motions)
@@ -155,15 +131,7 @@
       (define-key evil-normal-state-map key f)))
 
   (advice-add 'evil-visual-update-x-selection :override #'ignore)
-
   (evil-mode))
-
-(evil-define-operator hy/evil-eval (beg end type)
-  :move-point nil
-  (eval-region beg end t))
-
-(general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
-  ", e" #'hy/evil-eval)
 
 (use-package evil-collection
   :demand t
@@ -176,8 +144,6 @@
   :config
   (evil-collection-init)
   (evil-define-key 'normal eglot-mode-map "K" nil))
-
-;; All the following packages are deferred
 
 (use-package magit
   :general
@@ -208,7 +174,7 @@
     ", O" #'paredit-raise-sexp
     ", @" #'paredit-splice-sexp)
   (general-def paredit-mode-map
-    "RET" #'paredit-newline)
+	"RET" #'paredit-newline)
   :init
   (add-hook 'paredit-mode-hook (lambda () (electric-indent-local-mode 0)))
   :config
@@ -222,6 +188,7 @@
   (add-hook 'eval-expression-minibuffer-setup-hook
             #'paredit-eval-expression-mode))
 
+;; Lispyville
 (use-package lispyville
   :diminish
   :ghook 'paredit-mode-hook
@@ -241,12 +208,13 @@
      slurp/barf-cp
      c-w)))
 
+;; Clojure Development
 (evil-define-operator hy/cider-eval (beg end type)
   :move-point nil
   (cider-interactive-eval nil
-                          nil
-                          (list beg end)
-                          (cider--nrepl-pr-request-map)))
+                         nil
+                         (list beg end)
+                         (cider--nrepl-pr-request-map)))
 
 (evil-define-operator hy/cider-eval-replace (beg end type)
   :move-point nil
@@ -255,9 +223,9 @@
     (cider-nrepl-sync-request:eval form)
     (delete-region beg end)
     (cider-interactive-eval form
-                            (cider-eval-print-handler)
-                            nil
-                            (cider--nrepl-pr-request-map))))
+                           (cider-eval-print-handler)
+                           nil
+                           (cider--nrepl-pr-request-map))))
 
 (evil-define-operator hy/cider-eval-popup (beg end type)
   :move-point nil
@@ -298,59 +266,32 @@
   ;; Shouldn't be necessary, but it is.
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
+(use-package company
+  :diminish
+  :init
+  (global-company-mode))
+
 (use-package ivy
   :diminish
   :init
   (setq ivy-extra-directories nil)
-
-  ;; find-file with ivy can be annoying
-  (defun find-file-no-ivy ()
-    (interactive)
-    (let ((ivy-state ivy-mode))
-      (ivy-mode -1)
-      (unwind-protect
-          (call-interactively 'find-file)
-        (ivy-mode ivy-state))))
   :config
   (ivy-mode))
-
-(general-spc "f f" #'find-file)
 
 (use-package counsel
   :diminish
   :init
   (counsel-mode)
+  :general
   (general-spc "f r" #'counsel-recentf))
 
-(use-package swiper :general ("C-s" #'swiper))
+(use-package swiper
+  :general
+  ("C-s" #'swiper))
 
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize))
-
-(use-package company
-  :diminish
-  :general
-  (general-def company-active-map
-    "C-n" nil
-    "C-p" nil)
-  :init
-  (global-company-mode)
-  (company-tng-mode))
-
-(use-package sly
-  :ensure nil
-  :general
-  (general-def normal sly-mode-map
-    ", e" #'hy/sly-eval
-    ", k" #'sly-eval-buffer
-    ", f" #'sly-eval-defun)
-  (general-def insert sly-mrepl-mode-map
-    "RET" #'sly-mrepl-return)
-  :config
-  (evil-define-operator hy/sly-eval (beg end type)
-    :move-point nil
-    (sly-eval-region beg end)))
 
 (provide 'init)
 ;;; init.el ends here
