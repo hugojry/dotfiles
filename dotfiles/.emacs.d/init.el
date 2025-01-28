@@ -188,7 +188,6 @@
   (add-hook 'eval-expression-minibuffer-setup-hook
             #'paredit-eval-expression-mode))
 
-;; Lispyville
 (use-package lispyville
   :diminish
   :ghook 'paredit-mode-hook
@@ -208,7 +207,6 @@
      slurp/barf-cp
      c-w)))
 
-;; Clojure Development
 (evil-define-operator hy/cider-eval (beg end type)
   :move-point nil
   (cider-interactive-eval nil
@@ -292,6 +290,11 @@
 (use-package exec-path-from-shell
   :init
   (exec-path-from-shell-initialize))
+
+(use-package dtrt-indent
+  :diminish
+  :init
+  (dtrt-indent-mode))
 
 (provide 'init)
 ;;; init.el ends here
