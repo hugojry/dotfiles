@@ -267,7 +267,8 @@
 (use-package company
   :diminish
   :init
-  (global-company-mode))
+  (global-company-mode)
+  (company-tng-mode))
 
 (use-package ivy
   :diminish
