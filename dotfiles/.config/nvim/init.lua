@@ -58,7 +58,7 @@ bootstrap_paq {
   'tpope/vim-fireplace',
   'tpope/vim-dispatch',
   'radenling/vim-dispatch-neovim',
-  'clojure-vim/vim-jack-in'
+  'clojure-vim/vim-jack-in',
 }
 
 vim.o.hlsearch = true
@@ -179,7 +179,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action)
 
   nmap('gd', vim.lsp.buf.definition)
-  nmap('gr', vim.lsp.buf.references)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { nowait = true })
   nmap('gR', require('telescope.builtin').lsp_references)
   nmap('gI', require('telescope.builtin').lsp_implementations)
   nmap('<leader>D', vim.lsp.buf.type_definition)
@@ -315,6 +315,26 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
   pattern = '*.bb',
   callback = function() vim.o.filetype = 'clojure' end
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  callback = function()
+    -- Create a buffer-local mapping
+    -- This example maps 'dd' to delete the current quickfix entry
+    vim.keymap.set('n', '<C-j>', function()
+      pcall(function()
+        vim.cmd('cnext')
+        vim.cmd('wincmd p')
+      end)
+    end, { buffer = true })
+    vim.keymap.set('n', '<C-k>', function()
+      pcall(function()
+        vim.cmd('cprev')
+        vim.cmd('wincmd p')
+      end)
+    end, { buffer = true })
+  end,
 })
 
 vim.g.netrw_banner = 0
