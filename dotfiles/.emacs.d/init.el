@@ -109,7 +109,9 @@
         evil-want-C-u-scroll t
         evil-respect-visual-line-mode t
         evil-search-module 'evil-search
-        evil-symbol-word-search t)
+        evil-symbol-word-search t
+		evil-split-window-below t
+		evil-vsplit-window-right t)
   :config
   (defalias #'forward-evil-word #'forward-evil-symbol)
 
