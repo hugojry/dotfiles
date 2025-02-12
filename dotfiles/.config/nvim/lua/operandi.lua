@@ -244,7 +244,7 @@ function M.setup()
     String = { fg = colors.blue_warmer },
     Character = { fg = colors.blue_warmer },
     Number = { fg = colors.fg_main },
-    Boolean = { fg = colors.fg_main },
+    Boolean = { fg = colors.blue_cooler },
     Float = { fg = colors.fg_main },
 
     Identifier = { fg = colors.fg_main },
@@ -264,7 +264,7 @@ function M.setup()
     Macro = { fg = colors.fg_main },
     PreCondit = { fg = colors.fg_main },
 
-    Type = { fg = colors.fg_main },
+    Type = { fg = colors.cyan_cooler },
     StorageClass = { fg = colors.fg_main },
     Structure = { fg = colors.fg_main },
     Typedef = { fg = colors.fg_main },
