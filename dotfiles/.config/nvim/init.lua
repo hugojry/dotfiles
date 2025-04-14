@@ -226,7 +226,6 @@ end
 -- Setup neovim lua configuration
 require('lazydev').setup()
 
-
 vim.cmd([[packadd! matchit]])
 
 vim.keymap.set('n', '<leader>ff', ':e %:h/<C-d>')
@@ -287,20 +286,22 @@ local setup_sexp_mappings = function()
     return
   end
 
-  local sexp = require('sexp')
-
   vim.g.sexp_insert_after_wrap = false
   buffer_map('n', '[r', '<Plug>(sexp_swap_element_backward)')
   buffer_map('n', ']r', '<Plug>(sexp_swap_element_forward)')
-  buffer_map('n', '[s', sexp.slurp_barf_left, { expr = true })
-  buffer_map('n', ']s', sexp.slurp_barf_right, { expr = true })
   buffer_map({ 'n', 'v' }, '<localleader>(', '<Plug>(sexp_round_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>[', '<Plug>(sexp_square_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>{', '<Plug>(sexp_curly_head_wrap_element)')
-  buffer_map({ 'n', 'o', 'x' }, 'L', sexp.forward_sexp)
-  buffer_map({ 'n', 'o', 'x' }, 'H', sexp.backward_sexp)
-  -- buffer_map({ 'n', 'x', 'o' }, 'd', sexp.delete, { expr = true })
-  -- buffer_map({ 'n', 'x', 'o' }, 'c', sexp.change, { expr = true })
+
+  local op = require('sexp.op')
+  local motion = require('sexp.motion')
+
+  buffer_map('n', '[s', op.slurp_barf_left, { expr = true })
+  buffer_map('n', ']s', op.slurp_barf_right, { expr = true })
+  buffer_map({ 'n', 'o', 'x' }, 'L', motion.forward_sexp)
+  buffer_map({ 'n', 'o', 'x' }, 'H', motion.backward_sexp)
+  buffer_map({ 'n', 'x', 'o' }, 'd', op.delete, { expr = true })
+  buffer_map({ 'n', 'x', 'o' }, 'c', op.change, { expr = true })
 end
 
 local sexp_mappings_group = vim.api.nvim_create_augroup("sexp_mappings_for_hy", {})
@@ -315,20 +316,22 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
   callback = function() vim.o.filetype = 'clojure' end
 })
 
+local qf_group = vim.api.nvim_create_augroup('Qf', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
+  group = qf_group,
   callback = function()
-    -- Create a buffer-local mapping
-    -- This example maps 'dd' to delete the current quickfix entry
     vim.keymap.set('n', '<C-j>', function()
       pcall(function()
         vim.cmd('cnext')
+        vim.api.nvim_feedkeys('zz', 'n', false)
         vim.cmd('wincmd p')
       end)
     end, { buffer = true })
     vim.keymap.set('n', '<C-k>', function()
       pcall(function()
         vim.cmd('cprev')
+        vim.api.nvim_feedkeys('zz', 'n', false)
         vim.cmd('wincmd p')
       end)
     end, { buffer = true })
