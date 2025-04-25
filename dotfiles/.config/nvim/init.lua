@@ -44,8 +44,6 @@ bootstrap_paq {
 
   'folke/lazydev.nvim',
 
-  'neovim/nvim-lspconfig',
-
   'nvim-lua/plenary.nvim',
   'nvim-telescope/telescope.nvim',
 
@@ -168,39 +166,6 @@ vim.defer_fn(function()
   }
 end, 0)
 
-local on_attach = function(_, bufnr)
-  local nmap = function(keys, func)
-    vim.keymap.set('n', keys, func)
-  end
-
-  nmap('<leader>rn', vim.lsp.buf.rename)
-  nmap('<leader>ca', vim.lsp.buf.code_action)
-
-  nmap('gd', vim.lsp.buf.definition)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { nowait = true })
-  nmap('gR', require('telescope.builtin').lsp_references)
-  nmap('gI', require('telescope.builtin').lsp_implementations)
-  nmap('<leader>D', vim.lsp.buf.type_definition)
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols)
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols)
-
-  nmap('<C-h>', vim.lsp.buf.hover)
-  nmap('<C-k>', vim.lsp.buf.signature_help)
-
-  -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration)
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end)
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, {})
-end
-
 local servers = {
   lua_ls = {
     Lua = {
@@ -215,13 +180,56 @@ local servers = {
   rust_analyzer = {},
 }
 
-for server_name, config in pairs(servers) do
-  require('lspconfig')[server_name].setup {
-    on_attach = on_attach,
-    settings = config,
-    filetypes = (servers[server_name] or {}).filetypes,
-  }
+for server_name, settings in pairs(servers) do
+  local success, config = pcall(require, 'lsp.' .. server_name)
+  if success then
+    config.settings = settings
+    vim.lsp.config[server_name] = config
+    vim.lsp.enable(server_name)
+  end
 end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('my.lsp', {}),
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, args.buf)
+    end
+
+    local nmap = function(keys, func)
+      vim.keymap.set('n', keys, func, { buffer = true })
+    end
+
+    nmap('<leader>rn', vim.lsp.buf.rename)
+    nmap('<leader>ca', vim.lsp.buf.code_action)
+
+    nmap('gd', vim.lsp.buf.definition)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { nowait = true })
+    nmap('gR', require('telescope.builtin').lsp_references)
+    nmap('gI', require('telescope.builtin').lsp_implementations)
+    nmap('<leader>D', vim.lsp.buf.type_definition)
+    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols)
+    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+
+    nmap('<C-h>', vim.lsp.buf.hover)
+    nmap('<C-k>', vim.lsp.buf.signature_help)
+
+    -- Lesser used LSP functionality
+    nmap('gD', vim.lsp.buf.declaration)
+    nmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
+    nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
+    nmap('<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end)
+
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(args.buf, 'Format', function(_)
+      vim.lsp.buf.format()
+    end, {})
+  end,
+})
 
 -- Setup neovim lua configuration
 require('lazydev').setup()
@@ -233,7 +241,7 @@ vim.keymap.set('n', '-', ':e %:h<cr>')
 vim.keymap.set('n', '<C-j>', 'i<cr><esc>k:s/ \\+$//e<cr>j^')
 
 local set_makeprg = function()
-  vim.ui.input({ prompt = 'Compile command: '}, function(input)
+  vim.ui.input({ prompt = 'Compile command: ' }, function(input)
     if input and input ~= "" then
       vim.o.makeprg = input
     end
@@ -244,7 +252,7 @@ vim.keymap.set('n', '<localleader>c', ':make!<cr>')
 vim.keymap.set('n', '<localleader>C', set_makeprg)
 
 local bind_ex_command = function()
-  vim.ui.input({ prompt = 'EX command: :'}, function(input)
+  vim.ui.input({ prompt = 'EX command: :' }, function(input)
     if input and input ~= "" then
       vim.keymap.set('n', '<leader>re', ':' .. input .. '<cr>')
     end
