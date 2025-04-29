@@ -63,28 +63,20 @@ vim.o.hlsearch = true
 
 vim.o.mouse = 'a'
 
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
 
--- Save undo history
 vim.o.undofile = true
 
--- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
 vim.wo.signcolumn = 'no'
 
--- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 750
 
--- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
--- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
