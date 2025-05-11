@@ -259,7 +259,13 @@ function M.delete_op(type)
 
   local current_text = a.nvim_buf_get_text(0, start_row, start_col, end_row, end_col, {})
   local new_text = remaining_text(current_text)
-  a.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, new_text)
+
+  if type == "line" then
+    a.nvim_buf_set_text(0, start_row, start_col, end_row, end_col, new_text)
+    a.nvim_feedkeys('==', 'n', false)
+  else
+    a.nvim_buf_set_text(0, start_row, start_col, end_row + 1, 0, new_text)
+  end
 end
 
 function M.slurp_barf_left()
