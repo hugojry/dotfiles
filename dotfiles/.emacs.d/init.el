@@ -215,7 +215,7 @@
   (cider-interactive-eval nil
 			  nil
 			  (list beg end)
-			  (cider--nrepl-pr-request-map)))
+			  (cider--nrepl-pr-request-plist)))
 
 (evil-define-operator hy/cider-eval-replace (beg end type)
   :move-point nil
@@ -226,7 +226,7 @@
     (cider-interactive-eval form
 			    (cider-eval-print-handler)
 			    nil
-			    (cider--nrepl-pr-request-map))))
+			    (cider--nrepl-pr-request-plist))))
 
 (evil-define-operator hy/cider-eval-popup (beg end type)
   :move-point nil
