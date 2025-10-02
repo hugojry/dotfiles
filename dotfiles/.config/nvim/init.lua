@@ -293,15 +293,15 @@ local setup_sexp_mappings = function()
   buffer_map({ 'n', 'v' }, '<localleader>[', '<Plug>(sexp_square_head_wrap_element)')
   buffer_map({ 'n', 'v' }, '<localleader>{', '<Plug>(sexp_curly_head_wrap_element)')
 
-  local op = require('sexp.op')
-  local motion = require('sexp.motion')
+  -- local op = require('sexp.op')
+  -- local motion = require('sexp.motion')
 
-  buffer_map('n', '[s', op.slurp_barf_left, { expr = true })
-  buffer_map('n', ']s', op.slurp_barf_right, { expr = true })
-  buffer_map({ 'n', 'o', 'x' }, 'L', motion.forward_sexp)
-  buffer_map({ 'n', 'o', 'x' }, 'H', motion.backward_sexp)
-  buffer_map({ 'n', 'x', 'o' }, 'd', op.delete, { expr = true })
-  buffer_map({ 'n', 'x', 'o' }, 'c', op.change, { expr = true })
+  -- buffer_map('n', '[s', op.slurp_barf_left, { expr = true })
+  -- buffer_map('n', ']s', op.slurp_barf_right, { expr = true })
+  -- buffer_map({ 'n', 'o', 'x' }, 'L', motion.forward_sexp)
+  -- buffer_map({ 'n', 'o', 'x' }, 'H', motion.backward_sexp)
+  -- buffer_map({ 'n', 'x', 'o' }, 'd', op.delete, { expr = true })
+  -- buffer_map({ 'n', 'x', 'o' }, 'c', op.change, { expr = true })
 end
 
 local sexp_mappings_group = vim.api.nvim_create_augroup("sexp_mappings_for_hy", {})
