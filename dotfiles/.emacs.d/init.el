@@ -31,6 +31,8 @@
 (setq recentf-max-saved-items 1000
       recentf-max-menu-items 1000)
 
+(require 'wsl)
+
 (require 'lisp-indent-function)
 (setq lisp-indent-function #'Fuco1/lisp-indent-function)
 
