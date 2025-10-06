@@ -81,6 +81,9 @@
     "e" #'display-local-help
     "f f" #'find-file)
 
+  (general-def emacs
+	"C-6" #'previous-buffer)
+
   (general-def normal
     "-" #'dired-jump
     "_" #'dired-jump-other-window)
@@ -138,7 +141,9 @@
       (define-key evil-normal-state-map key f)))
 
   (advice-add 'evil-visual-update-x-selection :override #'ignore)
-  (evil-mode))
+  (evil-mode)
+
+  (evil-set-initial-state 'vterm-mode 'emacs))
 
 (use-package evil-collection
   :demand t
