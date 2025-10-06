@@ -149,8 +149,7 @@
     "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
   :config
-  (evil-collection-init)
-  (evil-define-key 'normal eglot-mode-map "K" nil))
+  (evil-collection-init))
 
 (use-package magit
   :general
@@ -299,10 +298,18 @@
   :init
   (exec-path-from-shell-initialize))
 
+;; Sleuth
 (use-package dtrt-indent
   :diminish
   :init
   (dtrt-indent-mode))
+
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l"))
+
+(use-package lsp-ivy
+  :commands lsp-ivy-workspace-symbol)
 
 (provide 'init)
 ;;; init.el ends here
