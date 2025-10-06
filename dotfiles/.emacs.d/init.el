@@ -79,7 +79,7 @@
     "-" #'negative-argument
     "p" project-prefix-map
     "e" #'display-local-help
-	"f f" #'find-file)
+    "f f" #'find-file)
 
   (general-def normal
     "-" #'dired-jump
