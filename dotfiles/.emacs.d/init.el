@@ -85,6 +85,8 @@
     "-" #'dired-jump
     "_" #'dired-jump-other-window)
 
+  (general-def "C-h M-k" #'describe-keymap)
+
   (general-comma
     "b b" #'switch-to-buffer
     "b k" #'kill-buffer)
