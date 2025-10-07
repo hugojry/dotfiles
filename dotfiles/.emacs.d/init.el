@@ -36,9 +36,6 @@
 (require 'lisp-indent-function)
 (setq lisp-indent-function #'Fuco1/lisp-indent-function)
 
-(add-to-list 'elisp-flymake-byte-compile-load-path "~/.emacs.d/lisp")
-(add-hook 'emacs-lisp-mode-hook #'flymake-mode)
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
@@ -78,7 +75,6 @@
     "u" #'universal-argument
     "-" #'negative-argument
     "p" project-prefix-map
-    "e" #'display-local-help
     "f f" #'find-file)
 
   (general-def emacs
@@ -315,6 +311,16 @@
 
 (use-package lsp-ivy
   :commands lsp-ivy-workspace-symbol)
+
+(use-package flycheck
+  :general
+  (general-def normal flycheck-mode-map
+    "SPC e" #'flycheck-display-error-at-point)
+  :init
+  (global-flycheck-mode)
+  :config
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
 
 (provide 'init)
 ;;; init.el ends here
