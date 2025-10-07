@@ -20,12 +20,11 @@
       dired-dwim-target t
       eldoc-echo-area-use-multiline-p nil)
 
-(dolist (mode '(savehist-mode
-                column-number-mode
-                save-place-mode
-                show-paren-mode
-                recentf-mode))
-  (funcall mode 1))
+(savehist-mode)
+(column-number-mode)
+(save-place-mode)
+(show-paren-mode)
+(recentf-mode)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
 (setq recentf-max-saved-items 1000
