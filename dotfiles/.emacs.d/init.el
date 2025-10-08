@@ -136,9 +136,8 @@
       (define-key evil-normal-state-map key f)))
 
   (advice-add 'evil-visual-update-x-selection :override #'ignore)
-  (evil-mode)
 
-  (evil-set-initial-state 'vterm-mode 'emacs))
+  (evil-mode))
 
 (use-package evil-collection
   :demand t
@@ -149,6 +148,11 @@
     "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
   :config
+  (advice-add 'evil-collection-vterm-setup
+			  :after
+			  (lambda ()
+				(evil-set-initial-state 'vterm-mode 'emacs)))
+
   (evil-collection-init))
 
 (use-package magit
