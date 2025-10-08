@@ -305,8 +305,8 @@
   (dtrt-indent-mode))
 
 (use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l"))
+  :config
+  (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
 
 (use-package lsp-ivy
   :commands lsp-ivy-workspace-symbol)
