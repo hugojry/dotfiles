@@ -7,8 +7,14 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
-(dolist (mode '(menu-bar-mode scroll-bar-mode tool-bar-mode blink-cursor-mode))
-  (when (fboundp mode) (funcall mode -1)))
+(require 'dabbrev)
+(require 'dired)
+(require 'package)
+(require 'recentf)
+(require 'use-package)
+
+(require 'lisp-indent-function)
+(require 'wsl)
 
 (setq ring-bell-function 'ignore
       inhibit-startup-message t
@@ -18,7 +24,18 @@
       show-paren-delay 0
       dabbrev-case-fold-search nil
       dired-dwim-target t
-      eldoc-echo-area-use-multiline-p nil)
+      eldoc-echo-area-use-multiline-p nil
+	  backup-directory-alist '(("." . "~/.emacs.d/backup/"))
+	  recentf-max-saved-items 1000
+      recentf-max-menu-items 1000
+	  use-package-always-ensure t
+      use-package-always-defer t
+	  lisp-indent-function #'Fuco1/lisp-indent-function)
+
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(blink-cursor-mode -1)
 
 (savehist-mode)
 (column-number-mode)
@@ -26,22 +43,8 @@
 (show-paren-mode)
 (recentf-mode)
 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup/")))
-(setq recentf-max-saved-items 1000
-      recentf-max-menu-items 1000)
-
-(require 'wsl)
-
-(require 'lisp-indent-function)
-(setq lisp-indent-function #'Fuco1/lisp-indent-function)
-
-(require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-
-(require 'use-package)
-(setq use-package-always-ensure t
-      use-package-always-defer t)
 
 (use-package diminish
   :demand t
