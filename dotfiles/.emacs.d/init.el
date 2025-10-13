@@ -307,6 +307,8 @@
   (dtrt-indent-mode))
 
 (use-package lsp-mode
+  :init
+  (setq lsp-headerline-breadcrumb-enable nil)
   :config
   (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
 
