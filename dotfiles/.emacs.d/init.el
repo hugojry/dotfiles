@@ -307,6 +307,9 @@
   (dtrt-indent-mode))
 
 (use-package lsp-mode
+  :general
+  (general-def normal lsp-mode-map
+	"K" #'lsp-describe-thing-at-point)
   :init
   (setq lsp-headerline-breadcrumb-enable nil)
   :config
