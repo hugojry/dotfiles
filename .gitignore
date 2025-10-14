@@ -1,3 +1,5 @@
 dotfiles/.config/nvim/plugged/
 *.swp
 .DS_Store
+dotfiles/.config/mpv/watch_later/
+dotfiles/.config/containers/
