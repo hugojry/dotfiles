@@ -320,8 +320,8 @@
 
 (use-package flycheck
   :general
-  (general-def normal flycheck-mode-map
-    "SPC e" #'flycheck-display-error-at-point)
+  (general-spc flycheck-mode-map
+    "e" #'flycheck-display-error-at-point)
   :init
   (global-flycheck-mode)
   :config
