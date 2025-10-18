@@ -10,6 +10,7 @@
 (require 'dabbrev)
 (require 'dired)
 (require 'package)
+(require 'project)
 (require 'recentf)
 (require 'use-package)
 
@@ -30,7 +31,8 @@
       recentf-max-menu-items 1000
 	  use-package-always-ensure t
       use-package-always-defer t
-	  lisp-indent-function #'Fuco1/lisp-indent-function)
+	  lisp-indent-function #'Fuco1/lisp-indent-function
+	  project-vc-extra-root-markers '(".project" ".projectile"))
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -304,7 +306,7 @@
 (use-package dtrt-indent
   :diminish
   :init
-  (dtrt-indent-mode))
+  (dtrt-indent-global-mode))
 
 (use-package lsp-mode
   :general
@@ -313,10 +315,11 @@
   :init
   (setq lsp-headerline-breadcrumb-enable nil)
   (with-eval-after-load 'lsp-mode
-    (lsp-register-client (make-lsp-client
-                          :new-connection (lsp-stdio-connection '("vtsls" "--stdio"))
-                          :activation-fn (lsp-activate-on "javascript" "typescript")
-                          :server-id 'vtsls)))
+    (lsp-register-client
+	 (make-lsp-client
+      :new-connection (lsp-stdio-connection '("vtsls" "--stdio"))
+      :activation-fn (lsp-activate-on "javascript" "typescript")
+      :server-id 'vtsls)))
   :config
   (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
 
@@ -332,6 +335,8 @@
   :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
+
+(use-package typescript-mode)
 
 (provide 'init)
 ;;; init.el ends here
