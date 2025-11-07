@@ -311,7 +311,8 @@
 (use-package lsp-mode
   :general
   (general-def normal lsp-mode-map
-	"K" #'lsp-describe-thing-at-point)
+	"K" #'lsp-describe-thing-at-point
+    "g r" #'lsp-find-references)
   :init
   (setq lsp-headerline-breadcrumb-enable nil)
   (with-eval-after-load 'lsp-mode
