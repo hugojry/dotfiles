@@ -337,14 +337,7 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
 
-(use-package go-mode
-  :init
-  (add-hook 'go-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook
-                        (lambda () (if lsp-mode (lsp-format-buffer)))
-                        nil
-                        'local))))
+(use-package go-mode)
 
 (use-package typescript-mode)
 
