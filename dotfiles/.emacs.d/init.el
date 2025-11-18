@@ -220,9 +220,9 @@
 (evil-define-operator hy/cider-eval (beg end type)
   :move-point nil
   (cider-interactive-eval nil
-			  nil
-			  (list beg end)
-			  (cider--nrepl-pr-request-plist)))
+                          nil
+                          (list beg end)
+                          (cider--nrepl-pr-request-plist)))
 
 (evil-define-operator hy/cider-eval-replace (beg end type)
   :move-point nil
@@ -231,9 +231,9 @@
     (cider-nrepl-sync-request:eval form)
     (delete-region beg end)
     (cider-interactive-eval form
-			    (cider-eval-print-handler)
-			    nil
-			    (cider--nrepl-pr-request-plist))))
+                            (cider-eval-print-handler)
+                            nil
+                            (cider--nrepl-pr-request-plist))))
 
 (evil-define-operator hy/cider-eval-popup (beg end type)
   :move-point nil
