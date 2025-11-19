@@ -341,5 +341,17 @@
 
 (use-package typescript-mode)
 
+(use-package treesit-fold
+  :diminish
+  :general
+  (general-def treesit-fold-mode-map normal
+    "z o" #'treesit-fold-open
+    "z O" #'treesit-fold-open-recursively
+    "z c" #'treesit-fold-close
+    "z R" #'treesit-fold-open-all
+    "z M" #'treesit-fold-close-all)
+  :init
+  (global-treesit-fold-mode))
+
 (provide 'init)
 ;;; init.el ends here
