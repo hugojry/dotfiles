@@ -26,13 +26,13 @@
       dabbrev-case-fold-search nil
       dired-dwim-target t
       eldoc-echo-area-use-multiline-p nil
-	  backup-directory-alist '(("." . "~/.emacs.d/backup/"))
-	  recentf-max-saved-items 1000
+      backup-directory-alist '(("." . "~/.emacs.d/backup/"))
+      recentf-max-saved-items 1000
       recentf-max-menu-items 1000
-	  use-package-always-ensure t
+      use-package-always-ensure t
       use-package-always-defer t
-	  lisp-indent-function #'Fuco1/lisp-indent-function
-	  project-vc-extra-root-markers '(".project" ".projectile"))
+      lisp-indent-function #'Fuco1/lisp-indent-function
+      project-vc-extra-root-markers '(".project" ".projectile"))
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -77,7 +77,7 @@
     "f f" #'find-file)
 
   (general-def emacs
-	"C-6" #'previous-buffer)
+    "C-6" #'previous-buffer)
 
   (general-def normal
     "-" #'dired-jump
@@ -113,8 +113,8 @@
         evil-respect-visual-line-mode t
         evil-search-module 'evil-search
         evil-symbol-word-search t
-		evil-split-window-below t
-		evil-vsplit-window-right t)
+        evil-split-window-below t
+        evil-vsplit-window-right t)
   :config
   (defalias #'forward-evil-word #'forward-evil-symbol)
 
@@ -148,10 +148,9 @@
     "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
   :config
-  (advice-add 'evil-collection-vterm-setup
-			  :after
-			  (lambda ()
-				(evil-set-initial-state 'vterm-mode 'emacs)))
+  (advice-add 'evil-collection-vterm-setup :after
+              (lambda ()
+                (evil-set-initial-state 'vterm-mode 'emacs)))
 
   (evil-collection-init))
 
@@ -184,7 +183,7 @@
     ", O" #'paredit-raise-sexp
     ", @" #'paredit-splice-sexp)
   (general-def paredit-mode-map
-	"RET" #'paredit-newline)
+    "RET" #'paredit-newline)
   :init
   (add-hook 'paredit-mode-hook (lambda () (electric-indent-local-mode 0)))
   :config
@@ -311,13 +310,13 @@
 (use-package lsp-mode
   :general
   (general-def normal lsp-mode-map
-	"K" #'lsp-describe-thing-at-point
+    "K" #'lsp-describe-thing-at-point
     "g r" #'lsp-find-references)
   :init
   (setq lsp-headerline-breadcrumb-enable nil)
   (with-eval-after-load 'lsp-mode
     (lsp-register-client
-	 (make-lsp-client
+     (make-lsp-client
       :new-connection (lsp-stdio-connection '("vtsls" "--stdio"))
       :activation-fn (lsp-activate-on "javascript" "typescript")
       :server-id 'vtsls)))
