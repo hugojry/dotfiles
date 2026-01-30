@@ -336,7 +336,8 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
 
-(use-package go-mode)
+(use-package go-mode
+  :hook (go-mode . #'lsp))
 
 (use-package typescript-mode)
 
@@ -351,6 +352,11 @@
     "z M" #'treesit-fold-close-all)
   :init
   (global-treesit-fold-mode))
+
+(use-package lsp-pyright
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))
 
 (provide 'init)
 ;;; init.el ends here
