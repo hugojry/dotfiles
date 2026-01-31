@@ -337,7 +337,7 @@
   (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
 
 (use-package go-mode
-  :hook (go-mode . #'lsp))
+  :hook (go-mode . lsp))
 
 (use-package typescript-mode)
 
