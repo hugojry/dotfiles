@@ -358,12 +358,5 @@
                          (require 'lsp-pyright)
                          (lsp))))
 
-(use-package claude-code-ide
-  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-  :bind ("C-c C-'" . claude-code-ide-menu)
-  :config
-  (claude-code-ide-emacs-tools-setup)
-  (setq claude-code-ide-use-side-window nil))
-
 (provide 'init)
 ;;; init.el ends here
