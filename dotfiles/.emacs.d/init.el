@@ -314,12 +314,6 @@
     "g r" #'lsp-find-references)
   :init
   (setq lsp-headerline-breadcrumb-enable nil)
-  (with-eval-after-load 'lsp-mode
-    (lsp-register-client
-     (make-lsp-client
-      :new-connection (lsp-stdio-connection '("vtsls" "--stdio"))
-      :activation-fn (lsp-activate-on "javascript" "typescript")
-      :server-id 'vtsls)))
   :config
   (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
 
@@ -339,7 +333,8 @@
 (use-package go-mode
   :hook (go-mode . lsp))
 
-(use-package typescript-mode)
+(use-package typescript-mode
+  :hook (typescript-mode . lsp))
 
 (use-package treesit-fold
   :diminish
