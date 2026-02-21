@@ -353,5 +353,7 @@
                          (require 'lsp-pyright)
                          (lsp))))
 
+(require 'hy-frame)
+
 (provide 'init)
 ;;; init.el ends here
