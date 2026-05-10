@@ -252,6 +252,13 @@
   :init
   (setq lsp-headerline-breadcrumb-enable nil)
   :config
+
+  (let ((session (lsp-session)))
+    (setf (lsp-session-folders session)
+          (cl-remove-if-not #'file-directory-p
+                            (lsp-session-folders session)))
+    (lsp--persist-session session))
+
   (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
 
 (use-package lsp-ivy
