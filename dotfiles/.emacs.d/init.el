@@ -74,7 +74,8 @@
     "u" #'universal-argument
     "-" #'negative-argument
     "p" project-prefix-map
-    "f f" #'find-file)
+    "f f" #'find-file
+    "e" #'display-local-help)
 
   (general-def emacs
     "C-6" #'previous-buffer)
@@ -307,35 +308,8 @@
   :init
   (dtrt-indent-global-mode))
 
-(use-package lsp-mode
-  :general
-  (general-def normal lsp-mode-map
-    "K" #'lsp-describe-thing-at-point
-    "g r" #'lsp-find-references)
-  :init
-  (setq lsp-headerline-breadcrumb-enable nil)
-  :config
-
-  (let ((session (lsp-session)))
-    (setf (lsp-session-folders session)
-          (cl-remove-if-not #'file-directory-p
-                            (lsp-session-folders session)))
-    (lsp--persist-session session))
-
-  (evil-define-key 'normal lsp-mode-map (kbd "SPC l") lsp-command-map))
-
 (use-package lsp-ivy
   :commands lsp-ivy-workspace-symbol)
-
-(use-package flycheck
-  :general
-  (general-spc flycheck-mode-map
-    "e" #'flycheck-display-error-at-point)
-  :init
-  (global-flycheck-mode)
-  :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (evil-define-key 'normal flycheck-mode-map (kbd "SPC !") flycheck-command-map))
 
 (use-package go-mode
   :hook (go-mode . lsp))
