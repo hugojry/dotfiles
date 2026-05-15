@@ -48,6 +48,9 @@
 
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map [remap display-local-help] nil))
+
 (use-package diminish
   :demand t
   :config

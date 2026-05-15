@@ -51,6 +51,9 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map [remap display-local-help] nil))
+
 (use-package diminish
   :demand t
   :config
