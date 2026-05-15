@@ -314,32 +314,6 @@
   :init
   (dtrt-indent-global-mode))
 
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
-
-(use-package go-mode
-  :hook (go-mode . lsp))
-
-(use-package typescript-mode
-  :hook (typescript-mode . lsp))
-
-(use-package treesit-fold
-  :diminish
-  :general
-  (general-def treesit-fold-mode-map normal
-    "z o" #'treesit-fold-open
-    "z O" #'treesit-fold-open-recursively
-    "z c" #'treesit-fold-close
-    "z R" #'treesit-fold-open-all
-    "z M" #'treesit-fold-close-all)
-  :init
-  (global-treesit-fold-mode))
-
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp))))
-
 (require 'hy-frame)
 
 (provide 'init)

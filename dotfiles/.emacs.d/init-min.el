@@ -251,17 +251,6 @@
   :init
   (dtrt-indent-global-mode))
 
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
-
-(use-package typescript-mode
-  :hook (typescript-mode . lsp))
-
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp))))
-
 (require 'hy-frame)
 
 (provide 'init)
