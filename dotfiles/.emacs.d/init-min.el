@@ -32,7 +32,8 @@
       use-package-always-ensure t
       use-package-always-defer t
       lisp-indent-function #'Fuco1/lisp-indent-function
-      project-vc-extra-root-markers '(".project" ".projectile"))
+      project-vc-extra-root-markers '(".project" ".projectile")
+      elisp-flymake-byte-compile-load-path load-path)
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -44,6 +45,8 @@
 (save-place-mode)
 (show-paren-mode)
 (recentf-mode)
+
+(add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
 (use-package diminish
   :demand t
