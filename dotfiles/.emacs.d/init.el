@@ -331,5 +331,11 @@
   :init
   (dtrt-indent-global-mode))
 
+(use-package agent-shell
+  :config
+  (general-def normal agent-shell-mode-map
+	"C-j" #'agent-shell-next-item
+	"C-k" #'agent-shell-previous-item))
+
 (provide 'init)
 ;;; init.el ends here
