@@ -7,13 +7,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
-(require 'dabbrev)
-(require 'dired)
-(require 'package)
-(require 'project)
-(require 'recentf)
-(require 'use-package)
-
 (require 'hy-frame)
 (require 'lisp-indent-function)
 (require 'wsl)
