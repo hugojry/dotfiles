@@ -14,6 +14,7 @@
 (require 'recentf)
 (require 'use-package)
 
+(require 'hy-frame)
 (require 'lisp-indent-function)
 (require 'wsl)
 
@@ -126,8 +127,10 @@
     "K" #'describe-symbol)
 
   (general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
-    ", f" #'eval-defun
-    ", k" #'eval-buffer)
+    ", f" #'eval-defun)
+
+  (general-def (emacs-lisp-mode-map lisp-interaction-mode-map)
+    "C-c C-k" #'eval-buffer)
 
   (general-def (normal insert) lisp-interaction-mode-map
     "C-j" #'eval-print-last-sexp)
@@ -280,12 +283,6 @@
   (cider--pprint-eval-form (buffer-substring-no-properties beg end)))
 
 (use-package clojure-mode
-  :general
-  (general-def normal clojure-mode-map
-    ", j n s" #'clojure-sort-ns
-    ", j j" #'cider-jack-in
-    ", j c" #'cider-jack-in-cljs
-    ", j b" #'cider-jack-in-clj&cljs)
   :init
   (setq clojure-toplevel-inside-comment-form t))
 
@@ -294,17 +291,10 @@
   (general-def normal cider-mode-map
     ", e" #'hy/cider-eval
     ", d" #'hy/cider-eval-popup
-    ", x" #'hy/cider-eval-replace
-    ", f" #'cider-eval-defun-at-point
-    ", k" #'cider-load-buffer
-    ", t t" #'cider-test-run-test
-    ", t a" #'cider-test-rerun-test
-    ", t n" #'cider-test-run-ns-tests)
+    ", j x" #'hy/cider-eval-replace
+    ", f" #'cider-eval-defun-at-point)
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
-  (general-def normal (cider-mode-map cider-repl-mode-map)
-    ", s q" #'sesman-quit
-    ", s r" #'sesman-restart)
   (general-def insert cider-repl-mode-map
     "RET" #'cider-repl-return)
   :init
@@ -347,8 +337,6 @@
   :diminish
   :init
   (dtrt-indent-global-mode))
-
-(require 'hy-frame)
 
 (provide 'init)
 ;;; init.el ends here
