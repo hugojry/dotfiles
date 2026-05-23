@@ -333,5 +333,7 @@
 
 (use-package markdown-mode)
 
+(require 'hy-agent)
+
 (provide 'init)
 ;;; init.el ends here
