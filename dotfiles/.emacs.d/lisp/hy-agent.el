@@ -7,13 +7,18 @@
 (defvar agent--output-buffer "*agent-output*")
 (defvar agent--is-already-running nil)
 
-(defcustom claude-explain-prompt
+(defcustom claude-explain-block-prompt
   "Please tell me about this code block:
 
 ```
 %s
 ```"
   "Prompt to embed the selected text in when asking Claude to explain it.")
+
+(defcustom claude-explain-file-prompt
+  "Read the code at @%s and then tell me about it."
+  "Prompt to embed the selected text in when asking Claude to explain it.")
+
 
 (defcustom claude-edit-file-prompt
   "The following instructions relate to @%s. You may only edit this file.
@@ -77,23 +82,42 @@ If ALLOW-EDITS is non-nil, then allow edits ... duh."
 	  (expand-file-name (project-root (project-current)))
 	default-directory))
 
-(defun claude-explain (start end)
-  "Ask Claude about the region (the text between START and END)."
-  (interactive "r")
-  (claude--call (format claude-explain-prompt (buffer-substring-no-properties start end))))
+(defun agent--file-path ()
+  "Figure out what file path, absolute or relative, to use in the prompt."
+  (if (file-in-directory-p buffer-file-name default-directory)
+	  (file-relative-name buffer-file-name default-directory)
+	buffer-file-name))
 
-(defun claude-edit (start end user-prompt)
+(defun claude-explain ()
+  "Ask Claude about something."
+  (interactive)
+  (if (use-region-p)
+	  (claude--call
+	   (format claude-explain-block-prompt
+			   (buffer-substring-no-properties
+				(region-beginning)
+				(region-end))))
+	(let ((default-directory (agent--root-dir)))
+	  (claude--call (format claude-explain-file-prompt (agent--file-path))))))
+
+(defun claude--make-edit-prompt (file-path user-prompt)
+  "Choose the right harness for USER-PROMPT given the region and FILE-PATH."
+  (if (use-region-p)
+	  (format claude-edit-file-prompt file-path user-prompt)
+	(format claude-edit-block-prompt
+			file-path
+			(buffer-substring-no-properties (region-beginning) (region-end))
+			user-prompt)))
+
+(defun claude-edit ()
   "Ask Claude to edit the region (the text between START and END).
 USER-PROMPT describes the edit you want Claude to make."
-  (interactive "r\nsPrompt: ")
+  (interactive)
   (unless buffer-file-name
 	(user-error "This only works on a buffer visiting a file"))
-  (let* ((default-directory (agent--root-dir))
-		 (file-path (if (file-in-directory-p buffer-file-name default-directory)
-						(file-relative-name buffer-file-name default-directory)
-					  absolute-path))
-		 (selected (buffer-substring-no-properties start end)))
-	(claude--call (format claude-edit-prompt file-path selected user-prompt) t)))
+  (let ((prompt (read-string "Prompt: "))
+		(default-directory (agent--root-dir)))
+	(claude--call (claude--make-edit-prompt (agent--file-path) prompt) t)))
 
 (provide 'hy-agent)
 ;;; hy-agent.el ends here

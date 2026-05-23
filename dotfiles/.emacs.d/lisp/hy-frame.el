@@ -11,17 +11,20 @@
   (interactive "nRows \nnColumns ")
   (set-frame-size (selected-frame) columns rows))
 
+(defvar hy/frame-resize-repeat-map (make-sparse-keymap)
+  "Keymap of all repeatable frame resizing commands.")
+
 (defmacro defun-repeatable (name last-key &rest body)
-  `(defun ,name ()
-     (interactive)
-     ,@body
-     (set-transient-map
-      (let ((map (make-sparse-keymap)))
-        (define-key map (kbd ,last-key) #',name)
-        map)
-      t
-      nil
-      (format "Repeat with %s" ,last-key))))
+  `(progn
+     (defun ,name ()
+       (interactive)
+       ,@body
+       (set-transient-map
+        hy/frame-resize-repeat-map
+        t
+        nil
+        "Repeat resizing with %k"))
+     (define-key hy/frame-resize-repeat-map (kbd ,last-key) #',name)))
 
 (setq hy/frame-resize-increment 5)
 
