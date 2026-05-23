@@ -331,5 +331,7 @@
   :init
   (dtrt-indent-global-mode))
 
+(use-package markdown-mode)
+
 (provide 'init)
 ;;; init.el ends here
