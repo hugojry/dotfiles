@@ -26,8 +26,11 @@
       use-package-always-ensure t
       use-package-always-defer t
       lisp-indent-function #'Fuco1/lisp-indent-function
-      project-vc-extra-root-markers '(".project" ".projectile")
-      elisp-flymake-byte-compile-load-path load-path)
+      project-vc-extra-root-markers '(".project" ".projectile"))
+
+(setq elisp-flymake-byte-compile-load-path
+      (append elisp-flymake-byte-compile-load-path load-path))
+(setq trusted-content '("~/dotfiles/dotfiles/.emacs.d/lisp/"))
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)

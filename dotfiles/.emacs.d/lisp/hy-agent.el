@@ -3,11 +3,12 @@
 ;;; Code:
 
 (require 'project)
+(require 'diff)
 
 (defvar agent--output-buffer "*agent-output*")
 (defvar agent--is-already-running nil)
 
-(defcustom claude-explain-block-prompt
+(defvar claude-explain-block-prompt
   "Please tell me about this code block:
 
 ```
@@ -15,19 +16,19 @@
 ```"
   "Prompt to embed the selected text in when asking Claude to explain it.")
 
-(defcustom claude-explain-file-prompt
+(defvar claude-explain-file-prompt
   "Read the code at @%s and then tell me about it."
   "Prompt to embed the selected text in when asking Claude to explain it.")
 
 
-(defcustom claude-edit-file-prompt
+(defvar claude-edit-file-prompt
   "The following instructions relate to @%s. You may only edit this file.
 
 %s"
   "Prompt harness for asking Claude to edit a file.")
 
 
-(defcustom claude-edit-block-prompt
+(defvar claude-edit-block-prompt
   "The following code resides in @%s:
 
 ```
@@ -43,7 +44,6 @@ Here's what I would like you to do. %s"
   "PROMPT Claude.
 If ALLOW-EDITS is non-nil, then allow edits ... duh."
   (let* ((file-name buffer-file-name)
-		 (source (current-buffer))
 		 (snapshot (when allow-edits
 					 (let ((buf (generate-new-buffer " *agent-snapshot*")))
 					   (copy-to-buffer buf (point-min) (point-max))
