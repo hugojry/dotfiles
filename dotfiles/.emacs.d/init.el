@@ -53,29 +53,24 @@
 (defun hy/eglot-doc ()
   "Request LSP hover info for symbol at point and show it in a buffer."
   (interactive)
-  (unless (eglot-current-server)
-    (user-error "No Eglot server for current buffer"))
-  (let ((server (eglot--current-server-or-lose))
-        (origin-buf (current-buffer)))
-    (unless (eglot-server-capable :hoverProvider)
-      (user-error "Server does not support hover"))
-    (jsonrpc-async-request
-     server :textDocument/hover (eglot--TextDocumentPositionParams)
-     :success-fn
-     (eglot--lambda ((Hover) contents range)
-       (if (seq-empty-p contents)
-           (message "No documentation at point")
-         (with-current-buffer (get-buffer-create hy/eglot-doc-buffer-name)
-           (let ((inhibit-read-only t))
-             (erase-buffer)
-             (insert (eglot--hover-info contents range))
-             (goto-char (point-min))
-             (setq-local revert-buffer-function
-                         (lambda (&rest _)
-                           (with-current-buffer origin-buf
-                             (hy/eglot-doc)))))
-           (special-mode))
-         (display-buffer hy/eglot-doc-buffer-name))))))
+  (let ((server (eglot-current-server)))
+	(unless server
+	  (user-error "No Eglot server for current buffer"))
+	(unless (eglot-server-capable :hoverProvider)
+	  (user-error "Server does not support hover"))
+	(jsonrpc-async-request
+	 server :textDocument/hover (eglot--TextDocumentPositionParams)
+	 :success-fn
+	 (eglot--lambda ((Hover) contents range)
+	   (if (seq-empty-p contents)
+		   (message "No documentation at point")
+		 (with-current-buffer (get-buffer-create hy/eglot-doc-buffer-name)
+		   (let ((inhibit-read-only t))
+			 (erase-buffer)
+			 (insert (eglot--hover-info contents range))
+			 (goto-char (point-min)))
+		   (special-mode))
+		 (display-buffer hy/eglot-doc-buffer-name))))))
 
 (use-package diminish
   :demand t
