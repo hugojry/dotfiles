@@ -11,39 +11,36 @@
   (interactive "nRows \nnColumns ")
   (set-frame-size (selected-frame) columns rows))
 
-(defvar hy/frame-resize-repeat-map (make-sparse-keymap)
-  "Keymap of all repeatable frame resizing commands.")
+(defvar hy/frame-resize-increment 5)
 
-(defmacro defun-repeatable (name last-key &rest body)
-  `(progn
-     (defun ,name ()
-       (interactive)
-       ,@body
-       (set-transient-map
-        hy/frame-resize-repeat-map
-        t
-        nil
-        "Repeat resizing with %k"))
-     (define-key hy/frame-resize-repeat-map (kbd ,last-key) #',name)))
+(defvar-keymap hy/frame-resize-repeat-map
+  :doc "Keymap of all repeatable frame resizing commands."
+  :repeat t
+  "u" #'hy/decrease-frame-height
+  "d" #'hy/increase-frame-height
+  "[" #'hy/decrease-frame-width
+  "]" #'hy/increase-frame-width)
 
-(setq hy/frame-resize-increment 5)
-
-(defun-repeatable hy/increase-frame-height "d"
+(defun hy/increase-frame-height ()
+  (interactive)
   (set-frame-size (selected-frame)
                   (frame-width)
                   (+ (frame-height) hy/frame-resize-increment)))
 
-(defun-repeatable hy/decrease-frame-height "u"
+(defun hy/decrease-frame-height ()
+  (interactive)
   (set-frame-size (selected-frame)
                   (frame-width)
                   (- (frame-height) hy/frame-resize-increment)))
 
-(defun-repeatable hy/increase-frame-width "]"
+(defun hy/increase-frame-width ()
+  (interactive)
   (set-frame-size (selected-frame)
                   (+ (frame-width) hy/frame-resize-increment)
                   (frame-height)))
 
-(defun-repeatable hy/decrease-frame-width "["
+(defun hy/decrease-frame-width ()
+  (interactive)
   (set-frame-size (selected-frame)
                   (- (frame-width) hy/frame-resize-increment)
                   (frame-height)))

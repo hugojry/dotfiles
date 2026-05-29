@@ -42,6 +42,7 @@
 (save-place-mode)
 (show-paren-mode)
 (recentf-mode)
+(repeat-mode)
 
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
