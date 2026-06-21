@@ -184,10 +184,6 @@
     "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
   :config
-  (advice-add 'evil-collection-vterm-setup :after
-              (lambda ()
-                (evil-set-initial-state 'vterm-mode 'emacs)))
-
   (evil-collection-init))
 
 (use-package magit
@@ -331,6 +327,17 @@
   (dtrt-indent-global-mode))
 
 (use-package markdown-mode)
+
+(use-package ghostel
+  :after (ghostel)
+  :init
+  (evil-set-initial-state 'ghostel-mode 'emacs)
+  (advice-add 'ghostel-emacs-mode :after
+              (lambda (&rest _)
+                (evil-exit-emacs-state)))
+  (advice-add 'ghostel-semi-char-mode :after
+              (lambda (&rest _)
+                (evil-emacs-state))))
 
 (require 'hy-agent)
 
