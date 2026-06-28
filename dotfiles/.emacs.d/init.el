@@ -329,7 +329,6 @@
 (use-package markdown-mode)
 
 (use-package ghostel
-  :after (ghostel)
   :init
   (evil-set-initial-state 'ghostel-mode 'emacs)
   (advice-add 'ghostel-emacs-mode :after
