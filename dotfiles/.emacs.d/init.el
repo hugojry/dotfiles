@@ -333,7 +333,7 @@
   (evil-set-initial-state 'ghostel-mode 'emacs)
   (advice-add 'ghostel-emacs-mode :after
               (lambda (&rest _)
-                (evil-exit-emacs-state)))
+                (evil-normal-state)))
   (advice-add 'ghostel-semi-char-mode :after
               (lambda (&rest _)
                 (evil-emacs-state))))
