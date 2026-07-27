@@ -136,7 +136,10 @@
                   "K" #'hy/eglot-doc)))
 
   (general-def normal eglot-mode-map
-    "SPC l a" #'eglot-code-actions))
+    "SPC l a" #'eglot-code-actions)
+
+  (general-def normal sqlite-mode-map
+    "RET" #'sqlite-mode-list-data))
 
 (use-package evil
   :demand t
