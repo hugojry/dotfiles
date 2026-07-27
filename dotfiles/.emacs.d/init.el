@@ -133,7 +133,10 @@
   (advice-add 'evil-collection-eglot-setup :after
               (lambda (&rest _)
                 (general-def normal eglot-mode-map
-                  "K" #'hy/eglot-doc))))
+                  "K" #'hy/eglot-doc)))
+
+  (general-def normal eglot-mode-map
+    "SPC l a" #'eglot-code-actions))
 
 (use-package evil
   :demand t
