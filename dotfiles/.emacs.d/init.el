@@ -296,7 +296,18 @@
         cider-repl-display-help-banner nil
         cider-connection-message-fn (lambda () ""))
   ;; Shouldn't be necessary, but it is.
-  (add-hook 'cider-mode-hook #'eldoc-mode))
+  (add-hook 'cider-mode-hook #'eldoc-mode)
+
+  (define-minor-mode cider-result-buffer-mode
+    "Fix q in cider-result buffer"
+    :keymap (make-sparse-keymap)
+    (evil-define-key 'normal cider-result-buffer-mode-map
+      "q" #'cider-popup-buffer-quit-function))
+
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (when (string-equal (buffer-name) "*cider-result*")
+                (cider-result-buffer-mode)))))
 
 (use-package company
   :diminish
