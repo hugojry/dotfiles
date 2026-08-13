@@ -320,6 +320,7 @@
   :diminish
   :init
   (setq ivy-extra-directories nil)
+  (setq ivy-magic-slash-non-match-action nil)
   :config
   (ivy-mode))
 
