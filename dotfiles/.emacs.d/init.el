@@ -359,6 +359,13 @@
               (lambda (&rest _)
                 (evil-emacs-state))))
 
+(use-package sly
+  :ensure nil
+  :init
+  (general-def insert sly-mrepl-mode-map
+    "<return>" #'sly-mrepl-return
+    "RET" #'sly-mrepl-return))
+
 (require 'hy-agent)
 
 (provide 'init)
