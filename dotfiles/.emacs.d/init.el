@@ -210,7 +210,8 @@
     inferior-lisp-mode-hook
     eval-expression-minibuffer-setup-hook
     lisp-mode-hook
-    sly-mrepl-mode-hook))
+    sly-mrepl-mode-hook
+    scheme-mode-hook))
 
 (use-package paredit
   :ghook hy/lisp-mode-hooks
