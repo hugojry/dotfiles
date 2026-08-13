@@ -292,6 +292,7 @@
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
   (general-def insert cider-repl-mode-map
+    "<return>" #'cider-repl-return
     "RET" #'cider-repl-return)
   :init
   (setq cider-font-lock-dynamically nil
