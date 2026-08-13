@@ -359,9 +359,32 @@
               (lambda (&rest _)
                 (evil-emacs-state))))
 
+(evil-define-operator hy/sly-eval (beg end type)
+  :move-point nil
+  (sly-eval-region beg end))
+
+(evil-define-operator hy/sly-eval-replace (beg end type)
+  :move-point nil
+  (let ((form (buffer-substring-no-properties beg end)))
+    ;; Only delete the form if the eval succeeds
+    (cl-destructuring-bind (output value)
+        (sly-eval `(slynk:eval-and-grab-output ,form))
+      (delete-region beg end)
+      (goto-char beg)
+      (insert output value))))
+
+(evil-define-operator hy/sly-eval-popup (beg end type)
+  :move-point nil
+  (sly-pprint-eval-region beg end))
+
 (use-package sly
   :ensure nil
   :init
+  (general-def normal sly-mode-map
+    ", e" #'hy/sly-eval
+    ", d" #'hy/sly-eval-popup
+    ", j x" #'hy/sly-eval-replace
+    ", f" #'sly-eval-defun)
   (general-def insert sly-mrepl-mode-map
     "<return>" #'sly-mrepl-return
     "RET" #'sly-mrepl-return))
