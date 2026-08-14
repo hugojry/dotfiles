@@ -190,6 +190,12 @@
     "]d" #'evil-collection-unimpaired-next-error
     "[q" nil "]q" nil)
   :diminish evil-collection-unimpaired-mode
+  :init
+  ;; Submit the form with RET in both states. Otherwise evil-collection binds
+  ;; insert state RET to `newline' in REPL maps, clobbering our bindings.
+  (setq evil-collection-binding-overrides
+        '((repl-submit :state (normal insert))
+          (repl-newline :enabled nil)))
   :config
   (evil-collection-init))
 
@@ -291,9 +297,6 @@
     ", f" #'cider-eval-defun-at-point)
   (general-def normal cider-repl-mode-map
     "g o" #'cider-repl-switch-to-other)
-  (general-def insert cider-repl-mode-map
-    "<return>" #'cider-repl-return
-    "RET" #'cider-repl-return)
   :init
   (setq cider-font-lock-dynamically nil
         cider-repl-display-help-banner nil
@@ -384,10 +387,7 @@
     ", e" #'hy/sly-eval
     ", d" #'hy/sly-eval-popup
     ", j x" #'hy/sly-eval-replace
-    ", f" #'sly-eval-defun)
-  (general-def insert sly-mrepl-mode-map
-    "<return>" #'sly-mrepl-return
-    "RET" #'sly-mrepl-return))
+    ", f" #'sly-eval-defun))
 
 (require 'hy-agent)
 
