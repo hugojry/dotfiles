@@ -390,7 +390,7 @@
     ", f" #'sly-eval-defun
     "C-c C-c" #'sly-eval-defun
     "C-]" #'sly-edit-definition
-    "C-k" #'sly-eval-buffer))
+    "C-c C-k" #'sly-eval-buffer))
 
 (require 'hy-agent)
 
