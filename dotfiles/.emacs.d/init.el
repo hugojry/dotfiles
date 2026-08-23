@@ -119,7 +119,8 @@
     "K" #'describe-symbol)
 
   (general-def normal (emacs-lisp-mode-map lisp-interaction-mode-map)
-    ", f" #'eval-defun)
+    ", f" #'eval-defun
+    "C-c C-c" #'eval-defun)
 
   (general-def (emacs-lisp-mode-map lisp-interaction-mode-map)
     "C-c C-k" #'eval-buffer)
