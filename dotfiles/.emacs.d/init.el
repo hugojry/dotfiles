@@ -389,9 +389,7 @@
     ", d" #'hy/sly-eval-popup
     ", j x" #'hy/sly-eval-replace
     ", f" #'sly-eval-defun
-    "C-c C-c" #'sly-eval-defun
-    "C-]" #'sly-edit-definition
-    "C-c C-k" #'sly-eval-buffer))
+    "C-]" #'sly-edit-definition))
 
 (require 'hy-agent)
 
