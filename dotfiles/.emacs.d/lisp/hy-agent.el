@@ -91,14 +91,17 @@ If ALLOW-EDITS is non-nil, then allow edits ... duh."
 (defun claude-explain ()
   "Ask Claude about something."
   (interactive)
-  (if (use-region-p)
-	  (claude--call
-	   (format claude-explain-block-prompt
-			   (buffer-substring-no-properties
-				(region-beginning)
-				(region-end))))
-	(let ((default-directory (agent--root-dir)))
-	  (claude--call (format claude-explain-file-prompt (agent--file-path))))))
+  (let ((prompt (read-string "Prompt: ")))
+	(if (use-region-p)
+		(claude--call
+		 (format claude-explain-block-prompt
+				 (buffer-substring-no-properties
+				  (region-beginning)
+				  (region-end))))
+	  (let ((default-directory (agent--root-dir)))
+		(claude--call (if (string= "" prompt)
+						  (format claude-explain-file-prompt (agent--file-path))
+						prompt))))))
 
 (defun claude--make-edit-prompt (file-path user-prompt)
   "Choose the right harness for USER-PROMPT given the region and FILE-PATH."

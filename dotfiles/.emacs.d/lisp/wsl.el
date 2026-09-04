@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (defun wslp ()
   (and
    (eq system-type 'gnu/linux)

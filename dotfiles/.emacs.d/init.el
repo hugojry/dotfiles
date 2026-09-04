@@ -361,7 +361,10 @@
                 (evil-normal-state)))
   (advice-add 'ghostel-semi-char-mode :after
               (lambda (&rest _)
-                (evil-emacs-state))))
+                (evil-emacs-state)))
+  (general-def normal
+    "C-<return>" #'ghostel
+    "C-RET" #'ghostel))
 
 (evil-define-operator hy/sly-eval (beg end type)
   :move-point nil
