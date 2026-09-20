@@ -5,30 +5,49 @@
 (require 'project)
 (require 'diff)
 
+(defgroup hy-agent nil
+  "Customization options for agent commands."
+  :group 'applications)
+
+(defcustom hy-agent-type 'codex
+  "Which agent to use."
+  :type '(choice
+		  (const :tag "Codex" codex)
+		  (const :tag "Claude Code" claude))
+  :group 'hy-agent)
+
+(defconst hy-agent--commands
+  '((codex "codex" "exec")
+	(claude "claude" "-p")))
+
+(defconst hy-agent--allow-edit-commands
+  '((codex "codex" "exec" "--sandbox" "workspace-write" "--ask-for-approval" "never")
+	(claude "claude" "-p" "--permission-mode" "acceptEdits")))
+
 (defvar agent--output-buffer "*agent-output*")
 (defvar agent--is-already-running nil)
 
-(defvar claude-explain-block-prompt
+(defvar explain-block-prompt
   "Please tell me about this code block:
 
 ```
 %s
 ```"
-  "Prompt to embed the selected text in when asking Claude to explain it.")
+  "Prompt to embed the selected text in when asking the agent to explain it.")
 
-(defvar claude-explain-file-prompt
+(defvar explain-file-prompt
   "Read the code at @%s and then tell me about it."
-  "Prompt to embed the selected text in when asking Claude to explain it.")
+  "Prompt to embed the selected text in when asking the agent to explain it.")
 
 
-(defvar claude-edit-file-prompt
+(defvar edit-file-prompt
   "The following instructions relate to @%s. You may only edit this file.
 
 %s"
-  "Prompt harness for asking Claude to edit a file.")
+  "Prompt harness for asking the agent to edit a file.")
 
 
-(defvar claude-edit-block-prompt
+(defvar edit-block-prompt
   "The following code resides in @%s:
 
 ```
@@ -38,10 +57,10 @@
 Use whatever context you need from the current project, but only edit the code above.
 
 Here's what I would like you to do. %s"
-  "Prompt harness for asking Claude to edit a specific block.")
+  "Prompt harness for asking the agent to edit a specific block.")
 
-(defun claude--call (prompt &optional allow-edits)
-  "PROMPT Claude.
+(defun agent--call (prompt &optional allow-edits)
+  "PROMPT the agent.
 If ALLOW-EDITS is non-nil, then allow edits ... duh."
   (let* ((file-name buffer-file-name)
 		 (snapshot (when allow-edits
@@ -51,9 +70,10 @@ If ALLOW-EDITS is non-nil, then allow edits ... duh."
 		 (proc (make-process
 				:name "hy-agent-subprocess"
 				:buffer agent--output-buffer
-				:command (if allow-edits
-							 '("claude" "-p" "--permission-mode" "acceptEdits")
-						   '("claude" "-p"))
+				:command (alist-get hy-agent-type
+									(if allow-edits
+										hy-agent--allow-edit-commands
+									  hy-agent--commands))
 				:connection-type 'pipe
 				:sentinel
 				(lambda (proc event)
@@ -88,39 +108,39 @@ If ALLOW-EDITS is non-nil, then allow edits ... duh."
 	  (file-relative-name buffer-file-name default-directory)
 	buffer-file-name))
 
-(defun claude-explain ()
-  "Ask Claude about something."
+(defun hy-agent-explain ()
+  "Ask the agent about something."
   (interactive)
-  (let ((prompt (read-string "Prompt: ")))
-	(if (use-region-p)
-		(claude--call
-		 (format claude-explain-block-prompt
-				 (buffer-substring-no-properties
-				  (region-beginning)
-				  (region-end))))
-	  (let ((default-directory (agent--root-dir)))
-		(claude--call (if (string= "" prompt)
-						  (format claude-explain-file-prompt (agent--file-path))
-						prompt))))))
+  (if (use-region-p)
+	  (agent--call
+	   (format explain-block-prompt
+			   (buffer-substring-no-properties
+				(region-beginning)
+				(region-end))))
+	(let ((prompt (read-string "Prompt: "))
+		  (default-directory (agent--root-dir)))
+	  (agent--call (if (string= "" prompt)
+					   (format explain-file-prompt (agent--file-path))
+					 prompt)))))
 
-(defun claude--make-edit-prompt (file-path user-prompt)
+(defun hy-agent--make-edit-prompt (file-path user-prompt)
   "Choose the right harness for USER-PROMPT given the region and FILE-PATH."
   (if (use-region-p)
-	  (format claude-edit-file-prompt file-path user-prompt)
-	(format claude-edit-block-prompt
+	  (format edit-file-prompt file-path user-prompt)
+	(format edit-block-prompt
 			file-path
 			(buffer-substring-no-properties (region-beginning) (region-end))
 			user-prompt)))
 
-(defun claude-edit ()
-  "Ask Claude to edit the region (the text between START and END).
-USER-PROMPT describes the edit you want Claude to make."
+(defun hy-agent-edit ()
+  "Ask the agent to edit the region (the text between START and END).
+USER-PROMPT describes the edit you want the agent to make."
   (interactive)
   (unless buffer-file-name
 	(user-error "This only works on a buffer visiting a file"))
   (let ((prompt (read-string "Prompt: "))
 		(default-directory (agent--root-dir)))
-	(claude--call (claude--make-edit-prompt (agent--file-path) prompt) t)))
+	(agent--call (hy-agent--make-edit-prompt (agent--file-path) prompt) t)))
 
 (provide 'hy-agent)
 ;;; hy-agent.el ends here
