@@ -353,6 +353,23 @@
 
 (use-package markdown-mode)
 
+(defun hy/ghostel-toggle (arg)
+  "Switch to the most recently used Ghostel buffer, or create one.
+
+Given a prefix ARG, start a new terminal instead."
+  (interactive "P")
+  (require 'ghostel)
+  (if arg
+      (let ((current-prefix-arg arg))
+        (call-interactively #'ghostel))
+    (let ((bufs (ghostel--all-buffers)))
+      (if-let* ((buffer (seq-find
+                         (lambda (buf)
+                           (memq buf bufs))
+                         (buffer-list))))
+          (switch-to-buffer buffer)
+        (ghostel)))))
+
 (use-package ghostel
   :init
   (evil-set-initial-state 'ghostel-mode 'emacs)
@@ -363,8 +380,8 @@
               (lambda (&rest _)
                 (evil-emacs-state)))
   (general-def normal
-    "C-<return>" #'ghostel
-    "C-RET" #'ghostel))
+    "C-<return>" #'hy/ghostel-toggle
+    "C-RET" #'hy/ghostel-toggle))
 
 (evil-define-operator hy/sly-eval (beg end type)
   :move-point nil
