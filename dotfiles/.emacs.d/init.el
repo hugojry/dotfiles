@@ -362,7 +362,7 @@ Given a prefix ARG, start a new terminal instead."
   (if arg
       (let ((current-prefix-arg arg))
         (call-interactively #'ghostel))
-    (let ((bufs (ghostel--all-buffers)))
+    (let ((bufs (ghostel-buffer-list)))
       (if-let* ((buffer (seq-find
                          (lambda (buf)
                            (memq buf bufs))
