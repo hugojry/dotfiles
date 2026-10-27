@@ -409,7 +409,9 @@ Given a prefix ARG, start a new terminal instead."
     ", d" #'hy/sly-eval-popup
     ", j x" #'hy/sly-eval-replace
     ", f" #'sly-eval-defun
-    "C-]" #'sly-edit-definition))
+    "C-]" #'sly-edit-definition)
+  (general-def normal sly-mrepl-mode-map
+    "C-r" #'isearch-backward))
 
 (require 'hy-agent)
 
