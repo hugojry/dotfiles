@@ -7,7 +7,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
-(require 'hy-frame)
+(with-eval-after-load 'general
+  (require 'hy-frame))
 (require 'lisp-indent-function)
 (require 'wsl)
 
@@ -46,6 +47,7 @@
 
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
+(require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
@@ -209,6 +211,12 @@
     (define-key project-prefix-map "m" #'magit-project-status)
     (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
   (evil-ex-define-cmd "G" #'magit-status))
+
+;; Dependencies of lispy that are not declared
+(use-package iedit)
+(use-package zoutline)
+(use-package avy)
+(use-package hydra)
 
 (defconst hy/lisp-mode-hooks
   '(emacs-lisp-mode-hook
