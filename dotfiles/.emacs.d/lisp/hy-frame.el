@@ -45,9 +45,4 @@
                   (- (frame-width) hy/frame-resize-increment)
                   (frame-height)))
 
-(general-def normal "C-w u" #'hy/decrease-frame-height)
-(general-def normal "C-w d" #'hy/increase-frame-height)
-(general-def normal "C-w [" #'hy/decrease-frame-width)
-(general-def normal "C-w ]" #'hy/increase-frame-width)
-
 (provide 'hy-frame)

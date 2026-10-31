@@ -7,10 +7,11 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
-(with-eval-after-load 'general
-  (require 'hy-frame))
+(require 'hy-frame)
 (require 'lisp-indent-function)
 (require 'wsl)
+(require 'package)
+(require 'use-package)
 
 (setq ring-bell-function 'ignore
       inhibit-startup-message t
@@ -47,7 +48,6 @@
 
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
-(require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
@@ -143,7 +143,14 @@
     "SPC l r" #'eglot-rename)
 
   (general-def normal sqlite-mode-map
-    "RET" #'sqlite-mode-list-data))
+    "RET" #'sqlite-mode-list-data)
+
+  (general-def normal
+    "C-w u" #'hy/decrease-frame-height
+    "C-w d" #'hy/increase-frame-height
+    "C-w [" #'hy/decrease-frame-width
+    "C-w ]" #'hy/increase-frame-width))
+
 
 (use-package evil
   :demand t
