@@ -46,6 +46,8 @@
 (recentf-mode)
 (repeat-mode)
 
+(add-to-list 'auto-mode-alist '("\\.jsonl\\'" . js-mode))
+
 (add-hook 'emacs-lisp-mode-hook #'flymake-mode)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
