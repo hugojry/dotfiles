@@ -9,8 +9,16 @@
   ;; WSLg breaks copy-paste from Emacs into Windows
   ;; see: https://www.lukas-barth.net/blog/emacs-wsl-copy-clipboard/
   (setq select-active-regions nil
-		select-enable-clipboard 't
-		select-enable-primary nil
-		interprogram-cut-function #'gui-select-text))
+	select-enable-clipboard 't
+	select-enable-primary nil
+	interprogram-cut-function #'gui-select-text))
+
+(defun hy-wsl-hires ()
+  (interactive)
+  (set-face-attribute 'default (selected-frame) :height 160))
+
+(defun hy-wsl-lores ()
+  (interactive)
+  (set-face-attribute 'default (selected-frame) :height 120))
 
 (provide 'wsl)
